@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pajakin/presentation/pages/home_page.dart';
+import 'package:pajakin/presentation/pages/pages.dart';
+import 'package:pajakin/utils/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,9 +18,30 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
+      home: const HomePage(),
+      onGenerateRoute: (RouteSettings setting) {
+        switch (setting.name) {
+          case Routes.HOME_PAGE:
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            );
+            break;
+
+          case Routes.REGISTER_PAGE:
+            MaterialPageRoute(
+              builder: (context) => const RegisterPage(),
+            );
+            break;
+
+          default:
+            MaterialPageRoute(
+              builder: (context) => const Scaffold(
+                body: Center(
+                  child: Text('Page Not Found :('),
+                ),
+              ),
+            );
+        }
       },
     );
   }

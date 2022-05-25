@@ -22,19 +22,18 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings setting) {
         switch (setting.name) {
           case Routes.HOME_PAGE:
-            MaterialPageRoute(
+            return MaterialPageRoute(
               builder: (context) => const HomePage(),
             );
-            break;
 
           case Routes.REGISTER_PAGE:
-            MaterialPageRoute(
+            return MaterialPageRoute(
               builder: (context) => const RegisterPage(),
             );
-            break;
 
           default:
-            MaterialPageRoute(
+            return MaterialPageRoute(
+
               builder: (context) => const Scaffold(
                 body: Center(
                   child: Text('Page Not Found :('),

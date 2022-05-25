@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.PROFILE_PAGE);
+                    Navigator.pushNamed(context, Routes.REGISTER_PAGE);
                   },
                   child: Container(
                     height: 43,

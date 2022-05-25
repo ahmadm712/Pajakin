@@ -4,8 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 Color kColorPrimary = const Color(0xff005478);
 
 ThemeData theme = ThemeData(
-    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kColorPrimary),
-    textTheme: textTheme);
+  colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kColorPrimary),
+  textTheme: textTheme,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: kColorPrimary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          4,
+        ),
+      ),
+    ),
+  ),
+);
 
 final textTheme = TextTheme(
   headline1: GoogleFonts.poppins(

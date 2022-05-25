@@ -3,6 +3,7 @@ import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -240,5 +241,6 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+
   }
 }

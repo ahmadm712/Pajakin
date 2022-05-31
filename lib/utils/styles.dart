@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Color kColorPrimary = const Color(0xff005478);
+Color kColorSecondary = Colors.white;
 
 ThemeData theme = ThemeData(
   colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kColorPrimary),

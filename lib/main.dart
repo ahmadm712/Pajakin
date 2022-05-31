@@ -31,6 +31,11 @@ class MyApp extends StatelessWidget {
               builder: (context) => const RegisterPage(),
             );
 
+          case Routes.KAS_PAGE:
+            return MaterialPageRoute(
+              builder: (context) => const BukuKasPage(),
+            );
+
           default:
             return MaterialPageRoute(
               builder: (context) => const Scaffold(

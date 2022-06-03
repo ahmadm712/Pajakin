@@ -31,6 +31,11 @@ class MyApp extends StatelessWidget {
               builder: (context) => const RegisterPage(),
             );
 
+          case Routes.BERITA_PAGE:
+            return MaterialPageRoute(
+              builder: (context) => const ArticlePage(),
+            );
+
           default:
             return MaterialPageRoute(
               builder: (context) => const Scaffold(

@@ -1,6 +1,7 @@
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:flutter/material.dart';
+import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class InformationAccountPage extends StatefulWidget {
@@ -250,7 +251,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   onPressed: () {
-                    Navigator.pushNamed(context, '');
+                    Navigator.pushNamed(context, Routes.CHANGE_PASSWORD_PAGE);
                   },
                   child: const Text(
                     'Ubah Kata Sandi',

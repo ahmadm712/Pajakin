@@ -69,56 +69,47 @@ class _SettingsPageState extends State<SettingsPage> {
                         width: double.infinity,
                         height: 60,
                         decoration: const BoxDecoration(),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              12, 8, 12, 8),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                color: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      8, 8, 8, 8),
-                                  child: Icon(
-                                    Icons.account_circle_outlined,
-                                    color: Color(0xFF005478),
-                                    size: 24,
-                                  ),
-                                ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Card(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              color: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      12, 0, 0, 0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Informasi Akun',
-                                        style: GlobalFunctions.textTheme(
-                                                context: context)
-                                            .headline3!
-                                            .copyWith(
-                                              fontFamily: 'Outfit',
-                                              color: const Color(0xFF14181B),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              child: Icon(
+                                Icons.account_circle_outlined,
+                                color: kColorPrimary,
+                                size: 24,
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              width: 22,
+                            ),
+                            Expanded(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Informasi Akun',
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
+                                        .headline3!
+                                        .copyWith(
+                                          fontFamily: 'Outfit',
+                                          color: const Color(0xFF14181B),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -167,23 +158,27 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           ),
                           Switch(
-                              value: isNotif,
-                              onChanged: (value) {
-                                setState(() {
-                                  isNotif = !isNotif;
-                                });
-                              })
+                            value: isNotif,
+                            onChanged: (value) {
+                              setState(() {
+                                isNotif = !isNotif;
+                              });
+                            },
+                          ),
                         ],
                       ),
                     ),
-                    const Divider(thickness: 1),
-                    Container(
-                      width: double.infinity,
-                      height: 60,
-                      decoration: const BoxDecoration(),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.PROFILE_PAGE);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 60,
+                        decoration: const BoxDecoration(),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -194,39 +189,34 @@ class _SettingsPageState extends State<SettingsPage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40),
                               ),
-                              child: const Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                                child: Icon(
-                                  Icons.logout,
-                                  color: Color(0xFF005478),
-                                  size: 24,
-                                ),
+                              child: Icon(
+                                Icons.logout,
+                                color: kColorPrimary,
+                                size: 24,
                               ),
                             ),
+                            const SizedBox(
+                              width: 22,
+                            ),
                             Expanded(
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 0, 0, 0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Keluar',
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                            fontFamily: 'Outfit',
-                                            color: const Color(0xFF14181B),
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                    ),
-                                  ],
-                                ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Keluar',
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
+                                        .headline3!
+                                        .copyWith(
+                                          fontFamily: 'Outfit',
+                                          color: const Color(0xFF14181B),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

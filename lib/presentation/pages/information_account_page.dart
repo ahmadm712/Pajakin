@@ -58,18 +58,17 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
               ),
             ),
             const SizedBox(
-              height: 22,
+              height: 50,
             ),
             Container(
               width: double.infinity,
               height: 60,
               decoration: const BoxDecoration(),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Column(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -77,36 +76,44 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                fontSize: 14,
+                                fontFamily: 'Outfit',
+                                color: const Color.fromARGB(255, 158, 158, 158),
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
+                        ),
+                        const SizedBox(
+                          height: 11,
                         ),
                         Text(
                           'fanolans',
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                fontSize: 14,
+                                fontFamily: 'Outfit',
+                                color: const Color(0xFF14181B),
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            const Divider(),
+            const Divider(
+              thickness: 1,
+            ),
             Container(
               width: double.infinity,
               height: 60,
               decoration: const BoxDecoration(),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Column(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -114,36 +121,44 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                fontSize: 14,
+                                fontFamily: 'Outfit',
+                                color: const Color.fromARGB(255, 158, 158, 158),
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
+                        ),
+                        const SizedBox(
+                          height: 11,
                         ),
                         Text(
                           'Tahu Bulat',
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                fontSize: 14,
+                                fontFamily: 'Outfit',
+                                color: const Color(0xFF14181B),
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            const Divider(),
+            const Divider(
+              thickness: 1,
+            ),
             Container(
               width: double.infinity,
               height: 60,
               decoration: const BoxDecoration(),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Column(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -151,36 +166,44 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                fontSize: 14,
+                                fontFamily: 'Outfit',
+                                color: const Color.fromARGB(255, 158, 158, 158),
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
+                        ),
+                        const SizedBox(
+                          height: 11,
                         ),
                         Text(
                           'mailenolan@gmail.com',
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                fontSize: 14,
+                                fontFamily: 'Outfit',
+                                color: const Color(0xFF14181B),
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            const Divider(),
+            const Divider(
+              thickness: 1,
+            ),
             Container(
               width: double.infinity,
               height: 60,
               decoration: const BoxDecoration(),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Column(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -188,41 +211,50 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                fontSize: 14,
+                                fontFamily: 'Outfit',
+                                color: const Color.fromARGB(255, 158, 158, 158),
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
+                        ),
+                        const SizedBox(
+                          height: 11,
                         ),
                         Text(
                           '********',
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                fontSize: 14,
+                                fontFamily: 'Outfit',
+                                color: const Color(0xFF14181B),
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(
-              height: 22,
+              height: 100,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              width: size.width,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: kColorPrimary,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                onPressed: () {
-                  Navigator.pushNamed(context, '');
-                },
-                child: const Text(
-                  'Ubah Kata Sandi',
+            Center(
+              child: SizedBox(
+                width: 154,
+                height: 45,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: kColorPrimary,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '');
+                  },
+                  child: const Text(
+                    'Ubah Kata Sandi',
+                  ),
                 ),
               ),
             ),

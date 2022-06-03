@@ -37,6 +37,11 @@ class MyApp extends StatelessWidget {
               builder: (context) => const SettingsPage(),
             );
 
+          case Routes.INFORMATION_ACCOUNT_PAGE:
+            return MaterialPageRoute(
+              builder: (context) => const InformationAccountPage(),
+            );
+
           default:
             return MaterialPageRoute(
               builder: (context) => const Scaffold(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pajakin/presentation/pages/pages.dart';
+import 'package:pajakin/presentation/pages/settings_page.dart';
 import 'package:pajakin/utils/routes.dart';
 
 void main() {
@@ -29,6 +30,11 @@ class MyApp extends StatelessWidget {
           case Routes.REGISTER_PAGE:
             return MaterialPageRoute(
               builder: (context) => const RegisterPage(),
+            );
+
+          case Routes.SETTINGS_PAGE:
+            return MaterialPageRoute(
+              builder: (context) => const SettingsPage(),
             );
 
           default:

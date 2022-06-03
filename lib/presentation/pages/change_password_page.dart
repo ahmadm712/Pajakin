@@ -67,7 +67,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ),
             Center(
               child: Image.asset(
-                '${assetIcons}icon-profile.png',
+                '${assetIcons}icon-padlock.png',
                 height: 70,
                 width: 70,
                 fit: BoxFit.cover,

@@ -7,4 +7,6 @@ class Routes {
   static const String KAS_PAGE = '/kas';
   static const String PENGATURAN_PAGE = '/pengaturan';
   static const String PROFILE_PAGE = '/profile';
+  static const String PEMASUKAN_PAGE = '/pemasukan';
+  static const String PENGELUARAN_PAGE = '/pemasukan';
 }

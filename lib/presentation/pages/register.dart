@@ -3,7 +3,6 @@ import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -194,7 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onPressed: () {
                       if (GlobalFunctions.validate(
                           context: context, formkey: formKey)) {
-                        GlobalFunctions.scafoldMessage(
+                        GlobalFunctions.scaffoldMessage(
                             context: context,
                             message: 'Register Success',
                             color: Colors.green);
@@ -241,6 +240,5 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
-
   }
 }

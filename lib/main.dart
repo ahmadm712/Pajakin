@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pajakin/presentation/pages/pages.dart';
+import 'package:pajakin/presentation/pages/pemasukan_page.dart';
+import 'package:pajakin/presentation/widgets/pemasukan_card.dart';
 import 'package:pajakin/utils/routes.dart';
+import 'package:pajakin/utils/styles.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,8 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pajakin',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
+          colorScheme:
+              ColorScheme.fromSwatch().copyWith(primary: kColorPrimary)),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
       onGenerateRoute: (RouteSettings setting) {
@@ -34,6 +37,14 @@ class MyApp extends StatelessWidget {
           case Routes.KAS_PAGE:
             return MaterialPageRoute(
               builder: (context) => const BukuKasPage(),
+            );
+
+          case Routes.PENGELUARAN_PAGE:
+            final String status = setting.arguments as String;
+            return MaterialPageRoute(
+              builder: (context) => PemasukanPage(
+                status: status,
+              ),
             );
 
           default:

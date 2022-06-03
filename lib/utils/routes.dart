@@ -7,4 +7,5 @@ class Routes {
   static const String KAS_PAGE = '/kas';
   static const String SETTINGS_PAGE = '/pengaturan';
   static const String INFORMATION_ACCOUNT_PAGE = '/information-account-page';
+  static const String CHANGE_PASSWORD_PAGE = '/change-password-page';
 }

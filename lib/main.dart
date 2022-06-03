@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
       ),
       debugShowCheckedModeBanner: false,
-      home: const SettingsPage(),
+      home: const HomePage(),
       onGenerateRoute: (RouteSettings setting) {
         switch (setting.name) {
           case Routes.HOME_PAGE:

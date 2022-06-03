@@ -63,7 +63,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.PROFILE_PAGE);
+                        Navigator.pushNamed(
+                            context, Routes.INFORMATION_ACCOUNT_PAGE);
                       },
                       child: Container(
                         width: double.infinity,
@@ -173,7 +174,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.PROFILE_PAGE);
+                        Navigator.pushNamed(context, Routes.HOME_PAGE);
                       },
                       child: Container(
                         width: double.infinity,

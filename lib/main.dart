@@ -42,6 +42,11 @@ class MyApp extends StatelessWidget {
               builder: (context) => const InformationAccountPage(),
             );
 
+          case Routes.CHANGE_PASSWORD_PAGE:
+            return MaterialPageRoute(
+              builder: (context) => const ChangePasswordPage(),
+            );
+
           default:
             return MaterialPageRoute(
               builder: (context) => const Scaffold(

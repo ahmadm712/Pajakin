@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pajakin/presentation/widgets/widgets.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
@@ -47,76 +48,21 @@ class _BukuKasPageState extends State<BukuKasPage> {
               height: 22,
             ),
             // Total
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Total Pemasukan',
-                      style: GlobalFunctions.textTheme(context: context)
-                          .headline3!
-                          .copyWith(
-                              color: kColorPrimary,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400)),
-                  Text('RP.55.000.000',
-                      style: GlobalFunctions.textTheme(context: context)
-                          .headline3!
-                          .copyWith(
-                              color: Colors.green,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400)),
-                ],
+            const TotalPemasukanPengeluaranCard(),
+            const Divider(
+              thickness: 1,
+              color: Color(
+                0xffE0E0E0,
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Total Pengeluaran',
-                    style: GlobalFunctions.textTheme(context: context)
-                        .headline3!
-                        .copyWith(
-                            color: kColorPrimary,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
-                  ),
-                  Text('Rp.-55.000.000',
-                      style: GlobalFunctions.textTheme(context: context)
-                          .headline3!
-                          .copyWith(
-                              color: Colors.red,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400)),
-                ],
+            const PengeluaranCard(),
+            const Divider(
+              thickness: 1,
+              color: Color(
+                0xffE0E0E0,
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Total Saldo',
-                      style: GlobalFunctions.textTheme(context: context)
-                          .headline3!
-                          .copyWith(
-                              color: kColorPrimary,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400)),
-                  Text(
-                    '55.000.000',
-                    style: GlobalFunctions.textTheme(context: context)
-                        .headline3!
-                        .copyWith(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-            ),
+            const PemasukanCard()
           ],
         ),
       ),

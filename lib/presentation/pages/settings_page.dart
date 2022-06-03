@@ -13,6 +13,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  bool isNotif = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -121,64 +122,61 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                       ),
                     ),
-                    const Divider(),
+                    const Divider(thickness: 1),
                     Container(
                       width: double.infinity,
                       height: 60,
                       decoration: const BoxDecoration(),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              color: Colors.white,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: const Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
-                                child: Icon(
-                                  Icons.notifications_active,
-                                  color: Color(0xFF005478),
-                                  size: 24,
-                                ),
-                              ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            color: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    12, 0, 0, 0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Notifikasi',
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                            fontFamily: 'Outfit',
-                                            color: const Color(0xFF14181B),
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            child: const Icon(
+                              Icons.notifications_active,
+                              color: Color(0xFF005478),
+                              size: 24,
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 22,
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Notifikasi',
+                                  style: GlobalFunctions.textTheme(
+                                          context: context)
+                                      .headline3!
+                                      .copyWith(
+                                        fontFamily: 'Outfit',
+                                        color: const Color(0xFF14181B),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Switch(
+                              value: isNotif,
+                              onChanged: (value) {
+                                setState(() {
+                                  isNotif = !isNotif;
+                                });
+                              })
+                        ],
                       ),
                     ),
-                    const Divider(),
+                    const Divider(thickness: 1),
                     Container(
                       width: double.infinity,
                       height: 60,

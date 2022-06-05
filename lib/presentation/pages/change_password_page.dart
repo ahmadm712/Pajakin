@@ -298,7 +298,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         onPressed: () {
                           if (GlobalFunctions.validate(
                               context: context, formkey: formKey)) {
-                            GlobalFunctions.scafoldMessage(
+                            GlobalFunctions.scaffoldMessage(
                                 context: context,
                                 message: 'Ubah Kata Sandi Berhasil',
                                 color: Colors.green);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
-import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class PajakPage extends StatefulWidget {
@@ -19,51 +19,43 @@ class _PajakPageState extends State<PajakPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kColorPrimary,
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Image.asset(
+            '${assetIcons}icon-back(1).png',
+            scale: 1.6,
+            height: 25,
+            width: 25,
+          ),
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20.0,
+              right: 16.0,
+              top: 16.0,
+              bottom: 20.0,
+            ),
+            child: Text(
+              'Ayo Hitung Pajakmu!',
+              style: GlobalFunctions.textTheme(context: context)
+                  .headline6!
+                  .copyWith(color: Colors.white, fontSize: 25),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: double.infinity,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(0),
-                  shape: BoxShape.rectangle,
-                ),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 0, 0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          await Navigator.pushNamed(context, Routes.HOME_PAGE);
-                        },
-                        child: Container(
-                          child: Icon(
-                          Icons.arrow_left,
-                          color: Colors.white,
-                          size: 30,
-                        )
-                        )
-                      ),
-                      Text(
-                        'Ayo Hitung Pajakmu!',
-                        style: GlobalFunctions.textTheme(context: context)
-                            .headline3!
-                            .copyWith(color: Colors.white, fontSize: 25),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
               Container(
                 width: double.infinity,
                 height: 100,
@@ -93,15 +85,14 @@ class _PajakPageState extends State<PajakPage> {
                         ),
                         child: TextFormField(
                           onChanged: (txt) {
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                           keyboardType: TextInputType.number,
                           autofocus: true,
                           obscureText: false,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Masukan Omzet Anda Dalam Sehari',
-                            enabledBorder: const UnderlineInputBorder(
+                            enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0xFFFFFFFF),
                                 width: 1,
@@ -144,96 +135,97 @@ class _PajakPageState extends State<PajakPage> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Padding(padding: EdgeInsetsDirectional.fromSTEB(5, 10, 0, 0)),
-                  Text(
-                    'Cek Hasilnya Disini!',
-                style: GlobalFunctions.textTheme(context: context)
-                    .headline3!
-                    .copyWith(color: Colors.white, fontSize: 25),
-              ),
-              Container(
-                width: double.infinity,
-                height: 100,
-                decoration: const BoxDecoration(
-                  color: Color(0x00FFFFFF),
-                ),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Omzet Sebulan',
-                        style: GlobalFunctions.textTheme(context: context)
-                            .headline3!
-                            .copyWith(color: Colors.white, fontSize: 18),
-                      ),
-                      Container(
-                        width: 320,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEEEEEE),
-                          borderRadius: BorderRadius.circular(10),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: const Color(0xFF005478),
-                          ),
-                        ),
-                        child: Text(''),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: const AlignmentDirectional(0, 0.23),
-                child: Container(
-                  width: double.infinity,
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    color: Color(0x00FFFFFF),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Pajak UMKM',
-                          style: GlobalFunctions.textTheme(context: context)
-                              .headline3!
-                              .copyWith(color: Colors.white, fontSize: 18),
-                        ),
-                        Container(
-                          width: 320,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEEEEEE),
-                            borderRadius: BorderRadius.circular(10),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: const Color(0xFF005478),
-                            ),
-                          ),
-                          child: Text(''),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
-        ]
-        ),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(padding: EdgeInsetsDirectional.fromSTEB(25, 10, 0, 0)),
+                Text(
+                  'Cek Hasilnya Disini!',
+                  style: GlobalFunctions.textTheme(context: context)
+                      .headline3!
+                      .copyWith(color: Colors.white, fontSize: 25),
+                ),
+              ]),
+          Container(
+            width: double.infinity,
+            height: 100,
+            decoration: const BoxDecoration(
+              color: Color(0x00FFFFFF),
+            ),
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Omzet Sebulan',
+                    style: GlobalFunctions.textTheme(context: context)
+                        .headline3!
+                        .copyWith(color: Colors.white, fontSize: 18),
+                  ),
+                  Container(
+                    width: 320,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEEEEEE),
+                      borderRadius: BorderRadius.circular(10),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: const Color(0xFF005478),
+                      ),
+                    ),
+                    child: const Text(''),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: const AlignmentDirectional(0, 0.23),
+            child: Container(
+              width: double.infinity,
+              height: 100,
+              decoration: const BoxDecoration(
+                color: Color(0x00FFFFFF),
+              ),
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pajak UMKM',
+                      style: GlobalFunctions.textTheme(context: context)
+                          .headline3!
+                          .copyWith(color: Colors.white, fontSize: 18),
+                    ),
+                    Container(
+                      width: 320,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEEEEEE),
+                        borderRadius: BorderRadius.circular(10),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: const Color(0xFF005478),
+                        ),
+                      ),
+                      child: const Text(''),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
       ),
-      )
     );
   }
 }

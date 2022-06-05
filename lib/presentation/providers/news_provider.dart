@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../data/models/article.dart';
 import '../../data/services/api_services.dart';
 import '../../utils/state_result.dart';
@@ -23,20 +22,20 @@ class NewsProvider extends ChangeNotifier {
 
   Future<dynamic> _fetchAllArticle() async {
     try {
-      _state = StateResult.Loading;
+      _state = StateResult.loading;
       notifyListeners();
       final article = await apiService.topHeadlines();
       if (article.articles.isEmpty) {
-        _state = StateResult.NoData;
+        _state = StateResult.noData;
         notifyListeners();
         return _message = 'Empty Data';
       } else {
-        _state = StateResult.HasData;
+        _state = StateResult.hasData;
         notifyListeners();
         return _articlesResult = article;
       }
     } catch (e) {
-      _state = StateResult.Error;
+      _state = StateResult.error;
       notifyListeners();
       return _message = 'Error --> $e';
     }

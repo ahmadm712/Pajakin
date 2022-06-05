@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pajakin">
+    package="com.pajakin.umkm">
    <application
         android:label="pajakin"
         android:name="${applicationName}"

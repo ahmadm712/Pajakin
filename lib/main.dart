@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => const RegisterPage(),
             );
-          
+
           case Routes.PAJAK_PAGE:
             return MaterialPageRoute(
               builder: (context) => const PajakPage(),

@@ -4,6 +4,8 @@ class Routes {
   static const String LOGIN_PAGE = '/login';
   static const String PAJAK_PAGE = '/pajak';
   static const String BERITA_PAGE = '/berita';
+  static const String DETAIL_BERITA_PAGE = '/detail';
+  static const String WEB_VIEW_PAGE = '/webview';
   static const String KAS_PAGE = '/kas';
   static const String SETTINGS_PAGE = '/pengaturan';
   static const String INFORMATION_ACCOUNT_PAGE = '/information-account-page';

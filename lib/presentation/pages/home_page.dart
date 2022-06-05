@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                 ButtonMenu(
                   imgAssets: '${assetIcons}icon-settings.png',
                   title: 'Pengaturan',
-                  routeName: Routes.PENGATURAN_PAGE,
+                  routeName: Routes.SETTINGS_PAGE,
                 ),
               ],
             ),

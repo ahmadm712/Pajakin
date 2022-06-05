@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
+import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class PengeluaranCard extends StatelessWidget {
@@ -30,7 +30,13 @@ class PengeluaranCard extends StatelessWidget {
               child: Row(
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.PENGELUARAN_PAGE,
+                        arguments: 'edit',
+                      );
+                    },
                     child: Image.asset(
                       '${assetIcons}icon-edit.png',
                     ),
@@ -39,7 +45,13 @@ class PengeluaranCard extends StatelessWidget {
                     width: 18,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.PENGELUARAN_PAGE,
+                        arguments: 'tambah',
+                      );
+                    },
                     child: Image.asset(
                       '${assetIcons}icon-add.png',
                     ),

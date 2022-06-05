@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pajakin/presentation/pages/pages.dart';
 import 'package:pajakin/presentation/pages/pemasukan_page.dart';
-import 'package:pajakin/presentation/widgets/pemasukan_card.dart';
+import 'package:pajakin/presentation/pages/pengeluaran_page.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
@@ -39,10 +39,18 @@ class MyApp extends StatelessWidget {
               builder: (context) => const BukuKasPage(),
             );
 
-          case Routes.PENGELUARAN_PAGE:
+          case Routes.PEMASUKAN_PAGE:
             final String status = setting.arguments as String;
             return MaterialPageRoute(
               builder: (context) => PemasukanPage(
+                status: status,
+              ),
+            );
+
+          case Routes.PENGELUARAN_PAGE:
+            final String status = setting.arguments as String;
+            return MaterialPageRoute(
+              builder: (context) => PengeluaranPage(
                 status: status,
               ),
             );

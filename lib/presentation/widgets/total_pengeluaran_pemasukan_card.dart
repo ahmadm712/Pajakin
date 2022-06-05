@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/utils/global_function.dart';
-import 'package:pajakin/utils/styles.dart';
 
 class TotalPemasukanPengeluaranCard extends StatelessWidget {
   const TotalPemasukanPengeluaranCard({

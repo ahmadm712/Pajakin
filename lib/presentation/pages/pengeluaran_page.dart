@@ -4,29 +4,29 @@ import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
 
-class PemasukanPage extends StatefulWidget {
+class PengeluaranPage extends StatefulWidget {
   String status;
-  PemasukanPage({
+  PengeluaranPage({
     Key? key,
     required this.status,
   }) : super(key: key);
 
   @override
-  State<PemasukanPage> createState() => _PemasukanPageState();
+  State<PengeluaranPage> createState() => _PengeluaranPageState();
 }
 
-class _PemasukanPageState extends State<PemasukanPage> {
+class _PengeluaranPageState extends State<PengeluaranPage> {
   String date = "";
   DateTime selectedDate = DateTime.now();
   TextEditingController keteranganController = TextEditingController(text: '');
-  TextEditingController pemasukanController = TextEditingController(text: '');
+  TextEditingController pengeluaranController = TextEditingController(text: '');
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     super.dispose();
     keteranganController.dispose();
-    pemasukanController.dispose();
+    pengeluaranController.dispose();
   }
 
   @override
@@ -72,7 +72,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
           children: [
             if (widget.status == 'tambah') ...[
               Text(
-                'Tambah Pemasukan',
+                'Tambah Pengeluaran',
                 style: GlobalFunctions.textTheme(context: context)
                     .headline3!
                     .copyWith(
@@ -83,7 +83,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
               ),
             ] else ...[
               Text(
-                'Edit Pemasukan',
+                'Edit Pengeluaran',
                 style: GlobalFunctions.textTheme(context: context)
                     .headline3!
                     .copyWith(
@@ -215,7 +215,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
                       height: 21,
                     ),
                     Text(
-                      'Jumlah Pemasukan',
+                      'Jumlah Pengeluaran',
                       style: GlobalFunctions.textTheme(context: context)
                           .headline3!
                           .copyWith(
@@ -227,11 +227,11 @@ class _PemasukanPageState extends State<PemasukanPage> {
                     Container(
                       margin: const EdgeInsets.only(top: 11),
                       child: TextFormField(
-                        controller: pemasukanController,
+                        controller: pengeluaranController,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Tolong isi jumlah pemasukan';
+                            return 'Tolong isi jumlah Pengeluaran';
                           }
                           return null;
                         },
@@ -239,7 +239,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
                             isDense: true,
                             contentPadding: const EdgeInsets.all(16),
                             fillColor: kColorPrimary,
-                            hintText: 'Masukan Jumlah Pemasukan',
+                            hintText: 'Masukan Jumlah Pengeluaran',
                             hintStyle:
                                 GlobalFunctions.textTheme(context: context)
                                     .headline3!

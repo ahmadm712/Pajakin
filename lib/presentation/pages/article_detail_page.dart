@@ -42,14 +42,14 @@ class ArticleDetailPage extends StatelessWidget {
                             .bodyText2!
                             .copyWith(color: Colors.white, fontSize: 16),
                       ),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.transparent),
                       Text(
                         article.title,
                         style: GlobalFunctions.textTheme(context: context)
                             .headline6!
                             .copyWith(color: Colors.white, fontSize: 16),
                       ),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.transparent),
                       Text(
                         'Date: ${article.publishedAt}',
                         style: GlobalFunctions.textTheme(context: context)
@@ -63,7 +63,7 @@ class ArticleDetailPage extends StatelessWidget {
                             .caption!
                             .copyWith(color: Colors.white, fontSize: 16),
                       ),
-                      const Divider(color: Colors.grey),
+                      const Divider(color: Colors.transparent),
                       Text(
                         article.content ?? "-",
                         style: GlobalFunctions.textTheme(context: context)

@@ -213,6 +213,28 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                       ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  width: size.width,
+                  height: 30,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (GlobalFunctions.validate(
+                          context: context, formkey: formKey)) {
+                        GlobalFunctions.scaffoldMessage(
+                            context: context,
+                            message: 'Register Success',
+                            color: Colors.green);
+                      }
+                    },
+                    child: const Text(
+                      'Daftar',
                     ),
                     const SizedBox(
                       height: 16,

@@ -10,7 +10,7 @@ class GlobalFunctions {
     }
   }
 
-  static scafoldMessage(
+  static scaffoldMessage(
       {required BuildContext context,
       required String message,
       required Color color}) {

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/data/models/article.dart';
 import 'package:pajakin/data/services/api_services.dart';
@@ -15,7 +16,9 @@ import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -66,11 +69,11 @@ class MyApp extends StatelessWidget {
                 return MaterialPageRoute(
                   builder: (context) => ArticleWebView(url: url),
                 );
-                
-                 case Routes.PAJAK_PAGE:
-            return MaterialPageRoute(
-              builder: (context) => const PajakPage(),
-            );
+
+              case Routes.PAJAK_PAGE:
+                return MaterialPageRoute(
+                  builder: (context) => const PajakPage(),
+                );
 
               case Routes.SETTINGS_PAGE:
                 return MaterialPageRoute(

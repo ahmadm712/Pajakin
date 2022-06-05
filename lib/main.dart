@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pajakin/presentation/pages/pages.dart';
+import 'package:pajakin/presentation/pages/settings_page.dart';
 import 'package:pajakin/presentation/pages/pemasukan_page.dart';
 import 'package:pajakin/presentation/pages/pengeluaran_page.dart';
 import 'package:pajakin/utils/routes.dart';
@@ -34,6 +35,19 @@ class MyApp extends StatelessWidget {
               builder: (context) => const RegisterPage(),
             );
 
+          case Routes.SETTINGS_PAGE:
+            return MaterialPageRoute(
+              builder: (context) => const SettingsPage(),
+            );
+
+          case Routes.INFORMATION_ACCOUNT_PAGE:
+            return MaterialPageRoute(
+              builder: (context) => const InformationAccountPage(),
+            );
+
+          case Routes.CHANGE_PASSWORD_PAGE:
+            return MaterialPageRoute(
+              builder: (context) => const ChangePasswordPage(),
           case Routes.KAS_PAGE:
             return MaterialPageRoute(
               builder: (context) => const BukuKasPage(),

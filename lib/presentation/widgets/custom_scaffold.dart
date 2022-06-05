@@ -14,7 +14,7 @@ class CustomScaffold extends StatelessWidget {
         side: BorderSide.none,
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: [
           IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -27,7 +27,10 @@ class CustomScaffold extends StatelessWidget {
               padding: const EdgeInsets.only(right: 144.0),
               child: Text(
                 'Berita Seputar Bisnis',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(color: Colors.white),
               ),
             ),
           )

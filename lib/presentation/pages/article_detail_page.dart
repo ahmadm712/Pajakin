@@ -88,8 +88,8 @@ class ArticleDetailPage extends StatelessWidget {
                                 .copyWith(color: Colors.black, fontSize: 16),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(
-                                Routes.WEB_VIEW_PAGE, article.url);
+                            Navigator.pushNamed(context, Routes.WEB_VIEW_PAGE,
+                                arguments: article.url);
                           },
                         ),
                       ),

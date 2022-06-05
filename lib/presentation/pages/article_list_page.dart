@@ -14,27 +14,27 @@ class ArticleListPage extends StatelessWidget {
 
   Widget _buildList() {
     return Consumer<NewsProvider>(
-          builder: (context, state, _) {
-            if (state.state == StateResult.loading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state.state == StateResult.hasData) {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.result.articles.length,
-                itemBuilder: (context, index) {
-                  var article = state.result.articles[index];
-                  return CardArticle(article: article);
-                },
-              );
-            } else if (state.state == StateResult.noData) {
-              return Center(child: Text(state.message));
-            } else if (state.state == StateResult.error) {
-              return Center(child: Text(state.message));
-            } else {
-              return const Center(child: Text(''));
-            }
-          },
-        );
+      builder: (context, state, _) {
+        if (state.state == StateResult.loading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state.state == StateResult.hasData) {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: state.result.articles.length,
+            itemBuilder: (context, index) {
+              var article = state.result.articles[index];
+              return CardArticle(article: article);
+            },
+          );
+        } else if (state.state == StateResult.noData) {
+          return Center(child: Text(state.message));
+        } else if (state.state == StateResult.error) {
+          return Center(child: Text(state.message));
+        } else {
+          return const Center(child: Text(''));
+        }
+      },
+    );
   }
 
   @override

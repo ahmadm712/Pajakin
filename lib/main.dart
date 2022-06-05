@@ -19,48 +19,45 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<NewsProvider>(
-          create: (_) => NewsProvider(apiService: ApiService()),
-        ),
-    ],
-    child: MaterialApp(
-      title: 'Pajakin',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-      onGenerateRoute: (RouteSettings setting) {
-        switch (setting.name) {
-          case Routes.HOME_PAGE:
-            return MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            );
+        providers: [
+          ChangeNotifierProvider<NewsProvider>(
+            create: (_) => NewsProvider(apiService: ApiService()),
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Pajakin',
+          theme: ThemeData(
+            primarySwatch: Colors.blueGrey,
+          ),
+          debugShowCheckedModeBanner: false,
+          home: const HomePage(),
+          onGenerateRoute: (RouteSettings setting) {
+            switch (setting.name) {
+              case Routes.HOME_PAGE:
+                return MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                );
 
-          case Routes.REGISTER_PAGE:
-            return MaterialPageRoute(
-              builder: (context) => const RegisterPage(),
-            );
+              case Routes.REGISTER_PAGE:
+                return MaterialPageRoute(
+                  builder: (context) => const RegisterPage(),
+                );
 
-          case Routes.BERITA_PAGE:
-            return MaterialPageRoute(
-              builder: (context) => const ArticleListPage(),
-            );
-          
-          
+              case Routes.BERITA_PAGE:
+                return MaterialPageRoute(
+                  builder: (context) => const ArticleListPage(),
+                );
 
-          default:
-            return MaterialPageRoute(
-              builder: (context) => const Scaffold(
-                body: Center(
-                  child: Text('Page Not Found :('),
-                ),
-              ),
-            );
-        }
-      },
-    )
-    );
+              default:
+                return MaterialPageRoute(
+                  builder: (context) => const Scaffold(
+                    body: Center(
+                      child: Text('Page Not Found :('),
+                    ),
+                  ),
+                );
+            }
+          },
+        ));
   }
 }

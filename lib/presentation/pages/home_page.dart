@@ -22,49 +22,28 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            const SizedBox(
+              height: 24,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Selamat Datang',
-                      style: GlobalFunctions.textTheme(context: context)
-                          .headline3!
-                          .copyWith(color: Colors.white, fontSize: 18),
-                    ),
-                    Text(
-                      'Farrel Nolan',
-                      style: GlobalFunctions.textTheme(context: context)
-                          .headline3!
-                          .copyWith(color: Colors.white, fontSize: 18),
-                    ),
-                  ],
-                ),
                 InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.REGISTER_PAGE);
                   },
                   child: Container(
-                    height: 43,
-                    width: 43,
+                    padding: const EdgeInsets.all(7),
+                    height: 70,
+                    width: 70,
                     decoration: const BoxDecoration(
-                        color: Colors.grey, shape: BoxShape.circle),
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      '${assetIcons}icon-profile.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                Image.asset(
-                  '${assetIcons}icon-umkm.png',
-                  height: 30,
-                  width: 30,
-                  fit: BoxFit.cover,
                 ),
                 const SizedBox(
                   width: 10,
@@ -73,23 +52,36 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'UMKM',
+                      'Farrel Nolan',
                       style: GlobalFunctions.textTheme(context: context)
                           .headline3!
-                          .copyWith(color: Colors.white, fontSize: 16),
+                          .copyWith(color: Colors.white, fontSize: 18),
                     ),
-                    Text(
-                      'Tahu bulat',
-                      style: GlobalFunctions.textTheme(context: context)
-                          .headline3!
-                          .copyWith(color: Colors.white, fontSize: 16),
+                    Row(
+                      children: [
+                        Image.asset(
+                          '${assetIcons}icon-umkm.png',
+                          height: 21,
+                          width: 21,
+                          fit: BoxFit.cover,
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          'Tahu bulat',
+                          style: GlobalFunctions.textTheme(context: context)
+                              .headline3!
+                              .copyWith(color: Colors.white, fontSize: 16),
+                        ),
+                      ],
                     ),
                   ],
                 )
               ],
             ),
             const SizedBox(
-              height: 14,
+              height: 30,
             ),
             Container(
               width: size.width,
@@ -250,14 +242,14 @@ class _HomePageState extends State<HomePage> {
                 ButtonMenu(
                   imgAssets: '${assetIcons}icon-settings.png',
                   title: 'Pengaturan',
-                  routeName: Routes.PENGATURAN_PAGE,
+                  routeName: Routes.SETTINGS_PAGE,
                 ),
               ],
             ),
             const SizedBox(
-              height: 150,
+              height: 200,
             ),
-            Positioned(
+            Center(
               child: Text(
                 'PajakIn Mobile',
                 style: GlobalFunctions.textTheme(context: context)

@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:pajakin/utils/routes.dart';
+import 'package:pajakin/utils/styles.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({ Key? key }) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
+
 class _LoginPageState extends State<LoginPage> {
   bool passwordVisible = false;
   void togglePassword() {
@@ -15,13 +16,14 @@ class _LoginPageState extends State<LoginPage> {
       passwordVisible = !passwordVisible;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: Column(
             children: [
               Container(
@@ -30,62 +32,68 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.blue[900],
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text('Selamat Datang di',
-                        style: TextStyle(fontSize: 20,color: Colors.white)),
+                        style: TextStyle(fontSize: 20, color: Colors.white)),
                     Text('PajakIn',
-                        style: TextStyle(fontSize: 45,fontWeight: FontWeight.bold, color: Colors.white)),
+                        style: TextStyle(
+                            fontSize: 45,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Form(
                   child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                            color: textWhiteGrey,
-                            borderRadius: BorderRadius.circular(14)
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              hintText: 'Email',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(borderSide: BorderSide.none)
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20),
+                    decoration: BoxDecoration(
+                        color: textWhiteGrey,
+                        borderRadius: BorderRadius.circular(14)),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          hintText: 'Email',
+                          hintStyle: heading6.copyWith(color: textGrey),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none)),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20),
+                    decoration: BoxDecoration(
+                        color: textWhiteGrey,
+                        borderRadius: BorderRadius.circular(14)),
+                    child: TextFormField(
+                      obscureText: !passwordVisible,
+                      decoration: InputDecoration(
+                          hintText: 'Password',
+                          hintStyle: heading6.copyWith(color: textGrey),
+                          suffixIcon: IconButton(
+                            color: textGrey,
+                            splashRadius: 1,
+                            icon: Icon(passwordVisible
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined),
+                            onPressed: togglePassword,
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                            color: textWhiteGrey,
-                            borderRadius: BorderRadius.circular(14)
-                        ),
-                        child: TextFormField(
-                          obscureText: !passwordVisible,
-                          decoration: InputDecoration(
-                              hintText: 'Password',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              suffixIcon: IconButton(
-                                color: textGrey,
-                                splashRadius: 1,
-                                icon: Icon(passwordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined),
-                                onPressed: togglePassword,
-                              ),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none
-                              )
-                          ),
-                        ),
-                      )
-                    ],
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide.none)),
+                    ),
                   )
+                ],
+              )),
+              const SizedBox(
+                height: 25,
               ),
-              SizedBox(height: 25,),
               Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20),
                 width: 200,
                 height: 50,
                 child: TextButton(
@@ -96,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     "Login",
                     style: TextStyle(
                       color: Color(0xffffffff),
@@ -105,16 +113,20 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12,),
+              const SizedBox(
+                height: 12,
+              ),
               Center(
                 child: Text(
                   'Or',
                   style: heading6.copyWith(color: textGrey),
                 ),
               ),
-              SizedBox(height: 12,),
+              const SizedBox(
+                height: 12,
+              ),
               Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20),
                 width: 200,
                 height: 50,
                 child: TextButton(
@@ -125,16 +137,18 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     "Login with Google",
                     style: TextStyle(
-                      color: Color(0xffffffff),
+                      color: const Color(0xffffffff),
                       fontSize: 18,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 60,),
+              const SizedBox(
+                height: 60,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -153,7 +167,9 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 ],
               ),
-              SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -163,12 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage()
-                          )
-                      );
+                      Navigator.pushNamed(context, Routes.REGISTER_PAGE);
                     },
                     child: Text(
                       'Daftarkan Akun',

@@ -4,6 +4,32 @@ import 'package:google_fonts/google_fonts.dart';
 Color kColorPrimary = const Color(0xff005478);
 Color kColorSecondary = Colors.white;
 
+Color primaryBlue = const Color(0xff2972ff);
+Color colorLight = const Color(0xfffbfbfb);
+Color textBlack = const Color(0xff222222);
+Color textGrey = const Color(0xff94959b);
+Color textWhiteGrey = const Color(0xfff1f1f5);
+
+TextStyle heading2 = const TextStyle(
+  fontSize: 24,
+  fontWeight: FontWeight.w700,
+);
+
+TextStyle heading5 = const TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle heading6 = const TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle regular16pt = const TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+);
+
 ThemeData theme = ThemeData(
   colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kColorPrimary),
   textTheme: textTheme,

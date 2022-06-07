@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
+import 'package:pajakin/utils/currency_format.dart';
 
 class PajakPage extends StatefulWidget {
   const PajakPage({Key? key}) : super(key: key);
@@ -11,9 +12,10 @@ class PajakPage extends StatefulWidget {
 }
 
 class _PajakPageState extends State<PajakPage> {
-  /*late int omzetPerhari;
-  late int omzetPerbulan = omzetPerhari * 30;
-  late double pajakUMKM = omzetPerbulan * 0.5 / 100;*/
+  int omzetPerhari = 0;
+  int omzetPerbulan = 0;
+  double pajakUMKM = 0;
+  TextEditingController controllerOmzet = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,18 +83,16 @@ class _PajakPageState extends State<PajakPage> {
                           shape: BoxShape.rectangle,
                         ),
                         child: TextFormField(
-                          onChanged: (txt) {
-                            setState(() {});
-                          },
+                          controller: controllerOmzet,
                           keyboardType: TextInputType.number,
-                          autofocus: true,
+                          autofocus: false,
                           obscureText: false,
                           decoration: const InputDecoration(
                             hintText: 'Masukan Omzet Anda Dalam Sehari',
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0xFFFFFFFF),
-                                width: 1,
+                                width: 0,
                               ),
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(4.0),
@@ -102,7 +102,7 @@ class _PajakPageState extends State<PajakPage> {
                           ),
                           style: GlobalFunctions.textTheme(context: context)
                               .subtitle1!
-                              .copyWith(color: kColorPrimary, fontSize: 14),
+                              .copyWith(color: Colors.black, fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -126,7 +126,11 @@ class _PajakPageState extends State<PajakPage> {
                     ),
                   ),
                   onPressed: () {
-                    print('Button Pressed...');
+                    setState(() {
+                      omzetPerhari = int.parse(controllerOmzet.text);
+                      omzetPerbulan = omzetPerhari * 30;
+                      pajakUMKM = omzetPerbulan * 0.5 / 100;
+                    });
                   },
                   child: Text(
                     'Hitung Pajak',
@@ -165,18 +169,26 @@ class _PajakPageState extends State<PajakPage> {
                           .copyWith(color: Colors.white, fontSize: 20),
                     ),
                     Container(
-                      width: 320,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEEEEEE),
-                        borderRadius: BorderRadius.circular(10),
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: const Color(0xFF005478),
+                        width: 320,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEEEEEE),
+                          borderRadius: BorderRadius.circular(10),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: const Color(0xFF005478),
+                          ),
                         ),
-                      ),
-                      child: const Text(''),
-                    ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text(
+                            CurrencyFormat.convertToIdr(omzetPerbulan, 0),
+                            textAlign: TextAlign.center,
+                            style: GlobalFunctions.textTheme(context: context)
+                                .headline3!
+                                .copyWith(color: Colors.black, fontSize: 18),
+                          ),
+                        )),
                   ],
                 ),
               ),
@@ -201,15 +213,23 @@ class _PajakPageState extends State<PajakPage> {
                       width: 320,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFEEEEEE),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                         shape: BoxShape.rectangle,
                         border: Border.all(
-                          color: const Color(0xFF005478),
+                          color: kColorPrimary,
                         ),
                       ),
-                      child: const Text(''),
-                    ),
+                      child: Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text(
+                            CurrencyFormat.convertToIdr(pajakUMKM, 0),
+                            textAlign: TextAlign.center,
+                            style: GlobalFunctions.textTheme(context: context)
+                                .headline3!
+                                .copyWith(color: Colors.black, fontSize: 18),
+                          )),
+                    )
                   ],
                 ),
               ),

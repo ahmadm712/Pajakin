@@ -1,4 +1,4 @@
-package com.example.pajakin
+package com.pajakin.umkm
 
 import io.flutter.embedding.android.FlutterActivity
 

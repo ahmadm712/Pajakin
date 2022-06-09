@@ -5,6 +5,8 @@ import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
+import 'pages.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -161,10 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                           )),
                     ),
                     const SizedBox(
-                      height: 16,
-                    ),
-                    const SizedBox(
-                      height: 12,
+                      height: 32,
                     ),
                     SizedBox(
                       width: 154,
@@ -175,32 +174,18 @@ class _LoginPageState extends State<LoginPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
                         onPressed: () async {
-                          if (GlobalFunctions.validate(
-                              context: context, formkey: formKey)) {
-                            try {
-                              await FirebaseServices.signInUsingEmailPassword(
-                                      email: emailController.text,
-                                      password: passwordController.text)
-                                  .then((value) => const ScaffoldMessenger(
-                                      child: SnackBar(
-                                          content: Text('{Berhasils}'))));
-                            } on FirebaseAuthException catch (e) {
-                              if (e.code == 'user-not-found') {
-                                print('No user found for that email.');
-                                const snackbar = SnackBar(
-                                    content:
-                                        Text('No user found for that email.'));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackbar);
-                              } else if (e.code == 'wrong-password') {
-                                print('Wrong password provided.');
-                                const snackbar = SnackBar(
-                                    content: Text('Wrong password provided.'));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackbar);
-                              }
-                            } catch (e) {
-                              print(e);
+                          if (formKey.currentState!.validate()) {
+                            User? user =
+                                await FirebaseServices.signInUsingEmailPassword(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                            if (user != null) {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        InformationAccountPage(user: user)),
+                              );
                             }
                           }
                         },

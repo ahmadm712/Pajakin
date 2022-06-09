@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,9 @@ import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class InformationAccountPage extends StatefulWidget {
-  const InformationAccountPage({Key? key}) : super(key: key);
+  const InformationAccountPage({Key? key, required this.user})
+      : super(key: key);
+  final User user;
 
   @override
   State<InformationAccountPage> createState() => _InformationAccountPageState();
@@ -13,6 +16,14 @@ class InformationAccountPage extends StatefulWidget {
 
 class _InformationAccountPageState extends State<InformationAccountPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late User _currentUser;
+
+  @override
+  void initState() {
+    _currentUser = widget.user;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +98,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           height: 11,
                         ),
                         Text(
-                          'fanolans',
+                          ' ${_currentUser.displayName}',
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
@@ -132,7 +143,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           height: 11,
                         ),
                         Text(
-                          'Tahu Bulat',
+                          ' ${_currentUser.displayName}',
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
@@ -177,7 +188,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           height: 11,
                         ),
                         Text(
-                          'mailenolan@gmail.com',
+                          '${_currentUser.email}',
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
@@ -222,7 +233,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           height: 11,
                         ),
                         Text(
-                          '********',
+                          ' ${_currentUser.displayName}',
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(

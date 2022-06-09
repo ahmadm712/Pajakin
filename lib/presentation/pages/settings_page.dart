@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pajakin/presentation/pages/login_page.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
@@ -173,8 +175,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       thickness: 1,
                     ),
                     InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.HOME_PAGE);
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
                       },
                       child: Container(
                         width: double.infinity,

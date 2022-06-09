@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
+import 'package:pajakin/presentation/pages/pages.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
-
-import 'pages.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -183,8 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (user != null) {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        InformationAccountPage(user: user)),
+                                    builder: (context) => const HomePage()),
                               );
                             }
                           }

@@ -1,145 +1,248 @@
-//ROUTE BELUM ADA
-//TAMPILAN LOG IN MASIH SEDERHANA
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/services/firebase_services.dart';
+import 'package:pajakin/utils/global_function.dart';
+import 'package:pajakin/utils/routes.dart';
+import 'package:pajakin/utils/styles.dart';
 
-void main() => runApp(MyApp());
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
-class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Login",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.black,
-      ),
-      home: Login(),
-    );
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isVissiblePassword = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
   }
-}
-
-class Login extends StatefulWidget {
-  @override
-  _LoginState createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = GlobalFunctions.screenSize(context: context);
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(8),
-        color: Colors.lightBlue,
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget> [
+          children: [
             Container(
-              width: 80,
-              height: 80,
+              width: size.width,
+              height: 400,
               decoration: BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.circle
+                color: kColorPrimary,
               ),
-              child: Center(
-                child: Icon(Icons.person, size: 30, color: Colors.white,),
-              ),
-            ),
-            SizedBox(height: 20,),
-
-            Text("Selamat Datang", style: TextStyle(fontSize: 20, color: Colors.black),),
-
-            SizedBox(height: 20,),
-
-            TextFormField(
-              decoration: InputDecoration(
-                  border:  OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: size.height * 0.2,
                   ),
-                  prefixIcon: Icon(Icons.person, size: 20,),
-                  hintText: "masukkan username",
-                  hintStyle: TextStyle(color:  Colors.grey),
-                  labelText: "Username",
-                  labelStyle: TextStyle(color: Colors.black)
-              ),
-            ),
-
-            SizedBox(height: 15,),
-
-            TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  border:  OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)
+                  Text(
+                    'Selamat datang di',
+                    style: GlobalFunctions.textTheme(context: context)
+                        .headline3!
+                        .copyWith(color: Colors.white, fontSize: 14),
                   ),
-                  prefixIcon: Icon(Icons.visibility_off, size: 20,),
-                  hintText: "masukkan password",
-                  hintStyle: TextStyle(color:  Colors.grey),
-                  labelText: "Password",
-                  labelStyle: TextStyle(color: Colors.black)
-              ),
-            ),
-
-            SizedBox(height: 20,),
-
-            Card(
-              color: Colors.black,
-              elevation: 5,
-              child: Container(
-                height: 40,
-                width: 120,
-                child: InkWell(
-                  splashColor: Colors.white,
-                  onTap: (){},
-                  child: Center(
-                    child: Text("Login", style: TextStyle(fontSize: 15, color: Colors.white),),
+                  Text(
+                    'PajakIn',
+                    style: GlobalFunctions.textTheme(context: context)
+                        .headline3!
+                        .copyWith(color: Colors.white, fontSize: 48),
                   ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 10,),
-
-            Card(
-              color: Colors.black,
-              elevation: 5,
-              child: Container(
-                height: 40,
-                width: 120,
-                child: InkWell(
-                  splashColor: Colors.white,
-                  onTap: (){},
-                  child: Center(
-                    child: Text("Login Google", style: TextStyle(fontSize: 15, color: Colors.white),),
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 20,),
-
-            Text.rich(
-              TextSpan(
-                text: 'Lupa Kata Sandi? ',
-                style: TextStyle(fontSize: 15,
-                  decoration: TextDecoration.underline,),
-              ),
-            ),
-            Text.rich(
-              TextSpan(
-                text: 'Belum punya akun?',
-                style: TextStyle(fontSize: 15),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Daftarkan Akun',
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                      )),
                 ],
+              ),
+            ),
+            const SizedBox(
+              height: 22,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              width: size.width,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: emailController,
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Hai isi email dulu ya';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: const EdgeInsets.all(16),
+                        fillColor: kColorPrimary,
+                        hintText: 'Email',
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: kColorPrimary,
+                            width: 1,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Color(0xffD6D6D6),
+                            width: 1,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.red,
+                            width: 1,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Colors.red.shade300,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Hai isi kata sandi dulu ya';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.all(16),
+                          fillColor: kColorPrimary,
+                          hintText: 'Kata Sandi',
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: kColorPrimary,
+                              width: 1,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                              color: Color(0xffD6D6D6),
+                              width: 1,
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                              color: Colors.red,
+                              width: 1,
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: Colors.red.shade300,
+                              width: 1,
+                            ),
+                          )),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    SizedBox(
+                      width: 154,
+                      height: 45,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: kColorPrimary,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        onPressed: () async {
+                          if (GlobalFunctions.validate(
+                              context: context, formkey: formKey)) {
+                            try {
+                              await FirebaseServices.signInUsingEmailPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text)
+                                  .then((value) => const ScaffoldMessenger(
+                                      child: SnackBar(
+                                          content: Text('{Berhasils}'))));
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                print('No user found for that email.');
+                                const snackbar = SnackBar(
+                                    content:
+                                        Text('No user found for that email.'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              } else if (e.code == 'wrong-password') {
+                                print('Wrong password provided.');
+                                const snackbar = SnackBar(
+                                    content: Text('Wrong password provided.'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              }
+                            } catch (e) {
+                              print(e);
+                            }
+                          }
+                        },
+                        child: const Text(
+                          'Masuk',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Belum punya akun ?',
+                          style: GlobalFunctions.textTheme(context: context)
+                              .headline3!
+                              .copyWith(
+                                  color: const Color(0xff9E9E9E),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.REGISTER_PAGE);
+                          },
+                          child: Text(
+                            'Daftar disini'.toUpperCase(),
+                            style: GlobalFunctions.textTheme(context: context)
+                                .headline3!
+                                .copyWith(
+                                    color: kColorPrimary,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],

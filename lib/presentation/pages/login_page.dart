@@ -121,6 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: passwordController,
                       keyboardType: TextInputType.emailAddress,
+                      obscureText: isVissiblePassword,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Hai isi kata sandi dulu ya';
@@ -128,6 +129,21 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                       decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              // Based on passwordVisible state choose the icon
+                              isVissiblePassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                            onPressed: () {
+                              // Update the state i.e. toogle the state of passwordVisible variable
+                              setState(() {
+                                isVissiblePassword = !isVissiblePassword;
+                              });
+                            },
+                          ),
                           isDense: true,
                           contentPadding: const EdgeInsets.all(16),
                           fillColor: kColorPrimary,

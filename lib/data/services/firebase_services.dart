@@ -59,6 +59,55 @@ class FirebaseServices {
     }
   }
 
+  static Future<User?> signInUsingEmailPassword({
+    required String email,
+    required String password,
+  }) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      user = userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided.');
+      }
+    }
+    return user;
+  }
+
+  static Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut().then(((value) {
+      print("User Has been Signed Out");
+    }));
+  }
+
+  static Future<void> updateInformationAccount({
+    required String name,
+    required String umkmName,
+    required String email,
+    required String password,
+  }) async {
+    DocumentReference documentReferencer = _mainCollection.doc(userUid);
+
+    Map<String, dynamic> data = <String, dynamic>{
+      "userName": name,
+      "umkmName": umkmName,
+      "email": email,
+      "password": password,
+    };
+
+    await documentReferencer
+        .update(data)
+        .whenComplete(() => print("Information item updated in the database"))
+        .catchError((e) => print(e));
+  }
   // static Future<void> updateItem({
   //   required DateTime time,
   //   required String name,

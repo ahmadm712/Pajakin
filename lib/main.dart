@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/data/models/article.dart';
@@ -9,15 +12,26 @@ import 'package:pajakin/presentation/pages/pages.dart';
 import 'package:pajakin/presentation/pages/pajak_page.dart';
 import 'package:pajakin/presentation/pages/pemasukan_page.dart';
 import 'package:pajakin/presentation/pages/pengeluaran_page.dart';
-import 'package:pajakin/presentation/pages/settings_page.dart';
 import 'package:pajakin/presentation/pages/splash_screen.dart';
 import 'package:pajakin/presentation/providers/news_provider.dart';
+import 'package:pajakin/presentation/providers/scheduling_provider.dart';
+import 'package:pajakin/utils/background_service.dart';
+import 'package:pajakin/utils/notification_helper.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final NotificationService notificationService = NotificationService();
+  final BackgroundService service = BackgroundService();
+
+  service.initializeIsolate();
+
+  if (Platform.isAndroid) {
+    await AndroidAlarmManager.initialize();
+  }
+  await notificationService.initNotification();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -33,6 +47,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<NewsProvider>(
             create: (_) => NewsProvider(apiService: ApiService()),
           ),
+          ChangeNotifierProvider<SchedulingProvider>(create: (_) => SchedulingProvider())
         ],
         child: MaterialApp(
           title: 'Pajakin',

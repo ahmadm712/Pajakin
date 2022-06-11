@@ -24,9 +24,9 @@ class CustomScaffold extends StatelessWidget {
           ),
           Flexible(
             child: Padding(
-              padding: const EdgeInsets.only(right: 144.0),
+              padding: const EdgeInsets.only(left: 10.0),
               child: Text(
-                'Berita Seputar Bisnis',
+                'Berita Terbaru Seputar Bisnis',
                 style: Theme.of(context)
                     .textTheme
                     .headline6!

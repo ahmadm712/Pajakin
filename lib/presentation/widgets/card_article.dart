@@ -11,8 +11,8 @@ class CardArticle extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, Routes.DETAIL_BERITA_PAGE,
-              arguments: article);
+          Navigator.pushNamed(context, Routes.WEB_VIEW_PAGE,
+              arguments: article.url);
         },
         child: ListTile(
           contentPadding:

@@ -22,12 +22,12 @@ class FirebaseServices {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then(
         (value) {
-          final kas = KasModel(
-            uid: value.user!.uid,
-            saldo: 0,
-            pemasukan: 0,
-            pengeluaran: 0,
-          );
+          // final kas = KasModel(
+          //   uid: value.user!.uid,
+          //   saldo: 0,
+          //   pemasukan: 0,
+          //   pengeluaran: 0,
+          // );
           final user = UserUmkm(
             id: value.user!.uid,
             username: name,

@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pajakin/data/models/kas_model.dart';
+import 'package:pajakin/data/models/pengeluaran_model.dart';
 import 'package:pajakin/data/models/user_model.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
 final CollectionReference _mainCollection = _firestore.collection('user');
 final CollectionReference _secondCollection = _firestore.collection('kas');
+final CollectionReference _pemasukanCollection =
+    _firestore.collection('pemasukan');
+final CollectionReference _pengeluaranCollection =
+    _firestore.collection('pengeluaran');
 
 class FirebaseServices {
   static String? userUid;
@@ -22,19 +27,25 @@ class FirebaseServices {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then(
         (value) {
-          // final kas = KasModel(
-          //   uid: value.user!.uid,
-          //   saldo: 0,
-          //   pemasukan: 0,
-          //   pengeluaran: 0,
-          // );
+          final kas = KasModel(
+            id: value.user!.uid,
+            saldo: 0,
+            pemasukan: 0,
+            pengeluaran: 0,
+          );
+          _secondCollection
+              .doc(auth.currentUser!.uid)
+              .set(kas.toMap())
+              .whenComplete(() => print('Kas has Created'))
+              .catchError((e) => print(e));
+
           final user = UserUmkm(
             id: value.user!.uid,
             username: name,
             email: email,
             umkmname: umkmName,
             password: password,
-            saldo: 0,
+            kasId: value.user!.uid,
           );
 
           return _mainCollection
@@ -108,32 +119,86 @@ class FirebaseServices {
         .whenComplete(() => print("Information item updated in the database"))
         .catchError((e) => print(e));
   }
-  // static Future<void> updateItem({
-  //   required DateTime time,
-  //   required String name,
-  //   required bool isPinLocation,
-  // }) async {
-  //   DocumentReference documentReferencer = _mainCollection.doc(userUid);
 
-  //   Map<String, dynamic> data = <String, dynamic>{
-  //     "time": time,
-  //     "name": name,
-  //     "is_pin_Location": isPinLocation,
-  //   };
+  static Future<void> addPemasukan({
+    required String date,
+    required String description,
+    required int jumlahPemasukan,
+  }) async {
+    DocumentReference documentReferencer = _pemasukanCollection
+        .doc(auth.currentUser!.uid)
+        .collection('list_pemasukan')
+        .doc();
 
-  //   await documentReferencer
-  //       .update(data)
-  //       .whenComplete(() => print("Note item updated in the database"))
-  //       .catchError((e) => print(e));
-  // }
+    Map<String, dynamic> data = <String, dynamic>{
+      "tanggal_pemasukan": date,
+      "keterangan": description,
+      "jumlah_pemasukan": jumlahPemasukan,
+    };
 
-  // static Stream<List<Attendance>> readItems() {
+    await documentReferencer.set(data).whenComplete(() async {
+      print("Pemasukan  added to the database");
+
+      readItemsKas(kasId: auth.currentUser!.uid).first.then((value) async {
+        await _secondCollection
+            .doc(auth.currentUser!.uid)
+            .update({
+              'pemasukan': (value.pemasukan + data['jumlah_pemasukan']),
+              'saldo': (value.saldo + data['jumlah_pemasukan']),
+            })
+            .whenComplete(() => print('update succes'))
+            .catchError((e) => print(e));
+      });
+    }).catchError((e) => print(e));
+  }
+
+  static Future<void> addPengeluaran({
+    required String date,
+    required String description,
+    required int jumlahPengeluaran,
+  }) async {
+    DocumentReference documentReferencer = _pengeluaranCollection
+        .doc(auth.currentUser!.uid)
+        .collection('list_pengeluaran')
+        .doc();
+
+    var data = <String, dynamic>{
+      "tanggal_pengeluaran": date,
+      "keterangan": description,
+      "jumlah_pengeluaran": jumlahPengeluaran,
+    };
+
+    await documentReferencer.set(data).whenComplete(() async {
+      print("Pengeluaran  added to the database");
+
+      readItemsKas(kasId: auth.currentUser!.uid).first.then((value) async {
+        await _secondCollection
+            .doc(auth.currentUser!.uid)
+            .update({
+              'pengeluaran': (value.pengeluaran + data['jumlah_pengeluaran']),
+              'saldo': (value.saldo - data['jumlah_pengeluaran']),
+            })
+            .whenComplete(() => print('update succes'))
+            .catchError((e) => print(e));
+      });
+    }).catchError((e) => print(e));
+  }
+
+  static Stream<KasModel> readItemsKas({required String kasId}) {
+    return FirebaseFirestore.instance
+        .collection('kas')
+        .where('id', isEqualTo: kasId)
+        .snapshots()
+        .map((snapshot) => KasModel.fromMap(snapshot.docs.first.data()));
+  }
+
+  // static Stream<List<PengeluaranModel>> readListPengeluaran() {
   //   return FirebaseFirestore.instance
-  //       .collection('attendance')
-  //       .orderBy('time')
+  //       .collection('pengeluaran')
+  //       .where('id', isEqualTo: auth.currentUser!.uid)
   //       .snapshots()
-  //       .map((snapshot) =>
-  //           snapshot.docs.map((e) => Attendance.fromJson(e.data())).toList());
+  //       .map((snapshot) => PengeluaranModel.fromMap(snapshot.docs.first.data()))
+  //       .toList();
   // }
 
   // static Future<void> deleteItem({

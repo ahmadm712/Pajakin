@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+
+import 'package:pajakin/data/models/kas_model.dart';
+import 'package:pajakin/utils/currency_format.dart';
 import 'package:pajakin/utils/global_function.dart';
 
 class TotalPemasukanPengeluaranCard extends StatelessWidget {
-  const TotalPemasukanPengeluaranCard({
+  KasModel kas;
+  TotalPemasukanPengeluaranCard({
     Key? key,
+    required this.kas,
   }) : super(key: key);
 
   @override
@@ -23,7 +28,7 @@ class TotalPemasukanPengeluaranCard extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 12,
                           fontWeight: FontWeight.w400)),
-              Text('RP.55.000.000',
+              Text(CurrencyFormat.convertToIdr(kas.pemasukan, 0),
                   style: GlobalFunctions.textTheme(context: context)
                       .headline3!
                       .copyWith(
@@ -47,7 +52,7 @@ class TotalPemasukanPengeluaranCard extends StatelessWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.w400),
               ),
-              Text('Rp.-55.000.000',
+              Text(CurrencyFormat.convertToIdr(kas.pengeluaran, 0),
                   style: GlobalFunctions.textTheme(context: context)
                       .headline3!
                       .copyWith(
@@ -70,7 +75,7 @@ class TotalPemasukanPengeluaranCard extends StatelessWidget {
                           fontSize: 12,
                           fontWeight: FontWeight.w400)),
               Text(
-                '55.000.000',
+                CurrencyFormat.convertToIdr(kas.saldo, 0),
                 style: GlobalFunctions.textTheme(context: context)
                     .headline3!
                     .copyWith(

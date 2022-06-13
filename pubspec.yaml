@@ -38,6 +38,7 @@ dependencies:
   provider: ^6.0.3
   webview_flutter: ^3.0.4
   intl: ^0.17.0
+  flutter_masked_text2: ^0.9.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0

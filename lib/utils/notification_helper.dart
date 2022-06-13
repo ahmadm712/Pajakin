@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pajakin/utils/navigation.dart';
 import 'package:rxdart/rxdart.dart';
 
 final selectNotificationSubject = BehaviorSubject<String>();
@@ -29,7 +30,13 @@ class NotificationService {
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS);
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    onSelectNotification: (String? payload) async {
+      if (payload != null) {
+        print('notification payload: $payload');
+      }
+      selectNotificationSubject.add(payload ?? 'empty payload');
+    });
   }
 
   Future<void> showNotification(int id, String title, String body) async {
@@ -49,6 +56,13 @@ class NotificationService {
           presentSound: false,
         ),
       ),
+    );
+  }
+  void configureSelectNotificationSubject(String route) {
+    selectNotificationSubject.stream.listen(
+      (String payload) async {
+        Navigation.intentWithData(route);
+      },
     );
   }
 }

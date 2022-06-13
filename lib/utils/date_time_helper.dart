@@ -14,7 +14,7 @@ class DateTimeHelper {
     var resultToday = completeFormat.parseStrict(todayDateAndTime);
 
     // Tomorrow Format
-    var formatted = resultToday.add(const Duration(seconds: 3));
+    var formatted = resultToday.add(const Duration(days: 30));
     final nextMonthDate = dateFormat.format(formatted);
     final nextMonthDateAndTime = "$nextMonthDate $timeSpecific";
     var resultNextMonth = completeFormat.parseStrict(nextMonthDateAndTime);

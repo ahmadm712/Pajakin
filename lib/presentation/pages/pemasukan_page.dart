@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
 
 import 'package:pajakin/utils/global_function.dart';
@@ -27,6 +28,12 @@ class _PemasukanPageState extends State<PemasukanPage> {
     super.dispose();
     keteranganController.dispose();
     pemasukanController.dispose();
+  }
+
+  void clearField() {
+    date = "";
+    keteranganController.clear();
+    pemasukanController.clear();
   }
 
   @override
@@ -228,7 +235,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
                       margin: const EdgeInsets.only(top: 11),
                       child: TextFormField(
                         controller: pemasukanController,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Tolong isi jumlah pemasukan';
@@ -286,7 +293,30 @@ class _PemasukanPageState extends State<PemasukanPage> {
                       width: 154,
                       height: 45,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (GlobalFunctions.validate(
+                              context: context, formkey: formKey)) {
+                            if (widget.status == 'tambah') {
+                              FirebaseServices.addPemasukan(
+                                  date: date,
+                                  description: keteranganController.text,
+                                  jumlahPemasukan: int.parse(
+                                    pemasukanController.text,
+                                  )).then((value) {
+                                clearField();
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: 'Pemasukan Succes Ditambahkan',
+                                    color: Colors.green);
+                              }).catchError((e) {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: e,
+                                    color: Colors.green);
+                              });
+                            }
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),

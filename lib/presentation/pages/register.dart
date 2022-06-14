@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
@@ -336,13 +338,38 @@ class _RegisterPageState extends State<RegisterPage> {
                             primary: kColorPrimary,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
-                        onPressed: () {
+                        onPressed: () async {
                           if (GlobalFunctions.validate(
                               context: context, formkey: formKey)) {
-                            GlobalFunctions.scaffoldMessage(
-                                context: context,
-                                message: 'Register Success',
-                                color: Colors.green);
+                            try {
+                              await FirebaseServices.register(
+                                      name: usernameController.text,
+                                      umkmName: umkmNameController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text)
+                                  .then((value) => const ScaffoldMessenger(
+                                      child: SnackBar(
+                                          content: Text('{success}'))));
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'weak-password') {
+                                print('The password provided is too weak.');
+                                const snackbar = SnackBar(
+                                    content: Text(
+                                        'The password provided is too weak.'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              } else if (e.code == 'email-already-in-use') {
+                                print(
+                                    'The account already exists for that email.');
+                                const snackbar = SnackBar(
+                                    content: Text(
+                                        'The account already exists for that email.'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              }
+                            } catch (e) {
+                              print(e);
+                            }
                           }
                         },
                         child: const Text(

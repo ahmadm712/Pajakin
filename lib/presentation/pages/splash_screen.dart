@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:pajakin/presentation/pages/login_page.dart';
 import 'package:pajakin/presentation/pages/pages.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/styles.dart';
@@ -24,8 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationRoute() {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (BuildContext context) => const HomePage()));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const LoginPage(),
+      ),
+    );
   }
 
   @override

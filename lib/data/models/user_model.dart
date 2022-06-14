@@ -6,14 +6,14 @@ class UserUmkm {
   String email;
   String umkmname;
   String password;
-  int saldo;
+  String kasId;
   UserUmkm({
     required this.id,
     required this.username,
     required this.email,
     required this.umkmname,
     required this.password,
-    required this.saldo,
+    required this.kasId,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,7 +23,7 @@ class UserUmkm {
       'email': email,
       'umkmname': umkmname,
       'password': password,
-      'saldo': saldo,
+      'kasId': kasId,
     };
   }
 
@@ -34,7 +34,7 @@ class UserUmkm {
       email: map['email'] ?? '',
       umkmname: map['umkmname'] ?? '',
       password: map['password'] ?? '',
-      saldo: map['saldo']?.toInt() ?? 0,
+      kasId: map['kasId']?.toInt() ?? 0,
     );
   }
 
@@ -45,6 +45,6 @@ class UserUmkm {
 
   @override
   String toString() {
-    return 'User(id: $id, username: $username, email: $email, umkmname: $umkmname, password: $password, saldo: $saldo)';
+    return 'User(id: $id, username: $username, email: $email, umkmname: $umkmname, password: $password, kasId: $kasId)';
   }
 }

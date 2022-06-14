@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pajakin/data/models/kas_model.dart';
+import 'package:pajakin/data/models/pengeluaran_model.dart';
 import 'package:pajakin/data/models/user_model.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
 final CollectionReference _mainCollection = _firestore.collection('user');
 final CollectionReference _secondCollection = _firestore.collection('kas');
+final CollectionReference _pemasukanCollection =
+    _firestore.collection('pemasukan');
+final CollectionReference _pengeluaranCollection =
+    _firestore.collection('pengeluaran');
 
 class FirebaseServices {
   static String? userUid;
@@ -23,18 +28,24 @@ class FirebaseServices {
           .then(
         (value) {
           final kas = KasModel(
-            uid: value.user!.uid,
+            id: value.user!.uid,
             saldo: 0,
             pemasukan: 0,
             pengeluaran: 0,
           );
+          _secondCollection
+              .doc(auth.currentUser!.uid)
+              .set(kas.toMap())
+              .whenComplete(() => print('Kas has Created'))
+              .catchError((e) => print(e));
+
           final user = UserUmkm(
             id: value.user!.uid,
             username: name,
             email: email,
             umkmname: umkmName,
             password: password,
-            saldo: 0,
+            kasId: value.user!.uid,
           );
 
           return _mainCollection
@@ -59,6 +70,35 @@ class FirebaseServices {
     }
   }
 
+  static Future<User?> signInUsingEmailPassword({
+    required String email,
+    required String password,
+  }) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      user = userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided.');
+      }
+    }
+    return user;
+  }
+
+  static Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut().then(((value) {
+      print("User Has been Signed Out");
+    }));
+  }
+
   static Future<void> updateInformationAccount({
     required String name,
     required String umkmName,
@@ -80,207 +120,85 @@ class FirebaseServices {
         .catchError((e) => print(e));
   }
 
-/*
-import 'package:apple_sign_in/apple_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+  static Future<void> addPemasukan({
+    required String date,
+    required String description,
+    required int jumlahPemasukan,
+  }) async {
+    DocumentReference documentReferencer = _pemasukanCollection
+        .doc(auth.currentUser!.uid)
+        .collection('list_pemasukan')
+        .doc();
 
-class AuthService {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+    Map<String, dynamic> data = <String, dynamic>{
+      "tanggal_pemasukan": date,
+      "keterangan": description,
+      "jumlah_pemasukan": jumlahPemasukan,
+    };
 
-  Stream<String> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged.map(
-        (FirebaseUser user) => user?.uid,
-      );
+    await documentReferencer.set(data).whenComplete(() async {
+      print("Pemasukan  added to the database");
 
-  // GET UID
-  Future<String> getCurrentUID() async {
-    return (await _firebaseAuth.currentUser()).uid;
+      readItemsKas(kasId: auth.currentUser!.uid).first.then((value) async {
+        await _secondCollection
+            .doc(auth.currentUser!.uid)
+            .update({
+              'pemasukan': (value.pemasukan + data['jumlah_pemasukan']),
+              'saldo': (value.saldo + data['jumlah_pemasukan']),
+            })
+            .whenComplete(() => print('update succes'))
+            .catchError((e) => print(e));
+      });
+    }).catchError((e) => print(e));
   }
 
-  // GET CURRENT USER
-  Future getCurrentUser() async {
-    return await _firebaseAuth.currentUser();
+  static Future<void> addPengeluaran({
+    required String date,
+    required String description,
+    required int jumlahPengeluaran,
+  }) async {
+    DocumentReference documentReferencer = _pengeluaranCollection
+        .doc(auth.currentUser!.uid)
+        .collection('list_pengeluaran')
+        .doc();
+
+    var data = <String, dynamic>{
+      "tanggal_pengeluaran": date,
+      "keterangan": description,
+      "jumlah_pengeluaran": jumlahPengeluaran,
+    };
+
+    await documentReferencer.set(data).whenComplete(() async {
+      print("Pengeluaran  added to the database");
+
+      readItemsKas(kasId: auth.currentUser!.uid).first.then((value) async {
+        await _secondCollection
+            .doc(auth.currentUser!.uid)
+            .update({
+              'pengeluaran': (value.pengeluaran + data['jumlah_pengeluaran']),
+              'saldo': (value.saldo - data['jumlah_pengeluaran']),
+            })
+            .whenComplete(() => print('update succes'))
+            .catchError((e) => print(e));
+      });
+    }).catchError((e) => print(e));
   }
 
-  // Email & Password Sign Up
-  Future<String> createUserWithEmailAndPassword(
-      String email, String password, String name) async {
-    final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-
-    // Update the username
-    await updateUserName(name, authResult.user);
-    return authResult.user.uid;
+  static Stream<KasModel> readItemsKas({required String kasId}) {
+    return FirebaseFirestore.instance
+        .collection('kas')
+        .where('id', isEqualTo: kasId)
+        .snapshots()
+        .map((snapshot) => KasModel.fromMap(snapshot.docs.first.data()));
   }
 
-  Future updateUserName(String name, FirebaseUser currentUser) async {
-    var userUpdateInfo = UserUpdateInfo();
-    userUpdateInfo.displayName = name;
-    await currentUser.updateProfile(userUpdateInfo);
-    await currentUser.reload();
-  }
-
-  // Email & Password Sign In
-  Future<String> signInWithEmailAndPassword(
-      String email, String password) async {
-    return (await _firebaseAuth.signInWithEmailAndPassword(
-            email: email, password: password))
-        .user
-        .uid;
-  }
-
-  // Sign Out
-  signOut() {
-    return _firebaseAuth.signOut();
-  }
-
-  // Reset Password
-  Future sendPasswordResetEmail(String email) async {
-    return _firebaseAuth.sendPasswordResetEmail(email: email);
-  }
-
-  // Create Anonymous User
-  Future singInAnonymously() {
-    return _firebaseAuth.signInAnonymously();
-  }
-
-  Future convertUserWithEmail(
-      String email, String password, String name) async {
-    final currentUser = await _firebaseAuth.currentUser();
-
-    final credential =
-        EmailAuthProvider.getCredential(email: email, password: password);
-    await currentUser.linkWithCredential(credential);
-    await updateUserName(name, currentUser);
-  }
-
-  Future convertWithGoogle() async {
-    final currentUser = await _firebaseAuth.currentUser();
-    final GoogleSignInAccount account = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication _googleAuth = await account.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      idToken: _googleAuth.idToken,
-      accessToken: _googleAuth.accessToken,
-    );
-    await currentUser.linkWithCredential(credential);
-    await updateUserName(_googleSignIn.currentUser.displayName, currentUser);
-  }
-
-  // GOOGLE
-  Future<String> signInWithGoogle() async {
-    final GoogleSignInAccount account = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication _googleAuth = await account.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      idToken: _googleAuth.idToken,
-      accessToken: _googleAuth.accessToken,
-    );
-    return (await _firebaseAuth.signInWithCredential(credential)).user.uid;
-  }
-
-  // APPLE
-  Future signInWithApple() async {
-    final AuthorizationResult result = await AppleSignIn.performRequests([
-      AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
-    ]);
-
-    switch (result.status) {
-      case AuthorizationStatus.authorized:
-        final AppleIdCredential _auth = result.credential;
-        final OAuthProvider oAuthProvider =
-            new OAuthProvider(providerId: "apple.com");
-
-        final AuthCredential credential = oAuthProvider.getCredential(
-          idToken: String.fromCharCodes(_auth.identityToken),
-          accessToken: String.fromCharCodes(_auth.authorizationCode),
-        );
-
-        await _firebaseAuth.signInWithCredential(credential);
-
-        // update the user information
-        if (_auth.fullName != null) {
-          _firebaseAuth.currentUser().then((value) async {
-            UserUpdateInfo user = UserUpdateInfo();
-            user.displayName =
-                "${_auth.fullName.givenName} ${_auth.fullName.familyName}";
-            await value.updateProfile(user);
-          });
-        }
-
-        break;
-
-      case AuthorizationStatus.error:
-        print("Sign In Failed ${result.error.localizedDescription}");
-        break;
-
-      case AuthorizationStatus.cancelled:
-        print("User Cancled");
-        break;
-    }
-  }
-}
-
-class NameValidator {
-  static String validate(String value) {
-    if (value.isEmpty) {
-      return "Name can't be empty";
-    }
-    if (value.length < 2) {
-      return "Name must be at least 2 characters long";
-    }
-    if (value.length > 50) {
-      return "Name must be less than 50 characters long";
-    }
-    return null;
-  }
-}
-
-class EmailValidator {
-  static String validate(String value) {
-    if (value.isEmpty) {
-      return "Email can't be empty";
-    }
-    return null;
-  }
-}
-
-class PasswordValidator {
-  static String validate(String value) {
-    if (value.isEmpty) {
-      return "Password can't be empty";
-    }
-    return null;
-  }
-}*/
-
-  // static Future<void> updateItem({
-  //   required DateTime time,
-  //   required String name,
-  //   required bool isPinLocation,
-  // }) async {
-  //   DocumentReference documentReferencer = _mainCollection.doc(userUid);
-
-  //   Map<String, dynamic> data = <String, dynamic>{
-  //     "time": time,
-  //     "name": name,
-  //     "is_pin_Location": isPinLocation,
-  //   };
-
-  //   await documentReferencer
-  //       .update(data)
-  //       .whenComplete(() => print("Note item updated in the database"))
-  //       .catchError((e) => print(e));
-  // }
-
-  // static Stream<List<Attendance>> readItems() {
+  // static Stream<List<PengeluaranModel>> readListPengeluaran() {
   //   return FirebaseFirestore.instance
-  //       .collection('attendance')
-  //       .orderBy('time')
+  //       .collection('pengeluaran')
+  //       .where('id', isEqualTo: auth.currentUser!.uid)
   //       .snapshots()
-  //       .map((snapshot) =>
-  //           snapshot.docs.map((e) => Attendance.fromJson(e.data())).toList());
+  //       .map((snapshot) => PengeluaranModel.fromMap(snapshot.docs.first.data()))
+  //       .toList();
   // }
 
   // static Future<void> deleteItem({

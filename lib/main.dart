@@ -1,10 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pajakin/data/models/article.dart';
 import 'package:pajakin/data/services/api_services.dart';
-import 'package:pajakin/presentation/pages/article_detail_page.dart';
 import 'package:pajakin/presentation/pages/article_list_page.dart';
 import 'package:pajakin/presentation/pages/article_web_view.dart';
+import 'package:pajakin/presentation/pages/login_page.dart';
 import 'package:pajakin/presentation/pages/pages.dart';
 import 'package:pajakin/presentation/pages/pajak_page.dart';
 import 'package:pajakin/presentation/pages/pemasukan_page.dart';
@@ -54,14 +53,14 @@ class MyApp extends StatelessWidget {
                   builder: (context) => const RegisterPage(),
                 );
 
+              case Routes.LOGIN_PAGE:
+                return MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                );
+
               case Routes.BERITA_PAGE:
                 return MaterialPageRoute(
                   builder: (context) => const ArticleListPage(),
-                );
-              case Routes.DETAIL_BERITA_PAGE:
-                final article = setting.arguments as Article;
-                return MaterialPageRoute(
-                  builder: (context) => ArticleDetailPage(article: article),
                 );
 
               case Routes.WEB_VIEW_PAGE:

@@ -99,24 +99,37 @@ class FirebaseServices {
     }));
   }
 
-  static Future<void> updateInformationAccount({
+  static Future getCurrentUserData() async {
+    try {
+      DocumentSnapshot ds =
+          await _mainCollection.doc(auth.currentUser!.uid).get();
+      String username = ds.get('username');
+      String email = ds.get('email');
+      String umkmName = ds.get('umkmname');
+      String password = ds.get('password');
+
+      return [username, email, umkmName, password];
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  static Future<void> updateUser({
     required String name,
     required String umkmName,
     required String email,
     required String password,
   }) async {
-    DocumentReference documentReferencer = _mainCollection.doc(userUid);
-
-    Map<String, dynamic> data = <String, dynamic>{
-      "userName": name,
-      "umkmName": umkmName,
-      "email": email,
-      "password": password,
-    };
-
-    await documentReferencer
-        .update(data)
-        .whenComplete(() => print("Information item updated in the database"))
+    await _mainCollection
+        .doc(auth.currentUser!.uid)
+        .update({
+          'username': name,
+          'umkmname': umkmName,
+          'email': email,
+          'password': password,
+        })
+        .whenComplete(() => print('User Has been Updated'))
         .catchError((e) => print(e));
   }
 

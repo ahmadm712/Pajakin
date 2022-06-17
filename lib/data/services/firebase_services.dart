@@ -99,7 +99,7 @@ class FirebaseServices {
     }));
   }
 
-  static Future getCurrentUserData() async {
+  static Future<List<String>?> getCurrentUserData() async {
     try {
       DocumentSnapshot ds =
           await _mainCollection.doc(auth.currentUser!.uid).get();

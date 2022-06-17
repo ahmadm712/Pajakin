@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/data/services/api_services.dart';
@@ -80,8 +81,11 @@ class MyApp extends StatelessWidget {
                 );
 
               case Routes.INFORMATION_ACCOUNT_PAGE:
+                final String user = setting.arguments as String;
                 return MaterialPageRoute(
-                  builder: (context) => const InformationAccountPage(),
+                  builder: (context) => InformationAccountPage(
+                    user: user,
+                  ),
                 );
 
               case Routes.CHANGE_PASSWORD_PAGE:

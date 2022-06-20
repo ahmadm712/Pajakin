@@ -46,7 +46,9 @@ class MyApp extends StatelessWidget {
             switch (setting.name) {
               case Routes.HOME_PAGE:
                 return MaterialPageRoute(
-                  builder: (context) => const HomePage(),
+                  builder: (context) => HomePage(
+                    user: '',
+                  ),
                 );
 
               case Routes.REGISTER_PAGE:

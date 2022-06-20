@@ -198,7 +198,9 @@ class _LoginPageState extends State<LoginPage> {
                             if (user != null) {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
+                                    builder: (context) => HomePage(
+                                          user: '',
+                                        )),
                               );
                             }
                           }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/presentation/widgets/button_menu.dart';
 import 'package:pajakin/utils/constans.dart';
@@ -6,13 +7,23 @@ import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  String user;
+  HomePage({Key? key, required this.user}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _isSigningOut = false;
+  late User _currentUser;
+
+  @override
+  void initState() {
+    _currentUser = widget.user as User;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = GlobalFunctions.screenSize(context: context);
@@ -53,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Farrel Nolan',
+                      '${_currentUser.displayName}',
                       style: GlobalFunctions.textTheme(context: context)
                           .headline3!
                           .copyWith(color: Colors.white, fontSize: 18),

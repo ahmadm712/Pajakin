@@ -350,6 +350,27 @@ class _PemasukanPageState extends State<PemasukanPage> {
                                     message: e,
                                     color: Colors.green);
                               });
+                            } else {
+                              FirebaseServices.updatePemasukan(
+                                  idPemasukan: pemasukan.id,
+                                  date: date,
+                                  description: keteranganController.text,
+                                  jumlahPemasukan: int.parse(
+                                    pemasukanController.text,
+                                  )).then((value) {
+                                clearField();
+                                GlobalFunctions.scaffoldMessage(
+                                  context: context,
+                                  message: 'pemasukan Succes Di Update',
+                                  color: kColorPrimary,
+                                );
+                                Navigator.pop(context);
+                              }).catchError((e) {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: e,
+                                    color: Colors.red);
+                              });
                             }
                           }
                         },

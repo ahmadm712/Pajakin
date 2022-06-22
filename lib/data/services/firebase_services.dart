@@ -213,10 +213,47 @@ class FirebaseServices {
     }
   }
 
-  // FirebaseFirestore.instance
-  //               .collection('pengeluaran')
-  //               .where('uid', isEqualTo: auth.currentUser!.uid)
-  //               .snapshots()
+  static Future<void> updatePengeluaran({
+    required String date,
+    required String idPengeluaran,
+    required String description,
+    required int jumlahPengeluaran,
+  }) async {
+    var data = <String, dynamic>{
+      "tanggal_pengeluaran": date,
+      "keterangan": description,
+      "jumlah_pengeluaran": jumlahPengeluaran,
+    };
+
+    _pengeluaranCollection
+        .doc(idPengeluaran)
+        .update(data)
+        .whenComplete(() => print('Pengeluaran sukses di update'))
+        .catchError((e) {
+      print(e);
+    });
+  }
+
+  static Future<void> updatePemasukan({
+    required String date,
+    required String idPemasukan,
+    required String description,
+    required int jumlahPemasukan,
+  }) async {
+    var data = <String, dynamic>{
+      "tanggal_pemasukan": date,
+      "keterangan": description,
+      "jumlah_pemasukan": jumlahPemasukan,
+    };
+
+    _pemasukanCollection
+        .doc(idPemasukan)
+        .update(data)
+        .whenComplete(() => print('Pengeluaran sukses di update'))
+        .catchError((e) {
+      print(e);
+    });
+  }
 
   // static Stream<List<PengeluaranModel>> readListPengeluaran() {
   //   return FirebaseFirestore.instance

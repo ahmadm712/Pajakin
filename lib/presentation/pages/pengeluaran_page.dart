@@ -4,6 +4,7 @@ import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
 
 import 'package:pajakin/utils/global_function.dart';
+import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class PengeluaranPage extends StatefulWidget {
@@ -348,7 +349,29 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                                     message: e,
                                     color: Colors.green);
                               });
-                            } else {}
+                            } else {
+                              // updatePengeluaran
+                              FirebaseServices.updatePengeluaran(
+                                  idPengeluaran: pengeluaran.id,
+                                  date: date,
+                                  description: keteranganController.text,
+                                  jumlahPengeluaran: int.parse(
+                                    pengeluaranController.text,
+                                  )).then((value) {
+                                clearField();
+                                GlobalFunctions.scaffoldMessage(
+                                  context: context,
+                                  message: 'Pengeluaran Succes Di Update',
+                                  color: kColorPrimary,
+                                );
+                                Navigator.pop(context);
+                              }).catchError((e) {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: e,
+                                    color: Colors.red);
+                              });
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/models/pemasukan_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
 
@@ -6,10 +7,10 @@ import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class PemasukanPage extends StatefulWidget {
-  String status;
+  Map<String, dynamic> data;
   PemasukanPage({
     Key? key,
-    required this.status,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -31,15 +32,20 @@ class _PemasukanPageState extends State<PemasukanPage> {
   }
 
   void clearField() {
-    date = "";
+    setState(() {
+      date = "";
+    });
     keteranganController.clear();
     pemasukanController.clear();
   }
 
+  late PemasukanModel pemasukan;
   @override
   Widget build(BuildContext context) {
     final size = GlobalFunctions.screenSize(context: context);
-
+    (widget.data['pemasukan'] != null)
+        ? pemasukan = widget.data['pemasukan']
+        : '';
     _selectDate(BuildContext context) async {
       final DateTime? selected = await showDatePicker(
         context: context,
@@ -51,7 +57,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
         setState(() {
           selectedDate = selected;
           date =
-              "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+              "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}";
         });
       }
     }
@@ -77,7 +83,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (widget.status == 'tambah') ...[
+            if (widget.data['status'] == 'tambah') ...[
               Text(
                 'Tambah Pemasukan',
                 style: GlobalFunctions.textTheme(context: context)
@@ -140,7 +146,11 @@ class _PemasukanPageState extends State<PemasukanPage> {
                         height: 45,
                         width: size.width,
                         child: Text(
-                          date != "" ? date : 'Masukan Tanggal/Bulan/Tahun',
+                          (widget.data['pemasukan'] == null)
+                              ? date != ""
+                                  ? date
+                                  : 'Masukan Tanggal/Bulan/Tahun'
+                              : pemasukan.tanggalPemasukan,
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
@@ -179,7 +189,9 @@ class _PemasukanPageState extends State<PemasukanPage> {
                             isDense: true,
                             contentPadding: const EdgeInsets.all(16),
                             fillColor: kColorPrimary,
-                            hintText: 'Masukan Keterangan',
+                            hintText: (widget.data['pemasukan'] == null)
+                                ? 'Masukan Keterangan'
+                                : pemasukan.keterangan,
                             hintStyle:
                                 GlobalFunctions.textTheme(context: context)
                                     .headline3!
@@ -246,7 +258,9 @@ class _PemasukanPageState extends State<PemasukanPage> {
                             isDense: true,
                             contentPadding: const EdgeInsets.all(16),
                             fillColor: kColorPrimary,
-                            hintText: 'Masukan Jumlah Pemasukan',
+                            hintText: (widget.data['pemasukan'] == null)
+                                ? 'Masukan Jumlah Pemasukan'
+                                : pemasukan.jumlahPemasukan.toString(),
                             hintStyle:
                                 GlobalFunctions.textTheme(context: context)
                                     .headline3!
@@ -296,8 +310,9 @@ class _PemasukanPageState extends State<PemasukanPage> {
                         onPressed: () {
                           if (GlobalFunctions.validate(
                               context: context, formkey: formKey)) {
-                            if (widget.status == 'tambah') {
+                            if (widget.data['status'] == 'tambah') {
                               FirebaseServices.addPemasukan(
+                                  id: auth.currentUser!.uid,
                                   date: date,
                                   description: keteranganController.text,
                                   jumlahPemasukan: int.parse(
@@ -320,8 +335,9 @@ class _PemasukanPageState extends State<PemasukanPage> {
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
-                        child: Text(
-                            widget.status == 'tambah' ? 'Tambahkan' : 'Simpan'),
+                        child: Text(widget.data['status'] == 'tambah'
+                            ? 'Tambahkan'
+                            : 'Simpan'),
                       ),
                     ))
                   ],

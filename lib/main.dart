@@ -94,18 +94,18 @@ class MyApp extends StatelessWidget {
                 );
 
               case Routes.PEMASUKAN_PAGE:
-                final String status = setting.arguments as String;
+                final data = setting.arguments as Map<String, dynamic>;
                 return MaterialPageRoute(
                   builder: (context) => PemasukanPage(
-                    status: status,
+                    data: data,
                   ),
                 );
 
               case Routes.PENGELUARAN_PAGE:
-                final String status = setting.arguments as String;
+                final data = setting.arguments as Map<String, dynamic>;
                 return MaterialPageRoute(
                   builder: (context) => PengeluaranPage(
-                    status: status,
+                    data: data,
                   ),
                 );
 

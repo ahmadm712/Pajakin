@@ -34,54 +34,38 @@ class _BukuKasPageState extends State<BukuKasPage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        child: StreamBuilder<KasModel>(
-          stream: FirebaseServices.readItemsKas(kasId: auth.currentUser!.uid),
-          builder: (context, snapshot) {
-            print(snapshot.data);
-            if (!snapshot.hasData) {
-              return Center(
-                  child: CircularProgressIndicator(
-                color: kColorPrimary,
-                strokeWidth: 0.8,
-              ));
-            } else if (snapshot.hasData) {
-              final kas = snapshot.data;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Buku Kas',
-                    style: GlobalFunctions.textTheme(context: context)
-                        .headline3!
-                        .copyWith(
-                            color: kColorPrimary,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 22,
-                  ),
-                  // Total
-                  TotalPemasukanPengeluaranCard(kas: kas!),
-                  const Divider(
-                    thickness: 1,
-                    color: Color(
-                      0xffE0E0E0,
-                    ),
-                  ),
-                  const PengeluaranCard(),
-                  const Divider(
-                    thickness: 1,
-                    color: Color(
-                      0xffE0E0E0,
-                    ),
-                  ),
-                  const PemasukanCard()
-                ],
-              );
-            }
-            return const Center(child: Text('No Data Avaible, add it'));
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Buku Kas',
+              style: GlobalFunctions.textTheme(context: context)
+                  .headline3!
+                  .copyWith(
+                      color: kColorPrimary,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 22,
+            ),
+            // Total
+            TotalPemasukanPengeluaranCard(),
+            const Divider(
+              thickness: 1,
+              color: Color(
+                0xffE0E0E0,
+              ),
+            ),
+            const PengeluaranCard(),
+            const Divider(
+              thickness: 1,
+              color: Color(
+                0xffE0E0E0,
+              ),
+            ),
+            const PemasukanCard()
+          ],
         ),
       ),
     );

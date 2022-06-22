@@ -20,8 +20,8 @@ class PemasukanPage extends StatefulWidget {
 class _PemasukanPageState extends State<PemasukanPage> {
   String date = "";
   DateTime selectedDate = DateTime.now();
-  TextEditingController keteranganController = TextEditingController(text: '');
-  TextEditingController pemasukanController = TextEditingController(text: '');
+  late TextEditingController keteranganController;
+  late TextEditingController pemasukanController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -40,12 +40,29 @@ class _PemasukanPageState extends State<PemasukanPage> {
   }
 
   late PemasukanModel pemasukan;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.data['pemasukan'] != null) {
+      pemasukan = widget.data['pemasukan'];
+      setState(() {
+        date = pemasukan.tanggalPemasukan;
+        keteranganController =
+            TextEditingController(text: pemasukan.keterangan);
+        pemasukanController =
+            TextEditingController(text: pemasukan.jumlahPemasukan.toString());
+      });
+    } else {
+      keteranganController = TextEditingController(text: '');
+      pemasukanController = TextEditingController(text: '');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = GlobalFunctions.screenSize(context: context);
-    (widget.data['pemasukan'] != null)
-        ? pemasukan = widget.data['pemasukan']
-        : '';
+
     _selectDate(BuildContext context) async {
       final DateTime? selected = await showDatePicker(
         context: context,
@@ -154,9 +171,13 @@ class _PemasukanPageState extends State<PemasukanPage> {
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                color: const Color(0xff9E9E9E),
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                color: date != ""
+                                    ? Colors.black
+                                    : const Color(0xff9E9E9E),
+                                fontSize: date != "" ? 14 : 12,
+                                fontWeight: date != ""
+                                    ? FontWeight.normal
+                                    : FontWeight.bold,
                               ),
                         ),
                       ),

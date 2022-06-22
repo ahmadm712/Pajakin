@@ -20,16 +20,16 @@ class PengeluaranPage extends StatefulWidget {
 class _PengeluaranPageState extends State<PengeluaranPage> {
   String date = "";
   DateTime selectedDate = DateTime.now();
-  TextEditingController keteranganController = TextEditingController(text: '');
-  TextEditingController pengeluaranController = TextEditingController(text: '');
+  late TextEditingController keteranganController;
+  late TextEditingController pengeluaranController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  @override
-  void dispose() {
-    super.dispose();
-    keteranganController.dispose();
-    pengeluaranController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   // keteranganController.dispose();
+  //   pengeluaranController.dispose();
+  // }
 
   void clearField() {
     setState(() {
@@ -42,11 +42,25 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
   late PengeluaranModel pengeluaran;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.data['pengeluaran'] != null) {
+      pengeluaran = widget.data['pengeluaran'];
+      date = pengeluaran.tanggalPemasukan;
+      keteranganController =
+          TextEditingController(text: pengeluaran.keterangan);
+      pengeluaranController =
+          TextEditingController(text: pengeluaran.jumlahPengeluaran.toString());
+    } else {
+      keteranganController = TextEditingController(text: '');
+      pengeluaranController = TextEditingController(text: '');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = GlobalFunctions.screenSize(context: context);
-    (widget.data['pengeluaran'] != null)
-        ? pengeluaran = widget.data['pengeluaran']
-        : '';
+
     _selectDate(BuildContext context) async {
       final DateTime? selected = await showDatePicker(
         context: context,
@@ -155,9 +169,13 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                color: const Color(0xff9E9E9E),
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                color: date != ""
+                                    ? Colors.black
+                                    : const Color(0xff9E9E9E),
+                                fontSize: date != "" ? 14 : 12,
+                                fontWeight: date != ""
+                                    ? FontWeight.normal
+                                    : FontWeight.bold,
                               ),
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/presentation/widgets/button_menu.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
@@ -7,8 +8,7 @@ import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class HomePage extends StatefulWidget {
-  String user;
-  HomePage({Key? key, required this.user}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,13 +16,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isSigningOut = false;
-  late User _currentUser;
 
   @override
   void initState() {
-    _currentUser = widget.user as User;
     super.initState();
   }
+
+  User user = auth.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${_currentUser.displayName}',
+                      '${user.displayName}',
                       style: GlobalFunctions.textTheme(context: context)
                           .headline3!
                           .copyWith(color: Colors.white, fontSize: 18),

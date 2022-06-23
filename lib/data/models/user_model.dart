@@ -1,19 +1,19 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserUmkm {
   String id;
   String username;
   String email;
   String umkmname;
   String password;
-  String kasId;
   UserUmkm({
     required this.id,
     required this.username,
     required this.email,
     required this.umkmname,
     required this.password,
-    required this.kasId,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,18 +23,16 @@ class UserUmkm {
       'email': email,
       'umkmname': umkmname,
       'password': password,
-      'kasId': kasId,
     };
   }
 
-  factory UserUmkm.fromMap(Map<String, dynamic> map) {
+  factory UserUmkm.fromMap(DocumentSnapshot<Map<String, dynamic>> doc) {
     return UserUmkm(
-      id: map['id']?.toInt() ?? 0,
-      username: map['username'] ?? '',
-      email: map['email'] ?? '',
-      umkmname: map['umkmname'] ?? '',
-      password: map['password'] ?? '',
-      kasId: map['kasId']?.toInt() ?? 0,
+      id: doc.id,
+      username: doc.data()!['username'],
+      email: doc.data()!['email'] ?? '',
+      umkmname: doc.data()!['umkmname'],
+      password: doc.data()!['password'],
     );
   }
 
@@ -45,6 +43,6 @@ class UserUmkm {
 
   @override
   String toString() {
-    return 'User(id: $id, username: $username, email: $email, umkmname: $umkmname, password: $password, kasId: $kasId)';
+    return 'User(id: $id, username: $username, email: $email, umkmname: $umkmname, password: $password)';
   }
 }

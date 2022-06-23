@@ -45,7 +45,6 @@ class FirebaseServices {
             email: email,
             umkmname: umkmName,
             password: password,
-            kasId: value.user!.uid,
           );
 
           return _mainCollection
@@ -203,6 +202,19 @@ class FirebaseServices {
         .where('id', isEqualTo: kasId)
         .snapshots()
         .map((snapshot) => KasModel.fromMap(snapshot.docs.first.data()));
+  }
+
+  static Future<UserUmkm> fetchUSer({required String uid}) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance
+            .collection("user")
+            .where(
+              'id',
+              isEqualTo: uid,
+            )
+            .get();
+
+    return snapshot.docs.map((e) => UserUmkm.fromMap(e)).first;
   }
 
   // static Stream<List<PengeluaranModel>> readListPengeluaran() {

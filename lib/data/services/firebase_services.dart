@@ -268,6 +268,19 @@ class FirebaseServices {
     });
   }
 
+  static Future<UserUmkm> fetchUSer({required String uid}) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance
+            .collection("user")
+            .where(
+              'id',
+              isEqualTo: uid,
+            )
+            .get();
+
+    return snapshot.docs.map((e) => UserUmkm.fromMap(e)).first;
+  }
+
   // static Stream<List<PengeluaranModel>> readListPengeluaran() {
   //   return FirebaseFirestore.instance
   //       .collection('pengeluaran')

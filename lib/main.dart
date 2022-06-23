@@ -46,9 +46,7 @@ class MyApp extends StatelessWidget {
             switch (setting.name) {
               case Routes.HOME_PAGE:
                 return MaterialPageRoute(
-                  builder: (context) => HomePage(
-                    user: '',
-                  ),
+                  builder: (context) => HomePage(),
                 );
 
               case Routes.REGISTER_PAGE:
@@ -83,11 +81,9 @@ class MyApp extends StatelessWidget {
                 );
 
               case Routes.INFORMATION_ACCOUNT_PAGE:
-                final String user = setting.arguments as String;
+                // final String user = setting.arguments as String;
                 return MaterialPageRoute(
-                  builder: (context) => InformationAccountPage(
-                    user: user,
-                  ),
+                  builder: (context) => InformationAccountPage(),
                 );
 
               case Routes.CHANGE_PASSWORD_PAGE:

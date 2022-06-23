@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserUmkm {
   String id;
   String username;
   String email;
   String umkmname;
   String password;
-
   UserUmkm({
     required this.id,
     required this.username,
@@ -25,13 +26,13 @@ class UserUmkm {
     };
   }
 
-  factory UserUmkm.fromMap(Map<String, dynamic> map) {
+  factory UserUmkm.fromMap(DocumentSnapshot<Map<String, dynamic>> doc) {
     return UserUmkm(
-      id: map['id']?.toInt() ?? 0,
-      username: map['username'] ?? '',
-      email: map['email'] ?? '',
-      umkmname: map['umkmname'] ?? '',
-      password: map['password'] ?? '',
+      id: doc.id,
+      username: doc.data()!['username'],
+      email: doc.data()!['email'] ?? '',
+      umkmname: doc.data()!['umkmname'],
+      password: doc.data()!['password'],
     );
   }
 

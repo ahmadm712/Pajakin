@@ -1,13 +1,11 @@
-import 'package:pajakin/data/services/api_services.dart';
 import 'package:pajakin/presentation/providers/news_provider.dart';
 import 'package:pajakin/presentation/widgets/card_article.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/utils/styles.dart';
 import 'package:provider/provider.dart';
 import 'package:pajakin/utils/state_result.dart';
-
-import '../../utils/constans.dart';
-import '../../utils/global_function.dart';
+import 'package:pajakin/utils/constans.dart';
+import 'package:pajakin/utils/global_function.dart';
 
 class ArticleListPage extends StatelessWidget {
   const ArticleListPage({Key? key}) : super(key: key);

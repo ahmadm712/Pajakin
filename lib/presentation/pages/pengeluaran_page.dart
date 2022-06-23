@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/models/pengeluaran_model.dart';
+import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
 
 import 'package:pajakin/utils/global_function.dart';
+import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class PengeluaranPage extends StatefulWidget {
-  String status;
+  Map<String, dynamic> data;
   PengeluaranPage({
     Key? key,
-    required this.status,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -18,15 +21,41 @@ class PengeluaranPage extends StatefulWidget {
 class _PengeluaranPageState extends State<PengeluaranPage> {
   String date = "";
   DateTime selectedDate = DateTime.now();
-  TextEditingController keteranganController = TextEditingController(text: '');
-  TextEditingController pengeluaranController = TextEditingController(text: '');
+  late TextEditingController keteranganController;
+  late TextEditingController pengeluaranController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   // keteranganController.dispose();
+  //   pengeluaranController.dispose();
+  // }
+
+  void clearField() {
+    setState(() {
+      date = "";
+    });
+    keteranganController.clear();
+    pengeluaranController.clear();
+  }
+
+  late PengeluaranModel pengeluaran;
+
   @override
-  void dispose() {
-    super.dispose();
-    keteranganController.dispose();
-    pengeluaranController.dispose();
+  void initState() {
+    super.initState();
+    if (widget.data['pengeluaran'] != null) {
+      pengeluaran = widget.data['pengeluaran'];
+      date = pengeluaran.tanggalPemasukan;
+      keteranganController =
+          TextEditingController(text: pengeluaran.keterangan);
+      pengeluaranController =
+          TextEditingController(text: pengeluaran.jumlahPengeluaran.toString());
+    } else {
+      keteranganController = TextEditingController(text: '');
+      pengeluaranController = TextEditingController(text: '');
+    }
   }
 
   @override
@@ -44,7 +73,7 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
         setState(() {
           selectedDate = selected;
           date =
-              "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+              "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}";
         });
       }
     }
@@ -70,7 +99,7 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (widget.status == 'tambah') ...[
+            if (widget.data['status'] == 'tambah') ...[
               Text(
                 'Tambah Pengeluaran',
                 style: GlobalFunctions.textTheme(context: context)
@@ -133,13 +162,21 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                         height: 45,
                         width: size.width,
                         child: Text(
-                          date != "" ? date : 'Masukan Tanggal/Bulan/Tahun',
+                          (widget.data['pengeluaran'] == null)
+                              ? date != ""
+                                  ? date
+                                  : 'Masukan Tanggal/Bulan/Tahun'
+                              : pengeluaran.tanggalPemasukan,
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                color: const Color(0xff9E9E9E),
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                color: date != ""
+                                    ? Colors.black
+                                    : const Color(0xff9E9E9E),
+                                fontSize: date != "" ? 14 : 12,
+                                fontWeight: date != ""
+                                    ? FontWeight.normal
+                                    : FontWeight.bold,
                               ),
                         ),
                       ),
@@ -172,7 +209,9 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                             isDense: true,
                             contentPadding: const EdgeInsets.all(16),
                             fillColor: kColorPrimary,
-                            hintText: 'Masukan Keterangan',
+                            hintText: (widget.data['pengeluaran'] == null)
+                                ? 'Masukan Keterangan'
+                                : pengeluaran.keterangan,
                             hintStyle:
                                 GlobalFunctions.textTheme(context: context)
                                     .headline3!
@@ -228,7 +267,7 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                       margin: const EdgeInsets.only(top: 11),
                       child: TextFormField(
                         controller: pengeluaranController,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Tolong isi jumlah Pengeluaran';
@@ -239,7 +278,9 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                             isDense: true,
                             contentPadding: const EdgeInsets.all(16),
                             fillColor: kColorPrimary,
-                            hintText: 'Masukan Jumlah Pengeluaran',
+                            hintText: (widget.data['pengeluaran'] == null)
+                                ? 'Masukan Jumlah Pengeluaran'
+                                : pengeluaran.jumlahPengeluaran.toString(),
                             hintStyle:
                                 GlobalFunctions.textTheme(context: context)
                                     .headline3!
@@ -286,12 +327,59 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                       width: 154,
                       height: 45,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (GlobalFunctions.validate(
+                              context: context, formkey: formKey)) {
+                            if (widget.data['status'] == 'tambah') {
+                              FirebaseServices.addPengeluaran(
+                                  id: auth.currentUser!.uid,
+                                  date: date,
+                                  description: keteranganController.text,
+                                  jumlahPengeluaran: int.parse(
+                                    pengeluaranController.text,
+                                  )).then((value) {
+                                clearField();
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: 'Pengeluaran Succes Ditambahkan',
+                                    color: Colors.green);
+                              }).catchError((e) {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: e,
+                                    color: Colors.green);
+                              });
+                            } else {
+                              // updatePengeluaran
+                              FirebaseServices.updatePengeluaran(
+                                  idPengeluaran: pengeluaran.id,
+                                  date: date,
+                                  description: keteranganController.text,
+                                  jumlahPengeluaran: int.parse(
+                                    pengeluaranController.text,
+                                  )).then((value) {
+                                clearField();
+                                GlobalFunctions.scaffoldMessage(
+                                  context: context,
+                                  message: 'Pengeluaran Succes Di Update',
+                                  color: kColorPrimary,
+                                );
+                                Navigator.pop(context);
+                              }).catchError((e) {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: e,
+                                    color: Colors.red);
+                              });
+                            }
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
-                        child: Text(
-                            widget.status == 'tambah' ? 'Tambahkan' : 'Simpan'),
+                        child: Text(widget.data['status'] == 'tambah'
+                            ? 'Tambahkan'
+                            : 'Simpan'),
                       ),
                     ))
                   ],

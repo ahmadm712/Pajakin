@@ -43,7 +43,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.REGISTER_PAGE);
+                    Navigator.pushNamed(
+                        context, Routes.INFORMATION_ACCOUNT_PAGE);
                   },
                   child: Container(
                     padding: const EdgeInsets.all(7),

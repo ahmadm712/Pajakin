@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PemasukanModel {
   String id;
   String tanggalPemasukan;
@@ -29,6 +31,15 @@ class PemasukanModel {
       keterangan: map['keterangan'] ?? '',
       jumlahPemasukan: map['jumlahPemasukan']?.toInt() ?? 0,
     );
+  }
+
+  factory PemasukanModel.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
+    return PemasukanModel(
+        id: doc.id,
+        tanggalPemasukan: doc.data()!['tanggal_pemasukan'],
+        keterangan: doc.data()!['keterangan'],
+        jumlahPemasukan: doc.data()!['jumlah_pemasukan']);
   }
 
   String toJson() => json.encode(toMap());

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pajakin/data/models/kas_model.dart';
+import 'package:pajakin/data/models/pemasukan_model.dart';
 import 'package:pajakin/data/models/pengeluaran_model.dart';
 import 'package:pajakin/data/models/user_model.dart';
 
@@ -27,25 +30,12 @@ class FirebaseServices {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then(
         (value) {
-          final kas = KasModel(
-            id: value.user!.uid,
-            saldo: 0,
-            pemasukan: 0,
-            pengeluaran: 0,
-          );
-          _secondCollection
-              .doc(auth.currentUser!.uid)
-              .set(kas.toMap())
-              .whenComplete(() => print('Kas has Created'))
-              .catchError((e) => print(e));
-
           final user = UserUmkm(
             id: value.user!.uid,
             username: name,
             email: email,
             umkmname: umkmName,
             password: password,
-            kasId: value.user!.uid,
           );
 
           return _mainCollection
@@ -135,6 +125,7 @@ class FirebaseServices {
 
   static Future<void> addPemasukan({
     required String date,
+    required String id,
     required String description,
     required int jumlahPemasukan,
   }) async {
@@ -144,65 +135,137 @@ class FirebaseServices {
         .doc();
 
     Map<String, dynamic> data = <String, dynamic>{
+      "uid": id,
       "tanggal_pemasukan": date,
       "keterangan": description,
       "jumlah_pemasukan": jumlahPemasukan,
     };
 
-    await documentReferencer.set(data).whenComplete(() async {
-      print("Pemasukan  added to the database");
-
-      readItemsKas(kasId: auth.currentUser!.uid).first.then((value) async {
-        await _secondCollection
-            .doc(auth.currentUser!.uid)
-            .update({
-              'pemasukan': (value.pemasukan + data['jumlah_pemasukan']),
-              'saldo': (value.saldo + data['jumlah_pemasukan']),
-            })
-            .whenComplete(() => print('update succes'))
-            .catchError((e) => print(e));
-      });
-    }).catchError((e) => print(e));
+    _pemasukanCollection
+        .add(data)
+        .then((value) => print(value))
+        .whenComplete(() => print('Pemasukan sukses di tambahkan'))
+        .catchError((e) {
+      print(e);
+    });
   }
 
   static Future<void> addPengeluaran({
     required String date,
+    required String id,
     required String description,
     required int jumlahPengeluaran,
   }) async {
-    DocumentReference documentReferencer = _pengeluaranCollection
-        .doc(auth.currentUser!.uid)
-        .collection('list_pengeluaran')
-        .doc();
+    var data = <String, dynamic>{
+      "uid": id,
+      "tanggal_pengeluaran": date,
+      "keterangan": description,
+      "jumlah_pengeluaran": jumlahPengeluaran,
+    };
 
+    _pengeluaranCollection
+        .add(data)
+        .then((value) => print(value))
+        .whenComplete(() => print('Pengeluaran sukses di tambahkan'))
+        .catchError((e) {
+      print(e);
+    });
+  }
+
+  Future<List<PengeluaranModel>> retrievePengeluaran(
+      {required String id}) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance
+            .collection("pengeluaran")
+            .where(
+              'uid',
+              isEqualTo: id,
+            )
+            .get();
+    return snapshot.docs
+        .map(
+            (docSnapshot) => PengeluaranModel.fromDocumentSnapshot(docSnapshot))
+        .toList();
+  }
+
+  Future<List<PemasukanModel>> retrievePemasukan({required String id}) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance
+            .collection("pemasukan")
+            .where(
+              'uid',
+              isEqualTo: id,
+            )
+            .get();
+    return snapshot.docs
+        .map((docSnapshot) => PemasukanModel.fromDocumentSnapshot(docSnapshot))
+        .toList();
+  }
+
+  Future<int> calculateSaldo({required String id}) async {
+    int totalPemasukan = 0;
+    int totalPengeluaran = 0;
+    int totalSaldo = 0;
+    try {
+      await retrievePemasukan(id: id).then((value) {
+        for (var element in value) {
+          totalPemasukan += element.jumlahPemasukan;
+        }
+      });
+      await retrievePengeluaran(id: id).then((hasil) {
+        for (var element in hasil) {
+          totalPengeluaran += element.jumlahPengeluaran;
+        }
+      });
+      totalSaldo = (totalPemasukan - totalPengeluaran);
+
+      return totalSaldo;
+    } catch (e) {
+      print(e.toString());
+      throw Exception('gagal');
+    }
+  }
+
+  static Future<void> updatePengeluaran({
+    required String date,
+    required String idPengeluaran,
+    required String description,
+    required int jumlahPengeluaran,
+  }) async {
     var data = <String, dynamic>{
       "tanggal_pengeluaran": date,
       "keterangan": description,
       "jumlah_pengeluaran": jumlahPengeluaran,
     };
 
-    await documentReferencer.set(data).whenComplete(() async {
-      print("Pengeluaran  added to the database");
-
-      readItemsKas(kasId: auth.currentUser!.uid).first.then((value) async {
-        await _secondCollection
-            .doc(auth.currentUser!.uid)
-            .update({
-              'pengeluaran': (value.pengeluaran + data['jumlah_pengeluaran']),
-              'saldo': (value.saldo - data['jumlah_pengeluaran']),
-            })
-            .whenComplete(() => print('update succes'))
-            .catchError((e) => print(e));
-      });
-    }).catchError((e) => print(e));
+    _pengeluaranCollection
+        .doc(idPengeluaran)
+        .update(data)
+        .whenComplete(() => print('Pengeluaran sukses di update'))
+        .catchError((e) {
+      print(e);
+    });
   }
 
-  static Stream<KasModel> readItemsKas({required String kasId}) {
-    return FirebaseFirestore.instance
-        .collection('kas')
-        .where('id', isEqualTo: kasId)
-        .snapshots()
-        .map((snapshot) => KasModel.fromMap(snapshot.docs.first.data()));
+  static Future<void> updatePemasukan({
+    required String date,
+    required String idPemasukan,
+    required String description,
+    required int jumlahPemasukan,
+  }) async {
+    var data = <String, dynamic>{
+      "tanggal_pemasukan": date,
+      "keterangan": description,
+      "jumlah_pemasukan": jumlahPemasukan,
+    };
+
+    _pemasukanCollection
+        .doc(idPemasukan)
+        .update(data)
+        .whenComplete(() => print('Pengeluaran sukses di update'))
+        .catchError((e) {
+      print(e);
+    });
   }
 
   // static Stream<List<PengeluaranModel>> readListPengeluaran() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/models/pemasukan_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
 
@@ -6,10 +7,10 @@ import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class PemasukanPage extends StatefulWidget {
-  String status;
+  Map<String, dynamic> data;
   PemasukanPage({
     Key? key,
-    required this.status,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -19,8 +20,8 @@ class PemasukanPage extends StatefulWidget {
 class _PemasukanPageState extends State<PemasukanPage> {
   String date = "";
   DateTime selectedDate = DateTime.now();
-  TextEditingController keteranganController = TextEditingController(text: '');
-  TextEditingController pemasukanController = TextEditingController(text: '');
+  late TextEditingController keteranganController;
+  late TextEditingController pemasukanController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -31,9 +32,31 @@ class _PemasukanPageState extends State<PemasukanPage> {
   }
 
   void clearField() {
-    date = "";
+    setState(() {
+      date = "";
+    });
     keteranganController.clear();
     pemasukanController.clear();
+  }
+
+  late PemasukanModel pemasukan;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.data['pemasukan'] != null) {
+      pemasukan = widget.data['pemasukan'];
+      setState(() {
+        date = pemasukan.tanggalPemasukan;
+        keteranganController =
+            TextEditingController(text: pemasukan.keterangan);
+        pemasukanController =
+            TextEditingController(text: pemasukan.jumlahPemasukan.toString());
+      });
+    } else {
+      keteranganController = TextEditingController(text: '');
+      pemasukanController = TextEditingController(text: '');
+    }
   }
 
   @override
@@ -51,7 +74,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
         setState(() {
           selectedDate = selected;
           date =
-              "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+              "${selectedDate.day}-${selectedDate.month}-${selectedDate.year}";
         });
       }
     }
@@ -77,7 +100,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (widget.status == 'tambah') ...[
+            if (widget.data['status'] == 'tambah') ...[
               Text(
                 'Tambah Pemasukan',
                 style: GlobalFunctions.textTheme(context: context)
@@ -140,13 +163,21 @@ class _PemasukanPageState extends State<PemasukanPage> {
                         height: 45,
                         width: size.width,
                         child: Text(
-                          date != "" ? date : 'Masukan Tanggal/Bulan/Tahun',
+                          (widget.data['pemasukan'] == null)
+                              ? date != ""
+                                  ? date
+                                  : 'Masukan Tanggal/Bulan/Tahun'
+                              : pemasukan.tanggalPemasukan,
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                color: const Color(0xff9E9E9E),
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                color: date != ""
+                                    ? Colors.black
+                                    : const Color(0xff9E9E9E),
+                                fontSize: date != "" ? 14 : 12,
+                                fontWeight: date != ""
+                                    ? FontWeight.normal
+                                    : FontWeight.bold,
                               ),
                         ),
                       ),
@@ -179,7 +210,9 @@ class _PemasukanPageState extends State<PemasukanPage> {
                             isDense: true,
                             contentPadding: const EdgeInsets.all(16),
                             fillColor: kColorPrimary,
-                            hintText: 'Masukan Keterangan',
+                            hintText: (widget.data['pemasukan'] == null)
+                                ? 'Masukan Keterangan'
+                                : pemasukan.keterangan,
                             hintStyle:
                                 GlobalFunctions.textTheme(context: context)
                                     .headline3!
@@ -246,7 +279,9 @@ class _PemasukanPageState extends State<PemasukanPage> {
                             isDense: true,
                             contentPadding: const EdgeInsets.all(16),
                             fillColor: kColorPrimary,
-                            hintText: 'Masukan Jumlah Pemasukan',
+                            hintText: (widget.data['pemasukan'] == null)
+                                ? 'Masukan Jumlah Pemasukan'
+                                : pemasukan.jumlahPemasukan.toString(),
                             hintStyle:
                                 GlobalFunctions.textTheme(context: context)
                                     .headline3!
@@ -296,8 +331,9 @@ class _PemasukanPageState extends State<PemasukanPage> {
                         onPressed: () {
                           if (GlobalFunctions.validate(
                               context: context, formkey: formKey)) {
-                            if (widget.status == 'tambah') {
+                            if (widget.data['status'] == 'tambah') {
                               FirebaseServices.addPemasukan(
+                                  id: auth.currentUser!.uid,
                                   date: date,
                                   description: keteranganController.text,
                                   jumlahPemasukan: int.parse(
@@ -314,14 +350,36 @@ class _PemasukanPageState extends State<PemasukanPage> {
                                     message: e,
                                     color: Colors.green);
                               });
+                            } else {
+                              FirebaseServices.updatePemasukan(
+                                  idPemasukan: pemasukan.id,
+                                  date: date,
+                                  description: keteranganController.text,
+                                  jumlahPemasukan: int.parse(
+                                    pemasukanController.text,
+                                  )).then((value) {
+                                clearField();
+                                GlobalFunctions.scaffoldMessage(
+                                  context: context,
+                                  message: 'pemasukan Succes Di Update',
+                                  color: kColorPrimary,
+                                );
+                                Navigator.pop(context);
+                              }).catchError((e) {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: e,
+                                    color: Colors.red);
+                              });
                             }
                           }
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
-                        child: Text(
-                            widget.status == 'tambah' ? 'Tambahkan' : 'Simpan'),
+                        child: Text(widget.data['status'] == 'tambah'
+                            ? 'Tambahkan'
+                            : 'Simpan'),
                       ),
                     ))
                   ],

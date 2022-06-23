@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pajakin/presentation/providers/scheduling_provider.dart';
 import 'package:pajakin/presentation/pages/login_page.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -15,8 +17,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  bool isNotif = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,7 +140,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           const SizedBox(
                             width: 22,
                           ),
-                          Expanded(
+                          Flexible(
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,14 +160,19 @@ class _SettingsPageState extends State<SettingsPage> {
                               ],
                             ),
                           ),
-                          Switch(
-                            value: isNotif,
-                            onChanged: (value) {
-                              setState(() {
-                                isNotif = !isNotif;
-                              });
-                            },
-                          ),
+                          Consumer<SchedulingProvider>(
+                              builder: (context, scheduling, child) {
+                            return Switch.adaptive(
+                              value: scheduling.isScheduled,
+                              onChanged: (value) async {
+                                setState(() {
+                                  scheduling.scheduledTax(value);
+                                });
+                              },
+                              activeColor: kColorPrimary,
+                              activeTrackColor: Colors.black54,
+                            );
+                          }),
                         ],
                       ),
                     ),

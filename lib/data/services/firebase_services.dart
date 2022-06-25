@@ -89,40 +89,6 @@ class FirebaseServices {
     }));
   }
 
-  static Future<List<String>?> getCurrentUserData() async {
-    try {
-      DocumentSnapshot ds =
-          await _mainCollection.doc(auth.currentUser!.uid).get();
-      String username = ds.get('username');
-      String email = ds.get('email');
-      String umkmName = ds.get('umkmname');
-      String password = ds.get('password');
-
-      return [username, email, umkmName, password];
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
-  static Future<void> updateUser({
-    required String name,
-    required String umkmName,
-    required String email,
-    required String password,
-  }) async {
-    await _mainCollection
-        .doc(auth.currentUser!.uid)
-        .update({
-          'username': name,
-          'umkmname': umkmName,
-          'email': email,
-          'password': password,
-        })
-        .whenComplete(() => print('User Has been Updated'))
-        .catchError((e) => print(e));
-  }
-
   static Future<void> addPemasukan({
     required String date,
     required String id,
@@ -263,9 +229,36 @@ class FirebaseServices {
         .doc(idPemasukan)
         .update(data)
         .whenComplete(() => print('Pengeluaran sukses di update'))
-        .catchError((e) {
-      print(e);
-    });
+        .catchError(
+      (e) {
+        print(e);
+      },
+    );
+  }
+
+  static Future<void> updateUser({
+    required String idUser,
+    required String username,
+    required String umkmname,
+    required String email,
+    required String password,
+  }) async {
+    var data = <String, dynamic>{
+      "username": username,
+      "umkmname": umkmname,
+      "email": email,
+      "password": password,
+    };
+
+    _mainCollection
+        .doc(idUser)
+        .update(data)
+        .whenComplete(() => print('User data sukses di update'))
+        .catchError(
+      (e) {
+        print(e);
+      },
+    );
   }
 
   static Future<UserUmkm> fetchUSer({required String uid}) async {

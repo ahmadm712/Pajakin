@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pajakin/data/models/user_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
@@ -8,7 +7,7 @@ import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class InformationAccountPage extends StatefulWidget {
-  InformationAccountPage({Key? key}) : super(key: key);
+  const InformationAccountPage({Key? key}) : super(key: key);
 
   @override
   State<InformationAccountPage> createState() => _InformationAccountPageState();
@@ -16,8 +15,6 @@ class InformationAccountPage extends StatefulWidget {
 
 class _InformationAccountPageState extends State<InformationAccountPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  bool _isSigningOut = false;
 
   @override
   void initState() {
@@ -48,9 +45,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
         child: FutureBuilder<UserUmkm>(
             future: FirebaseServices.fetchUSer(uid: auth.currentUser!.uid),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                print(snapshot.data!.email);
-              }
+              if (snapshot.hasData) {}
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -104,17 +99,11 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                               const SizedBox(
                                 height: 11,
                               ),
-                              Text(
-                                '${snapshot.data!.username}',
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
-                                        .headline3!
-                                        .copyWith(
-                                          fontFamily: 'Outfit',
-                                          color: const Color(0xFF14181B),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  snapshot.data!.username,
+                                ),
                               ),
                             ],
                           ),
@@ -152,17 +141,11 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                               const SizedBox(
                                 height: 11,
                               ),
-                              Text(
-                                '${snapshot.data!.umkmname}',
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
-                                        .headline3!
-                                        .copyWith(
-                                          fontFamily: 'Outfit',
-                                          color: const Color(0xFF14181B),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  snapshot.data!.umkmname,
+                                ),
                               ),
                             ],
                           ),
@@ -200,17 +183,11 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                               const SizedBox(
                                 height: 11,
                               ),
-                              Text(
-                                '${auth.currentUser!.email}',
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
-                                        .headline3!
-                                        .copyWith(
-                                          fontFamily: 'Outfit',
-                                          color: const Color(0xFF14181B),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  '${auth.currentUser!.email}',
+                                ),
                               ),
                             ],
                           ),
@@ -248,17 +225,11 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                               const SizedBox(
                                 height: 11,
                               ),
-                              Text(
-                                '${snapshot.data!.password}',
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
-                                        .headline3!
-                                        .copyWith(
-                                          fontFamily: 'Outfit',
-                                          color: const Color(0xFF14181B),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  snapshot.data!.password,
+                                ),
                               ),
                             ],
                           ),

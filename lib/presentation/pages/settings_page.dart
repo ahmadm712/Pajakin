@@ -1,12 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/presentation/providers/scheduling_provider.dart';
-import 'package:pajakin/presentation/pages/login_page.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 import 'package:provider/provider.dart';
+
+import '../../data/services/firebase_services.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -181,12 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await FirebaseAuth.instance.signOut();
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
+                        await FirebaseServices().signOut(context: context);
                       },
                       child: Container(
                         width: double.infinity,

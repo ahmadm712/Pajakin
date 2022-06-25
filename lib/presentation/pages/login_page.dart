@@ -211,6 +211,37 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 24,
                     ),
+                    SizedBox(
+                      width: 154,
+                      height: 45,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: kColorPrimary,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        onPressed: () async {
+                          await FirebaseServices().signInWithGoogleNew().then(
+                            (value) async {
+                              if (await FirebaseServices()
+                                  .searchUser(id: value.user!.uid)) {
+                                Navigator.pushNamed(context, Routes.HOME_PAGE);
+                              } else {
+                                FirebaseServices()
+                                    .registergoogleSignIn(user: value.user!)
+                                    .then((value) => Navigator.pushNamed(
+                                        context, Routes.HOME_PAGE));
+                              }
+                            },
+                          );
+                        },
+                        child: const Text(
+                          'Masuk dengan google',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,

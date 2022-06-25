@@ -153,7 +153,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                                 height: 11,
                               ),
                               Text(
-                                snapshot.data!.umkmname,
+                                '${snapshot.data!.umkmname}',
                                 style:
                                     GlobalFunctions.textTheme(context: context)
                                         .headline3!
@@ -249,7 +249,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                                 height: 11,
                               ),
                               Text(
-                                '********',
+                                '${snapshot.data!.password}',
                                 style:
                                     GlobalFunctions.textTheme(context: context)
                                         .headline3!

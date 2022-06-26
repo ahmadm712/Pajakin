@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pajakin/data/models/pengeluaran_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
-
 import 'package:pajakin/utils/global_function.dart';
-import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class PengeluaranPage extends StatefulWidget {
@@ -25,19 +23,11 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
   late TextEditingController pengeluaranController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   // keteranganController.dispose();
-  //   pengeluaranController.dispose();
-  // }
-
-  void clearField() {
-    setState(() {
-      date = "";
-    });
-    keteranganController.clear();
-    pengeluaranController.clear();
+  @override
+  void dispose() {
+    super.dispose();
+    keteranganController.dispose();
+    pengeluaranController.dispose();
   }
 
   late PengeluaranModel pengeluaran;
@@ -47,11 +37,13 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
     super.initState();
     if (widget.data['pengeluaran'] != null) {
       pengeluaran = widget.data['pengeluaran'];
-      date = pengeluaran.tanggalPemasukan;
-      keteranganController =
-          TextEditingController(text: pengeluaran.keterangan);
-      pengeluaranController =
-          TextEditingController(text: pengeluaran.jumlahPengeluaran.toString());
+      setState(() {
+        date = pengeluaran.tanggalPemasukan;
+        keteranganController =
+            TextEditingController(text: pengeluaran.keterangan);
+        pengeluaranController = TextEditingController(
+            text: pengeluaran.jumlahPengeluaran.toString());
+      });
     } else {
       keteranganController = TextEditingController(text: '');
       pengeluaranController = TextEditingController(text: '');
@@ -338,16 +330,16 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                                   jumlahPengeluaran: int.parse(
                                     pengeluaranController.text,
                                   )).then((value) {
-                                clearField();
                                 GlobalFunctions.scaffoldMessage(
                                     context: context,
                                     message: 'Pengeluaran Succes Ditambahkan',
                                     color: Colors.green);
+                                Navigator.pop(context);
                               }).catchError((e) {
                                 GlobalFunctions.scaffoldMessage(
                                     context: context,
                                     message: e,
-                                    color: Colors.green);
+                                    color: Colors.red);
                               });
                             } else {
                               // updatePengeluaran
@@ -358,7 +350,6 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                                   jumlahPengeluaran: int.parse(
                                     pengeluaranController.text,
                                   )).then((value) {
-                                clearField();
                                 GlobalFunctions.scaffoldMessage(
                                   context: context,
                                   message: 'Pengeluaran Succes Di Update',

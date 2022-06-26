@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -235,10 +237,13 @@ class FirebaseServices {
               isEqualTo: id,
             )
             .get();
-    return snapshot.docs
+    final data = snapshot.docs
         .map(
             (docSnapshot) => PengeluaranModel.fromDocumentSnapshot(docSnapshot))
         .toList();
+
+    streamPengeluaran.sink.add(data);
+    return data;
   }
 
   Future<List<PemasukanModel>> retrievePemasukan({required String id}) async {
@@ -250,9 +255,13 @@ class FirebaseServices {
               isEqualTo: id,
             )
             .get();
-    return snapshot.docs
+
+    final data = snapshot.docs
         .map((docSnapshot) => PemasukanModel.fromDocumentSnapshot(docSnapshot))
         .toList();
+    streamPemasukan.sink.add(data);
+
+    return data;
   }
 
   Future<int> calculateSaldo({required String id}) async {
@@ -271,7 +280,7 @@ class FirebaseServices {
         }
       });
       totalSaldo = (totalPemasukan - totalPengeluaran);
-
+      streamSaldo.sink.add(totalSaldo);
       return totalSaldo;
     } catch (e) {
       print(e.toString());
@@ -321,15 +330,6 @@ class FirebaseServices {
     });
   }
 
-  // static Stream<List<PengeluaranModel>> readListPengeluaran() {
-  //   return FirebaseFirestore.instance
-  //       .collection('pengeluaran')
-  //       .where('id', isEqualTo: auth.currentUser!.uid)
-  //       .snapshots()
-  //       .map((snapshot) => PengeluaranModel.fromMap(snapshot.docs.first.data()))
-  //       .toList();
-  // }
-
   // static Future<void> deleteItem({
   //   required String docId,
   // }) async {
@@ -341,4 +341,10 @@ class FirebaseServices {
   //       .whenComplete(() => print('Note item deleted from the database'))
   //       .catchError((e) => print(e));
   // }
+
+  StreamController<List<PengeluaranModel>> streamPengeluaran =
+      StreamController();
+
+  StreamController<List<PemasukanModel>> streamPemasukan = StreamController();
+  StreamController<int> streamSaldo = StreamController();
 }

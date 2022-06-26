@@ -31,14 +31,6 @@ class _PemasukanPageState extends State<PemasukanPage> {
     pemasukanController.dispose();
   }
 
-  void clearField() {
-    setState(() {
-      date = "";
-    });
-    keteranganController.clear();
-    pemasukanController.clear();
-  }
-
   late PemasukanModel pemasukan;
 
   @override
@@ -339,16 +331,16 @@ class _PemasukanPageState extends State<PemasukanPage> {
                                   jumlahPemasukan: int.parse(
                                     pemasukanController.text,
                                   )).then((value) {
-                                clearField();
                                 GlobalFunctions.scaffoldMessage(
                                     context: context,
                                     message: 'Pemasukan Succes Ditambahkan',
                                     color: Colors.green);
+                                Navigator.pop(context);
                               }).catchError((e) {
                                 GlobalFunctions.scaffoldMessage(
                                     context: context,
                                     message: e,
-                                    color: Colors.green);
+                                    color: Colors.red);
                               });
                             } else {
                               FirebaseServices.updatePemasukan(
@@ -358,7 +350,6 @@ class _PemasukanPageState extends State<PemasukanPage> {
                                   jumlahPemasukan: int.parse(
                                     pemasukanController.text,
                                   )).then((value) {
-                                clearField();
                                 GlobalFunctions.scaffoldMessage(
                                   context: context,
                                   message: 'pemasukan Succes Di Update',

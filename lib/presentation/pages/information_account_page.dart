@@ -73,172 +73,214 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                     height: 50,
                   ),
                   Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: const BoxDecoration(),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        Text(
+                          'Username',
+                          style: GlobalFunctions.textTheme(context: context)
+                              .headline3!
+                              .copyWith(
+                                fontFamily: 'Outfit',
+                                color: const Color.fromARGB(255, 158, 158, 158),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                        Container(
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: Row(
                             children: [
-                              Text(
-                                'USERNAME',
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    snapshot.data!.username,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
                                         .headline3!
                                         .copyWith(
                                           fontFamily: 'Outfit',
-                                          color: const Color.fromARGB(
-                                              255, 158, 158, 158),
+                                          color: const Color(0xFF14181B),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                              ),
-                              const SizedBox(
-                                height: 11,
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  snapshot.data!.username,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
-                  const Divider(
-                    thickness: 1,
-                  ),
+                  const SizedBox(height: 15),
                   Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: const BoxDecoration(),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        Text(
+                          'Nama UMKM',
+                          style: GlobalFunctions.textTheme(context: context)
+                              .headline3!
+                              .copyWith(
+                                fontFamily: 'Outfit',
+                                color: const Color.fromARGB(255, 158, 158, 158),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                        Container(
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: Row(
                             children: [
-                              Text(
-                                'NAMA UMKM',
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    snapshot.data!.umkmname,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
                                         .headline3!
                                         .copyWith(
                                           fontFamily: 'Outfit',
-                                          color: const Color.fromARGB(
-                                              255, 158, 158, 158),
+                                          color: const Color(0xFF14181B),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                              ),
-                              const SizedBox(
-                                height: 11,
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  snapshot.data!.umkmname,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
-                  const Divider(
-                    thickness: 1,
-                  ),
+                  const SizedBox(height: 15),
                   Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: const BoxDecoration(),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        Text(
+                          'Email',
+                          style: GlobalFunctions.textTheme(context: context)
+                              .headline3!
+                              .copyWith(
+                                fontFamily: 'Outfit',
+                                color: const Color.fromARGB(255, 158, 158, 158),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                        Container(
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: Row(
                             children: [
-                              Text(
-                                'EMAIL',
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    '${auth.currentUser!.email}',
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
                                         .headline3!
                                         .copyWith(
                                           fontFamily: 'Outfit',
-                                          color: const Color.fromARGB(
-                                              255, 158, 158, 158),
+                                          color: const Color(0xFF14181B),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                              ),
-                              const SizedBox(
-                                height: 11,
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  '${auth.currentUser!.email}',
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
-                  const Divider(
-                    thickness: 1,
-                  ),
+                  const SizedBox(height: 15),
                   Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: const BoxDecoration(),
+                    padding: const EdgeInsets.only(bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        Text(
+                          'Kata Sandi',
+                          style: GlobalFunctions.textTheme(context: context)
+                              .headline3!
+                              .copyWith(
+                                fontFamily: 'Outfit',
+                                color: const Color.fromARGB(255, 158, 158, 158),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                        Container(
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: Row(
                             children: [
-                              Text(
-                                'KATA SANDI',
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    snapshot.data!.password,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
                                         .headline3!
                                         .copyWith(
                                           fontFamily: 'Outfit',
-                                          color: const Color.fromARGB(
-                                              255, 158, 158, 158),
+                                          color: const Color(0xFF14181B),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w700,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                              ),
-                              const SizedBox(
-                                height: 11,
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  snapshot.data!.password,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
                   const SizedBox(
-                    height: 100,
+                    height: 50,
                   ),
                   Center(
                     child: SizedBox(
@@ -250,11 +292,13 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, Routes.CHANGE_PASSWORD_PAGE);
+                          GlobalFunctions.scaffoldMessage(
+                              context: context,
+                              message: 'Informasi telah tersimpan',
+                              color: Colors.green);
                         },
                         child: const Text(
-                          'Ubah Kata Sandi',
+                          'Simpan',
                         ),
                       ),
                     ),

@@ -397,6 +397,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                     message:
                                         'Email Sudah terdaftar coba email lain',
                                     color: Colors.red);
+                              } else if (e.code == 'invalid-email') {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message:
+                                        'Email salah. Masukan Email yang benar',
+                                    color: Colors.red);
+                              } else if (e.code == 'too-many-requests') {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message:
+                                        'Terlalu banyak permintaan login tunggu sebentar ...',
+                                    color: Colors.red);
                               }
                             } catch (e) {
                               print(e.toString());

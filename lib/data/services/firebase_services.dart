@@ -11,7 +11,7 @@ import 'package:pajakin/utils/routes.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
-final CollectionReference _mainCollection = _firestore.collection('user');
+final CollectionReference mainCollection = _firestore.collection('user');
 final CollectionReference _pemasukanCollection =
     _firestore.collection('pemasukan');
 final CollectionReference _pengeluaranCollection =
@@ -40,7 +40,7 @@ class FirebaseServices {
   }
 
   Future<bool> searchUser({required String id}) async {
-    final DocumentSnapshot doc = await _mainCollection.doc(id).get();
+    final DocumentSnapshot doc = await mainCollection.doc(id).get();
 
     return doc.exists ? true : false;
   }
@@ -63,45 +63,14 @@ class FirebaseServices {
     });
   }
 
-  static Future<void> register({
+  static Future<UserCredential> register({
     required String name,
     required String umkmName,
     required String email,
     required String password,
   }) async {
-    try {
-      auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then(
-        (value) {
-          final user = UserUmkm(
-            id: value.user!.uid,
-            username: name,
-            email: email,
-            umkmname: umkmName,
-            password: password,
-          );
-
-          return _mainCollection
-              .doc(auth.currentUser!.uid)
-              .set(user.toMap())
-              .whenComplete(() => print("User Has been Created"))
-              .catchError(
-                (e) => print(
-                  e,
-                ),
-              );
-        },
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
+    return auth.createUserWithEmailAndPassword(
+        email: email, password: password);
   }
 
   Future<void> registergoogleSignIn({required User user}) async {
@@ -114,7 +83,7 @@ class FirebaseServices {
         password: user.uid,
       );
 
-      return _mainCollection
+      return mainCollection
           .doc(auth.currentUser!.uid)
           .set(userUmkm.toMap())
           .whenComplete(() => print("User Has been Created"))
@@ -141,19 +110,11 @@ class FirebaseServices {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
-    try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      user = userCredential.user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided.');
-      }
-    }
+    UserCredential userCredential = await auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    user = userCredential.user;
     return user;
   }
 
@@ -163,7 +124,7 @@ class FirebaseServices {
     required String email,
     required String password,
   }) async {
-    DocumentReference documentReferencer = _mainCollection.doc(userUid);
+    DocumentReference documentReferencer = mainCollection.doc(userUid);
 
     Map<String, dynamic> data = <String, dynamic>{
       "userName": name,
@@ -334,7 +295,7 @@ class FirebaseServices {
   //   required String docId,
   // }) async {
   //   DocumentReference documentReferencer =
-  //       _mainCollection.doc(userUid).collection('items').doc(docId);
+  //       mainCollection.doc(userUid).collection('items').doc(docId);
 
   //   await documentReferencer
   //       .delete()

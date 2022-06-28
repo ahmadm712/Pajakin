@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/presentation/pages/pages.dart';
+import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
@@ -181,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 32,
                     ),
                     SizedBox(
-                      width: 154,
+                      width: 180,
                       height: 45,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -205,6 +206,47 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: const Text(
                           'Masuk',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    SizedBox(
+                      width: 180,
+                      height: 45,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            primary: kColorPrimary,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        onPressed: () async {
+                          await FirebaseServices().signInWithGoogleNew().then(
+                            (value) async {
+                              if (await FirebaseServices()
+                                  .searchUser(id: value.user!.uid)) {
+                                Navigator.pushNamed(context, Routes.HOME_PAGE);
+                              } else {
+                                FirebaseServices()
+                                    .registergoogleSignIn(user: value.user!)
+                                    .then((value) => Navigator.pushNamed(
+                                        context, Routes.HOME_PAGE));
+                              }
+                            },
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              '${assetIcons}icon-google.png',
+                              height: 20,
+                              width: 20,
+                            ),
+                            const Spacer(),
+                            const Text(
+                              'Login with Google',
+                            ),
+                          ],
                         ),
                       ),
                     ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:pajakin/data/models/pemasukan_model.dart';
@@ -7,12 +9,37 @@ import 'package:pajakin/utils/currency_format.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
 
-class TotalPemasukanPengeluaranCard extends StatelessWidget {
+class TotalPemasukanPengeluaranCard extends StatefulWidget {
   TotalPemasukanPengeluaranCard({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<TotalPemasukanPengeluaranCard> createState() =>
+      _TotalPemasukanPengeluaranCardState();
+}
+
+class _TotalPemasukanPengeluaranCardState
+    extends State<TotalPemasukanPengeluaranCard> {
+  FirebaseServices firebaseServices = FirebaseServices();
+
   late int totalPengeluaran;
+
   late int totalPemasukan;
+
+  @override
+  void dispose() {
+    super.dispose();
+    firebaseServices.streamSaldo.close();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(const Duration(seconds: 3), (timer) {
+      firebaseServices.calculateSaldo(id: auth.currentUser!.uid);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +58,8 @@ class TotalPemasukanPengeluaranCard extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 12,
                           fontWeight: FontWeight.w400)),
-              FutureBuilder<List<PemasukanModel>>(
-                future: FirebaseServices()
-                    .retrievePemasukan(id: auth.currentUser!.uid),
+              StreamBuilder<List<PemasukanModel>>(
+                stream: firebaseServices.streamPemasukan.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -84,9 +110,8 @@ class TotalPemasukanPengeluaranCard extends StatelessWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.w400),
               ),
-              FutureBuilder<List<PengeluaranModel>>(
-                future: FirebaseServices()
-                    .retrievePengeluaran(id: auth.currentUser!.uid),
+              StreamBuilder<List<PengeluaranModel>>(
+                stream: firebaseServices.streamPengeluaran.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -137,9 +162,8 @@ class TotalPemasukanPengeluaranCard extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 12,
                           fontWeight: FontWeight.w400)),
-              FutureBuilder<int>(
-                future: FirebaseServices()
-                    .calculateSaldo(id: auth.currentUser!.uid),
+              StreamBuilder<int>(
+                stream: firebaseServices.streamSaldo.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(

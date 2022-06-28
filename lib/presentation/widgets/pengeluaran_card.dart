@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/data/models/pengeluaran_model.dart';
@@ -8,10 +10,30 @@ import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
-class PengeluaranCard extends StatelessWidget {
+class PengeluaranCard extends StatefulWidget {
   const PengeluaranCard({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<PengeluaranCard> createState() => _PengeluaranCardState();
+}
+
+class _PengeluaranCardState extends State<PengeluaranCard> {
+  FirebaseServices firebaseServices = FirebaseServices();
+  @override
+  void dispose() {
+    super.dispose();
+    firebaseServices.streamPengeluaran.close();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(const Duration(seconds: 3), (timer) {
+      firebaseServices.retrievePengeluaran(id: auth.currentUser!.uid);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,80 +82,87 @@ class PengeluaranCard extends StatelessWidget {
         ),
         Container(
           height: 200,
-          child: FutureBuilder<List<PengeluaranModel>>(
-            future: FirebaseServices()
-                .retrievePengeluaran(id: auth.currentUser!.uid),
+          child: StreamBuilder<List<PengeluaranModel>>(
+            stream: firebaseServices.streamPengeluaran.stream,
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                    child: CircularProgressIndicator(
-                  color: kColorPrimary,
-                  strokeWidth: 0.8,
-                ));
-              } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                return ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final pengeluaran = snapshot.data![index];
-                    return InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.PENGELUARAN_PAGE,
-                            arguments: {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return Center(
+                      child: CircularProgressIndicator(
+                    color: kColorPrimary,
+                    strokeWidth: 0.8,
+                  ));
+                default:
+                  if (snapshot.hasError) {
+                    return const Text('Please Wait....');
+                  } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                    return const SizedBox(
+                      child: Center(
+                        child: Text(
+                          'Tidak ada data pengeluaran',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                    return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        final pengeluaran = snapshot.data![index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, Routes.PENGELUARAN_PAGE, arguments: {
                               'status': "edit",
                               'pengeluaran': pengeluaran
                             });
-                      },
-                      child: Container(
-                        height: 20,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4)),
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: Row(
-                          children: [
-                            Text(pengeluaran.tanggalPemasukan,
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
+                          },
+                          child: Container(
+                            height: 20,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4)),
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              children: [
+                                Text(pengeluaran.tanggalPemasukan,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
                                         .headline3!
                                         .copyWith(
                                             color: Colors.black,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400)),
-                            const SizedBox(width: 11),
-                            Text(pengeluaran.keterangan,
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
+                                const SizedBox(width: 11),
+                                Text(pengeluaran.keterangan,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
                                         .headline3!
                                         .copyWith(
                                             color: Colors.black,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400)),
-                            const Spacer(),
-                            Text(
-                                CurrencyFormat.convertToIdr(
-                                    pengeluaran.jumlahPengeluaran, 0),
-                                style:
-                                    GlobalFunctions.textTheme(context: context)
+                                const Spacer(),
+                                Text(
+                                    CurrencyFormat.convertToIdr(
+                                        pengeluaran.jumlahPengeluaran, 0),
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
                                         .headline3!
                                         .copyWith(
                                             color: Colors.red,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400))
-                          ],
-                        ),
-                      ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
+                  } else {
+                    return Container();
+                  }
               }
-              return const SizedBox(
-                child: Center(
-                  child: Text(
-                    'Tidak ada data pengeluaran',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              );
             },
           ),
         ),

@@ -5,6 +5,7 @@ import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/presentation/widgets/button_menu.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
+import 'package:pajakin/utils/notification_helper.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 
@@ -16,9 +17,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final NotificationService notificationService = NotificationService();
   @override
   void initState() {
     super.initState();
+    notificationService.configureSelectNotificationSubject(Routes.PAJAK_PAGE);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 
   User user = auth.currentUser!;

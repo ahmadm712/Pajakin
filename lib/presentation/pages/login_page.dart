@@ -191,16 +191,59 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(10))),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-                            User? user =
-                                await FirebaseServices.signInUsingEmailPassword(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
-                            if (user != null) {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
-                              );
+                            try {
+                              await FirebaseServices.signInUsingEmailPassword(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              ).then((value) {
+                                if (value != null) {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => const HomePage()),
+                                  );
+                                }
+                              });
+                            } on FirebaseAuthException catch (e) {
+                              print('Failed with error code: ${e.code}');
+                              if (e.code == 'weak-password') {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message:
+                                        'The password provided is too weak.',
+                                    color: Colors.red);
+                                print('The password provided is too weak.');
+                              } else if (e.code == 'email-already-in-use') {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message:
+                                        'Akun dengan email ini sudah di gunakan',
+                                    color: Colors.red);
+                              } else if (e.code == 'user-not-found') {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message:
+                                        'Akun tidak ada , silahkan register dulu',
+                                    color: Colors.red);
+                              } else if (e.code == 'wrong-password') {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: 'Password Salah',
+                                    color: Colors.red);
+                              } else if (e.code == 'too-many-requests') {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message:
+                                        'Terlalu banyak permintaan login tunggu sebentar ...',
+                                    color: Colors.red);
+                              } else if (e.code == 'invalid-email') {
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message:
+                                        'Email salah. Masukan Email yang benar',
+                                    color: Colors.red);
+                              }
+                            } catch (e) {
+                              print('${e}');
                             }
                           }
                         },

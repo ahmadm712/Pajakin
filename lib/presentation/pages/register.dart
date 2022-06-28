@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pajakin/data/models/user_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
@@ -30,6 +31,14 @@ class _RegisterPageState extends State<RegisterPage> {
     passwordController.dispose();
     confirmPassController.dispose();
     umkmNameController.dispose();
+  }
+
+  void clearField() {
+    emailController.clear();
+    usernameController.clear();
+    passwordController.clear();
+    confirmPassController.clear();
+    umkmNameController.clear();
   }
 
   @override
@@ -347,28 +356,50 @@ class _RegisterPageState extends State<RegisterPage> {
                                       umkmName: umkmNameController.text,
                                       email: emailController.text,
                                       password: passwordController.text)
-                                  .then((value) => const ScaffoldMessenger(
-                                      child: SnackBar(
-                                          content: Text('{success}'))));
+                                  .then(
+                                (value) {
+                                  final user = UserUmkm(
+                                    id: value.user!.uid,
+                                    username: usernameController.text,
+                                    email: value.user!.email!,
+                                    umkmname: umkmNameController.text,
+                                    password: passwordController.text,
+                                  );
+
+                                  mainCollection
+                                      .doc(auth.currentUser!.uid)
+                                      .set(user.toMap())
+                                      .whenComplete(() {
+                                    clearField();
+                                    GlobalFunctions.scaffoldMessage(
+                                        context: context,
+                                        message:
+                                            'Register Sukses silahkan login',
+                                        color: Colors.green);
+                                    Navigator.pop(context);
+                                  }).catchError(
+                                    (e) => print(
+                                      e,
+                                    ),
+                                  );
+                                },
+                              );
                             } on FirebaseAuthException catch (e) {
+                              print(e.code);
                               if (e.code == 'weak-password') {
-                                print('The password provided is too weak.');
-                                const snackbar = SnackBar(
-                                    content: Text(
-                                        'The password provided is too weak.'));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackbar);
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message: 'Password terlalu lemah',
+                                    color: Colors.red);
                               } else if (e.code == 'email-already-in-use') {
-                                print(
-                                    'The account already exists for that email.');
-                                const snackbar = SnackBar(
-                                    content: Text(
-                                        'The account already exists for that email.'));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackbar);
+                                GlobalFunctions.scaffoldMessage(
+                                    context: context,
+                                    message:
+                                        'Email Sudah terdaftar coba email lain',
+                                    color: Colors.red);
                               }
                             } catch (e) {
-                              print(e);
+                              print(e.toString());
                             }
                           }
                         },

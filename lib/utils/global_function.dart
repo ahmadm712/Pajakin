@@ -17,7 +17,7 @@ class GlobalFunctions {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: color,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1500),
         content: Text(
           message,
         ),

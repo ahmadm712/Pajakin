@@ -45,10 +45,10 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
               onPressed: () async {
                 await FirebaseServices.updateUser(
                         idUser: user!.id,
-                        username: user.username,
+                        username: controller.text,
                         umkmname: controller.text,
-                        email: user.email,
-                        password: user.password)
+                        email: controller.text,
+                        password: controller.text)
                     .then((value) {
                   GlobalFunctions.scaffoldMessage(
                       context: context,

@@ -25,6 +25,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
   _updateDialog(
       {required BuildContext context,
       required String title,
+      required String status,
       required String hintField,
       required UserUmkm? user,
       required TextEditingController controller}) async {
@@ -43,20 +44,75 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
             ElevatedButton(
               child: const Text('Simpan'),
               onPressed: () async {
-                await FirebaseServices.updateUser(
-                        idUser: user!.id,
-                        username: controller.text,
-                        umkmname: controller.text,
-                        email: controller.text,
-                        password: controller.text)
-                    .then((value) {
-                  GlobalFunctions.scaffoldMessage(
-                      context: context,
-                      message: 'Data Berhasil diperbarui',
-                      color: Colors.green);
-                  Navigator.pop(context);
-                  print('Update Success');
-                });
+                switch (status) {
+                  case 'edit-username':
+                    await FirebaseServices.updateUser(
+                            idUser: user!.id,
+                            username: controller.text,
+                            umkmname: user.umkmname,
+                            email: user.email,
+                            password: user.password)
+                        .then((value) {
+                      GlobalFunctions.scaffoldMessage(
+                          context: context,
+                          message: 'Data Berhasil diperbarui',
+                          color: Colors.green);
+                      Navigator.pop(context);
+                      print('Update Success');
+                    });
+                    break;
+                  case 'edit-umkmname':
+                    await FirebaseServices.updateUser(
+                            idUser: user!.id,
+                            username: user.username,
+                            umkmname: controller.text,
+                            email: user.email,
+                            password: user.password)
+                        .then((value) {
+                      GlobalFunctions.scaffoldMessage(
+                          context: context,
+                          message: 'Data Berhasil diperbarui',
+                          color: Colors.green);
+                      Navigator.pop(context);
+                      print('Update Success');
+                    });
+                    break;
+                  case 'edit-email':
+                    await FirebaseServices.updateUser(
+                            idUser: user!.id,
+                            username: user.username,
+                            umkmname: user.email,
+                            email: controller.text,
+                            password: user.password)
+                        .then((value) {
+                      GlobalFunctions.scaffoldMessage(
+                          context: context,
+                          message: 'Data Berhasil diperbarui',
+                          color: Colors.green);
+                      Navigator.pop(context);
+                      print('Update Success');
+                    });
+                    break;
+
+                  case 'edit-password':
+                    await FirebaseServices.updateUser(
+                            idUser: user!.id,
+                            username: user.username,
+                            umkmname: user.email,
+                            email: user.email,
+                            password: controller.text)
+                        .then((value) {
+                      GlobalFunctions.scaffoldMessage(
+                          context: context,
+                          message: 'Data Berhasil diperbarui',
+                          color: Colors.green);
+                      Navigator.pop(context);
+                      print('Update Success');
+                    });
+                    break;
+                  default:
+                }
+                ;
               },
             )
           ],
@@ -148,6 +204,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                           ),
                           child: GestureDetector(
                             onTap: () => _updateDialog(
+                                status: 'edit-username',
                                 user: snapshot.data,
                                 context: context,
                                 controller: _usernameTextFieldController,
@@ -205,6 +262,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                         GestureDetector(
                           onTap: () => _updateDialog(
                               user: snapshot.data,
+                              status: 'edit-umkmname',
                               context: context,
                               controller: _umkmNameTextFieldController,
                               hintField: snapshot.data!.umkmname,
@@ -259,6 +317,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                         ),
                         GestureDetector(
                           onTap: () => _updateDialog(
+                              status: 'edit-email',
                               user: snapshot.data,
                               context: context,
                               controller: _emailTextFieldController,
@@ -314,6 +373,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                         ),
                         GestureDetector(
                           onTap: () => _updateDialog(
+                              status: 'edit-password',
                               user: snapshot.data,
                               context: context,
                               controller: _passwordTextFieldController,

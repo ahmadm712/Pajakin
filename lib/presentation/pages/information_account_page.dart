@@ -22,41 +22,6 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
   final TextEditingController _passwordTextFieldController =
       TextEditingController();
 
-  _usernameDialog(BuildContext context, UserUmkm? user) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Update Username'),
-          content: TextField(
-            controller: _usernameTextFieldController,
-            textInputAction: TextInputAction.go,
-            keyboardType: TextInputType.text,
-            decoration:
-                const InputDecoration(hintText: 'Masukan Username baru'),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: const Text('Simpan'),
-              onPressed: () async {
-                await FirebaseServices.updateUser(
-                        idUser: user!.id,
-                        username: _usernameTextFieldController.text,
-                        umkmname: user.umkmname,
-                        email: user.email,
-                        password: user.password)
-                    .then((value) {
-                  Navigator.pop(context);
-                  print('Update Success');
-                });
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
   _updateDialog(
       {required BuildContext context,
       required String title,
@@ -87,70 +52,11 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                     .then((value) {
                   GlobalFunctions.scaffoldMessage(
                       context: context,
-                      message: 'Nama UMKM Berhasil diperbarui',
+                      message: 'Data Berhasil diperbarui',
                       color: Colors.green);
                   Navigator.pop(context);
                   print('Update Success');
                 });
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  _emailDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Update Email'),
-          content: TextField(
-            controller: _emailTextFieldController,
-            textInputAction: TextInputAction.go,
-            keyboardType: TextInputType.text,
-            decoration: const InputDecoration(hintText: 'Masukan Email baru'),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: const Text('Simpan'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                GlobalFunctions.scaffoldMessage(
-                    context: context,
-                    message: 'Email Berhasil diperbarui',
-                    color: Colors.green);
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  _passwordDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Update Kata Sandi'),
-          content: TextField(
-            controller: _passwordTextFieldController,
-            textInputAction: TextInputAction.go,
-            keyboardType: TextInputType.text,
-            decoration:
-                const InputDecoration(hintText: 'Masukan Kata Sandi baru'),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: const Text('Simpan'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                GlobalFunctions.scaffoldMessage(
-                    context: context,
-                    message: 'Kata Sandi Berhasil diperbarui',
-                    color: Colors.green);
               },
             )
           ],
@@ -166,7 +72,6 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = GlobalFunctions.screenSize(context: context);
     return Scaffold(
       backgroundColor: kColorSecondary,
       appBar: AppBar(
@@ -247,7 +152,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                                 context: context,
                                 controller: _usernameTextFieldController,
                                 hintField: snapshot.data!.username,
-                                title: 'Masukan Nama Umkm'),
+                                title: 'Masukan Username Baru'),
                             child: Container(
                               height: 40,
                               decoration: const BoxDecoration(
@@ -302,8 +207,8 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                               user: snapshot.data,
                               context: context,
                               controller: _umkmNameTextFieldController,
-                              hintField: 'Masukan nama umkm',
-                              title: 'Masukan Nama Umkm'),
+                              hintField: snapshot.data!.umkmname,
+                              title: 'Masukan Nama UMKM Baru'),
                           child: Container(
                             height: 40,
                             decoration: const BoxDecoration(
@@ -352,22 +257,27 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                                 fontWeight: FontWeight.w700,
                               ),
                         ),
-                        Container(
-                          height: 40,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey,
-                                width: 1,
+                        GestureDetector(
+                          onTap: () => _updateDialog(
+                              user: snapshot.data,
+                              context: context,
+                              controller: _emailTextFieldController,
+                              hintField: snapshot.data!.email,
+                              title: 'Masukan Email Baru'),
+                          child: Container(
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
                               ),
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              TextButton(
-                                onPressed: () => _emailDialog(context),
-                                child: Text(
-                                  '${auth.currentUser!.email}',
+                            child: Row(
+                              children: [
+                                Text(
+                                  snapshot.data!.email,
                                   style: GlobalFunctions.textTheme(
                                           context: context)
                                       .headline3!
@@ -378,8 +288,8 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                                         fontWeight: FontWeight.w400,
                                       ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         )
                       ],
@@ -402,21 +312,26 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                                 fontWeight: FontWeight.w700,
                               ),
                         ),
-                        Container(
-                          height: 40,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey,
-                                width: 1,
+                        GestureDetector(
+                          onTap: () => _updateDialog(
+                              user: snapshot.data,
+                              context: context,
+                              controller: _passwordTextFieldController,
+                              hintField: snapshot.data!.password,
+                              title: 'Masukan Password Baru'),
+                          child: Container(
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
                               ),
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              TextButton(
-                                onPressed: () => _passwordDialog(context),
-                                child: Text(
+                            child: Row(
+                              children: [
+                                Text(
                                   snapshot.data!.password,
                                   style: GlobalFunctions.textTheme(
                                           context: context)
@@ -428,8 +343,8 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                                         fontWeight: FontWeight.w400,
                                       ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         )
                       ],

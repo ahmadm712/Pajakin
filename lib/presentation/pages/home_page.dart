@@ -43,7 +43,6 @@ class _HomePageState extends State<HomePage> {
           future: FirebaseServices.fetchUSer(uid: auth.currentUser!.uid),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print(snapshot.data!.email);
               return Column(
                 children: [
                   const SizedBox(

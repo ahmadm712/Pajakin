@@ -17,7 +17,7 @@ class _PajakPageState extends State<PajakPage> {
   double omzetPerbulan = 0;
   double pajakUMKM = 0;
   var controllerOmzet = MoneyMaskedTextController(
-      leftSymbol: 'Rp ', decimalSeparator: '.', thousandSeparator: ',');
+      leftSymbol: 'Rp ', decimalSeparator: ',', thousandSeparator: '.');
 
   @override
   Widget build(BuildContext context) {

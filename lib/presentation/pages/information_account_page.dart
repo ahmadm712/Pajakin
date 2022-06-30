@@ -13,6 +13,8 @@ class InformationAccountPage extends StatefulWidget {
 }
 
 class _InformationAccountPageState extends State<InformationAccountPage> {
+  FirebaseServices firebaseServices = FirebaseServices();
+
   final TextEditingController _usernameTextFieldController =
       TextEditingController();
   final TextEditingController _umkmNameTextFieldController =
@@ -124,6 +126,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
   @override
   void initState() {
     super.initState();
+    firebaseServices.streamUserData.close();
   }
 
   @override
@@ -416,7 +419,6 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                 ],
               );
             }
-
             return Container();
           },
         ),

@@ -11,7 +11,6 @@ class RadialBarChart extends StatelessWidget {
       ChartData('Pemasukan', 20),
     ];
     return SfCircularChart(series: <CircularSeries>[
-      // Renders radial bar chart
       RadialBarSeries<ChartData, String>(
           dataSource: chartData,
           xValueMapper: (ChartData data, _) => data.x,

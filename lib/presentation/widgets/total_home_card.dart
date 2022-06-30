@@ -9,18 +9,16 @@ import 'package:pajakin/utils/currency_format.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
 
-class TotalPemasukanPengeluaranCard extends StatefulWidget {
-  TotalPemasukanPengeluaranCard({
+class TotalHomeCard extends StatefulWidget {
+  const TotalHomeCard({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<TotalPemasukanPengeluaranCard> createState() =>
-      _TotalPemasukanPengeluaranCardState();
+  State<TotalHomeCard> createState() => _TotalHomeCardState();
 }
 
-class _TotalPemasukanPengeluaranCardState
-    extends State<TotalPemasukanPengeluaranCard> {
+class _TotalHomeCardState extends State<TotalHomeCard> {
   FirebaseServices firebaseServices = FirebaseServices();
 
   late int totalPengeluaran;
@@ -48,25 +46,25 @@ class _TotalPemasukanPengeluaranCardState
       children: [
         Container(
           margin: const EdgeInsets.only(bottom: 10),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Total Pemasukan',
-                  style: GlobalFunctions.textTheme(context: context)
-                      .headline3!
-                      .copyWith(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400)),
+              Text(
+                'Total Pemasukan',
+                style: GlobalFunctions.textTheme(context: context)
+                    .headline3!
+                    .copyWith(
+                      color: kColorPrimary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+              ),
               StreamBuilder<List<PemasukanModel>>(
                 stream: firebaseServices.streamPemasukan.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      color: kColorPrimary,
-                      strokeWidth: 0.8,
-                    ));
+                    return const Text('memproses...');
                   } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                     totalPemasukan = 0;
                     for (var element in snapshot.data!) {
@@ -77,20 +75,22 @@ class _TotalPemasukanPengeluaranCardState
                       style: GlobalFunctions.textTheme(context: context)
                           .headline3!
                           .copyWith(
-                              color: Colors.green,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
+                            color: Colors.green,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
                     );
                   }
                   return SizedBox(
-                    child: Center(
-                      child: Text(CurrencyFormat.convertToIdr(0, 0),
-                          style: GlobalFunctions.textTheme(context: context)
-                              .headline3!
-                              .copyWith(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400)),
+                    child: Text(
+                      CurrencyFormat.convertToIdr(0, 0),
+                      style: GlobalFunctions.textTheme(context: context)
+                          .headline3!
+                          .copyWith(
+                            color: kColorPrimary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
                     ),
                   );
                 },
@@ -98,29 +98,30 @@ class _TotalPemasukanPengeluaranCardState
             ],
           ),
         ),
+        const SizedBox(
+          height: 7,
+        ),
         Container(
           margin: const EdgeInsets.only(bottom: 10),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Total Pengeluaran',
                 style: GlobalFunctions.textTheme(context: context)
                     .headline3!
                     .copyWith(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400),
+                      color: kColorPrimary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
               ),
               StreamBuilder<List<PengeluaranModel>>(
                 stream: firebaseServices.streamPengeluaran.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      color: kColorPrimary,
-                      strokeWidth: 0.8,
-                    ));
+                    return const Text('memproses...');
                   } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                     totalPengeluaran = 0;
                     for (var element in snapshot.data!) {
@@ -132,20 +133,22 @@ class _TotalPemasukanPengeluaranCardState
                       style: GlobalFunctions.textTheme(context: context)
                           .headline3!
                           .copyWith(
-                              color: Colors.red,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
+                            color: Colors.red,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
                     );
                   }
                   return SizedBox(
-                    child: Center(
-                      child: Text(CurrencyFormat.convertToIdr(0, 0),
-                          style: GlobalFunctions.textTheme(context: context)
-                              .headline3!
-                              .copyWith(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400)),
+                    child: Text(
+                      CurrencyFormat.convertToIdr(0, 0),
+                      style: GlobalFunctions.textTheme(context: context)
+                          .headline3!
+                          .copyWith(
+                            color: kColorPrimary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
                     ),
                   );
                 },
@@ -153,47 +156,52 @@ class _TotalPemasukanPengeluaranCardState
             ],
           ),
         ),
+        const SizedBox(
+          height: 7,
+        ),
         Container(
           margin: const EdgeInsets.only(bottom: 10),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Total Saldo',
-                  style: GlobalFunctions.textTheme(context: context)
-                      .headline3!
-                      .copyWith(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400)),
+              Text(
+                'Total Saldo',
+                style: GlobalFunctions.textTheme(context: context)
+                    .headline3!
+                    .copyWith(
+                      color: kColorPrimary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+              ),
               StreamBuilder<int>(
                 stream: firebaseServices.streamSaldo.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      color: kColorPrimary,
-                      strokeWidth: 0.8,
-                    ));
+                    return const Text('memproses...');
                   } else if (snapshot.hasData) {
                     return Text(
                       CurrencyFormat.convertToIdr(snapshot.data, 0),
                       style: GlobalFunctions.textTheme(context: context)
                           .headline3!
                           .copyWith(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
+                            color: kColorPrimary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
                     );
                   }
                   return SizedBox(
-                    child: Center(
-                      child: Text(CurrencyFormat.convertToIdr(0, 0),
-                          style: GlobalFunctions.textTheme(context: context)
-                              .headline3!
-                              .copyWith(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400)),
+                    child: Text(
+                      CurrencyFormat.convertToIdr(0, 0),
+                      style: GlobalFunctions.textTheme(context: context)
+                          .headline3!
+                          .copyWith(
+                            color: kColorPrimary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
                     ),
                   );
                 },

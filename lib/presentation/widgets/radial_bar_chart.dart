@@ -7,10 +7,8 @@ class RadialBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData('David', 25),
-      ChartData('Steve', 38),
-      ChartData('Jack', 34),
-      ChartData('Others', 52)
+      ChartData('Pengeluaran', 80),
+      ChartData('Pemasukan', 20),
     ];
     return SfCircularChart(series: <CircularSeries>[
       // Renders radial bar chart

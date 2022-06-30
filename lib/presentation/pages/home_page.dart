@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:pajakin/data/models/user_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/presentation/widgets/button_menu.dart';
+import 'package:pajakin/presentation/widgets/radial_bar_chart.dart';
+import 'package:pajakin/presentation/widgets/total_home_card.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/notification_helper.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final NotificationService notificationService = NotificationService();
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     selectNotificationSubject.close();
+
     super.dispose();
   }
 
@@ -124,110 +129,14 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Total Pemasukan',
-                              style: GlobalFunctions.textTheme(context: context)
-                                  .headline3!
-                                  .copyWith(
-                                    color: kColorPrimary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                            ),
-                            Text(
-                              'Rp 0 ',
-                              style: GlobalFunctions.textTheme(context: context)
-                                  .headline3!
-                                  .copyWith(
-                                    color: kColorPrimary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                            ),
-                            const SizedBox(
-                              height: 14,
-                            ),
-                            Text(
-                              'Total Pengeluaran',
-                              style: GlobalFunctions.textTheme(context: context)
-                                  .headline3!
-                                  .copyWith(
-                                    color: kColorPrimary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                            ),
-                            Text(
-                              'Rp 0 ',
-                              style: GlobalFunctions.textTheme(context: context)
-                                  .headline3!
-                                  .copyWith(
-                                    color: kColorPrimary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                            ),
-                            const SizedBox(
-                              height: 14,
-                            ),
-                            Text(
-                              'Selisih',
-                              style: GlobalFunctions.textTheme(context: context)
-                                  .headline3!
-                                  .copyWith(
-                                    color: kColorPrimary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                            ),
-                            Text(
-                              'Rp 0 ',
-                              style: GlobalFunctions.textTheme(context: context)
-                                  .headline3!
-                                  .copyWith(
-                                    color: kColorPrimary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                            ),
+                          children: const [
+                            TotalHomeCard(),
                           ],
                         ),
                         Container(
                           height: 120,
                           width: 120,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: kColorPrimary,
-                                width: 2,
-                              )),
-                          child: Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '0%',
-                                  style: GlobalFunctions.textTheme(
-                                          context: context)
-                                      .headline3!
-                                      .copyWith(
-                                        color: kColorPrimary,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                const Text(
-                                  'Pengeluaran',
-                                ),
-                              ],
-                            ),
-                          ),
+                          child: const RadialBarChart(),
                         )
                       ],
                     ),

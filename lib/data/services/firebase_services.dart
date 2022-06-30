@@ -342,6 +342,7 @@ class FirebaseServices {
   //       .whenComplete(() => print('Note item deleted from the database'))
   //       .catchError((e) => print(e));
   // }
+  StreamController<UserUmkm> streamUserData = StreamController();
 
   StreamController<List<PengeluaranModel>> streamPengeluaran =
       StreamController();

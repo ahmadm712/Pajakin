@@ -28,12 +28,6 @@ class _TotalPemasukanPengeluaranCardState
   late int totalPemasukan;
 
   @override
-  void dispose() {
-    super.dispose();
-    firebaseServices.streamSaldo.close();
-  }
-
-  @override
   void initState() {
     super.initState();
     Timer.periodic(const Duration(seconds: 3), (timer) {

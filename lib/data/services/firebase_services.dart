@@ -249,6 +249,38 @@ class FirebaseServices {
     }
   }
 
+  Future<Map> fetchTotalPemasukanPengeluaran({required String id}) async {
+    int totalPemasukan = 0;
+    int totalPengeluaran = 0;
+    int totalSaldo = 0;
+
+    Map data = {};
+    try {
+      await retrievePemasukan(id: id).then((value) {
+        for (var element in value) {
+          totalPemasukan += element.jumlahPemasukan;
+        }
+      });
+      await retrievePengeluaran(id: id).then((hasil) {
+        for (var element in hasil) {
+          totalPengeluaran += element.jumlahPengeluaran;
+        }
+      });
+      totalSaldo = (totalPemasukan - totalPengeluaran);
+
+      data = {
+        'total_pemasukan': totalPemasukan,
+        'total_pengeluaran': totalPengeluaran,
+        'total_saldo': totalSaldo
+      };
+      streamTotalPemasukanPengeluaran.sink.add(data);
+      return data;
+    } catch (e) {
+      print(e.toString());
+      throw Exception('gagal');
+    }
+  }
+
   static Future<void> updatePengeluaran({
     required String date,
     required String idPengeluaran,
@@ -349,4 +381,5 @@ class FirebaseServices {
 
   StreamController<List<PemasukanModel>> streamPemasukan = StreamController();
   StreamController<int> streamSaldo = StreamController();
+  StreamController<Map> streamTotalPemasukanPengeluaran = StreamController();
 }

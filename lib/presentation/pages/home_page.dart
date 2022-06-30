@@ -116,30 +116,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     width: size.width,
-                    height: 178,
-                    padding:
-                        const EdgeInsets.only(left: 30, right: 30, top: 24),
+                    height: 190,
+                    padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: Colors.white,
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            TotalHomeCard(),
-                          ],
-                        ),
-                        Container(
-                          height: 120,
-                          width: 120,
-                          child: const RadialBarChart(),
-                        )
-                      ],
-                    ),
+                    child: const TotalHomeCard(),
                   ),
                   const SizedBox(
                     height: 40,

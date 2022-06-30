@@ -1,18 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'package:pajakin/utils/styles.dart';
+
 class RadialBarChart extends StatelessWidget {
-  const RadialBarChart({Key? key}) : super(key: key);
+  Map data;
+
+  RadialBarChart({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    int datapengeluaran = data['total_pengeluaran'] as int;
+    int datapemasukan = data['total_pemasukan'] as int;
+    int dataSaldo = data['total_saldo'] as int;
     final List<ChartData> chartData = [
-      ChartData('Pengeluaran', 80),
-      ChartData('Pemasukan', 20),
+      ChartData(
+          'Pengeluaran',
+          datapengeluaran != 0
+              ? (datapengeluaran / dataSaldo * 100).toInt()
+              : 0,
+          Colors.red),
+      ChartData(
+          'Pemasukan',
+          datapemasukan != 0
+              ? ((dataSaldo - datapengeluaran) / dataSaldo * 100).toInt()
+              : 0,
+          kColorPrimary),
     ];
     return SfCircularChart(series: <CircularSeries>[
-      RadialBarSeries<ChartData, String>(
+      PieSeries<ChartData, String>(
           dataSource: chartData,
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
+          sortingOrder: SortingOrder.descending,
+          strokeColor: kColorPrimary,
+          pointColorMapper: (ChartData data, _) => data.color,
+          emptyPointSettings: EmptyPointSettings(
+              mode: EmptyPointMode.average,
+              borderColor: Colors.black,
+              borderWidth: 2),
           xValueMapper: (ChartData data, _) => data.x,
           yValueMapper: (ChartData data, _) => data.y)
     ]);
@@ -20,7 +48,12 @@ class RadialBarChart extends StatelessWidget {
 }
 
 class ChartData {
-  ChartData(this.x, this.y);
+  ChartData(
+    this.x,
+    this.y,
+    this.color,
+  );
   final String x;
-  final double y;
+  final int y;
+  final Color color;
 }

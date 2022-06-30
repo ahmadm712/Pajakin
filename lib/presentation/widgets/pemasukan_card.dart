@@ -20,11 +20,6 @@ class PemasukanCard extends StatefulWidget {
 
 class _PemasukanCardState extends State<PemasukanCard> {
   FirebaseServices firebaseServices = FirebaseServices();
-  @override
-  void dispose() {
-    super.dispose();
-    firebaseServices.streamPemasukan.close();
-  }
 
   @override
   void initState() {

@@ -363,17 +363,28 @@ class FirebaseServices {
     );
   }
 
-  // static Future<void> deleteItem({
-  //   required String docId,
-  // }) async {
-  //   DocumentReference documentReferencer =
-  //       mainCollection.doc(userUid).collection('items').doc(docId);
+  Future<void> deleteItemPengeluaran({
+    required String docId,
+  }) async {
+    final documentReferencer = _pengeluaranCollection.doc(docId);
 
-  //   await documentReferencer
-  //       .delete()
-  //       .whenComplete(() => print('Note item deleted from the database'))
-  //       .catchError((e) => print(e));
-  // }
+    await documentReferencer
+        .delete()
+        .whenComplete(() => print('Note item deleted from the database'))
+        .catchError((e) => print(e));
+  }
+
+  Future<void> deleteItemPemasukan({
+    required String docId,
+  }) async {
+    final documentReferencer = _pemasukanCollection.doc(docId);
+
+    await documentReferencer
+        .delete()
+        .whenComplete(() => print('Note item deleted from the database'))
+        .catchError((e) => print(e));
+  }
+
   StreamController<UserUmkm> streamUserData = StreamController();
 
   StreamController<List<PengeluaranModel>> streamPengeluaran =

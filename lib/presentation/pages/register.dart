@@ -291,7 +291,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               isVissiblePassword
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Theme.of(context).primaryColorDark,
+                              color: kColorPrimary,
                             ),
                             onPressed: () {
                               // Update the state i.e. toogle the state of passwordVisible variable

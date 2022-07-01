@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:pajakin/data/models/pemasukan_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
-
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
 
@@ -21,14 +21,15 @@ class _PemasukanPageState extends State<PemasukanPage> {
   String date = "";
   DateTime selectedDate = DateTime.now();
   late TextEditingController keteranganController;
-  late TextEditingController pemasukanController;
+
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late MoneyMaskedTextController controllerPemasukan;
 
   @override
   void dispose() {
     super.dispose();
     keteranganController.dispose();
-    pemasukanController.dispose();
+    controllerPemasukan.dispose();
   }
 
   late PemasukanModel pemasukan;
@@ -42,12 +43,21 @@ class _PemasukanPageState extends State<PemasukanPage> {
         date = pemasukan.tanggalPemasukan;
         keteranganController =
             TextEditingController(text: pemasukan.keterangan);
-        pemasukanController =
-            TextEditingController(text: pemasukan.jumlahPemasukan.toString());
+
+        controllerPemasukan = MoneyMaskedTextController(
+            leftSymbol: 'Rp ',
+            decimalSeparator: '.',
+            thousandSeparator: ',',
+            initialValue: pemasukan.jumlahPemasukan.toDouble());
       });
     } else {
       keteranganController = TextEditingController(text: '');
-      pemasukanController = TextEditingController(text: '');
+
+      controllerPemasukan = MoneyMaskedTextController(
+          leftSymbol: 'Rp ',
+          decimalSeparator: '.',
+          thousandSeparator: ',',
+          initialValue: 0);
     }
   }
 
@@ -259,7 +269,7 @@ class _PemasukanPageState extends State<PemasukanPage> {
                     Container(
                       margin: const EdgeInsets.only(top: 11),
                       child: TextFormField(
-                        controller: pemasukanController,
+                        controller: controllerPemasukan,
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -325,12 +335,13 @@ class _PemasukanPageState extends State<PemasukanPage> {
                               context: context, formkey: formKey)) {
                             if (widget.data['status'] == 'tambah') {
                               FirebaseServices.addPemasukan(
-                                  id: auth.currentUser!.uid,
-                                  date: date,
-                                  description: keteranganController.text,
-                                  jumlahPemasukan: int.parse(
-                                    pemasukanController.text,
-                                  )).then((value) {
+                                      id: auth.currentUser!.uid,
+                                      date: date,
+                                      description: keteranganController.text,
+                                      jumlahPemasukan: controllerPemasukan
+                                          .numberValue
+                                          .toInt())
+                                  .then((value) {
                                 GlobalFunctions.scaffoldMessage(
                                     context: context,
                                     message: 'Pemasukan Succes Ditambahkan',
@@ -344,12 +355,13 @@ class _PemasukanPageState extends State<PemasukanPage> {
                               });
                             } else {
                               FirebaseServices.updatePemasukan(
-                                  idPemasukan: pemasukan.id,
-                                  date: date,
-                                  description: keteranganController.text,
-                                  jumlahPemasukan: int.parse(
-                                    pemasukanController.text,
-                                  )).then((value) {
+                                      idPemasukan: pemasukan.id,
+                                      date: date,
+                                      description: keteranganController.text,
+                                      jumlahPemasukan: controllerPemasukan
+                                          .numberValue
+                                          .toInt())
+                                  .then((value) {
                                 GlobalFunctions.scaffoldMessage(
                                   context: context,
                                   message: 'pemasukan Succes Di Update',

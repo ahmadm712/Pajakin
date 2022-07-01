@@ -82,7 +82,7 @@ class _TotalPemasukanPengeluaranCardState
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                  color: Colors.red,
+                                  color: Colors.green,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400)),
                     ),

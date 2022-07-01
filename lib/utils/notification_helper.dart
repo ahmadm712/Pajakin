@@ -17,7 +17,7 @@ class NotificationService {
 
   Future<void> initNotification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/app_icon');
     const IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
       requestAlertPermission: false,
@@ -49,7 +49,7 @@ class NotificationService {
             channelDescription: 'Pajakin Channel Notifications',
             importance: Importance.max,
             priority: Priority.max,
-            icon: '@mipmap/ic_launcher'),
+            icon: '@mipmap/app_icon'),
         iOS: IOSNotificationDetails(
           presentAlert: false,
           presentBadge: false,

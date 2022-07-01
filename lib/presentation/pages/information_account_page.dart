@@ -24,6 +24,8 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
   final TextEditingController _passwordTextFieldController =
       TextEditingController();
 
+  bool isObscure = true;
+
   _updateDialog(
       {required BuildContext context,
       required String title,
@@ -380,7 +382,8 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                               user: snapshot.data,
                               context: context,
                               controller: _passwordTextFieldController,
-                              hintField: snapshot.data!.password,
+                              hintField:
+                                  isObscure == true ? '********' : '********',
                               title: 'Masukan Password Baru'),
                           child: Container(
                             height: 40,
@@ -395,7 +398,9 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  snapshot.data!.password,
+                                  isObscure == true
+                                      ? '********'
+                                      : snapshot.data!.password,
                                   style: GlobalFunctions.textTheme(
                                           context: context)
                                       .headline3!

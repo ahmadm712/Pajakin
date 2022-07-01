@@ -21,7 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController confirmPassController = TextEditingController(text: '');
   TextEditingController umkmNameController = TextEditingController(text: '');
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool isVissiblePassword = false;
+  bool isVissiblePassword = true;
 
   @override
   void dispose() {
@@ -48,16 +48,13 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 32,
-            ),
             Container(
               width: size.width,
-              height: 132,
+              height: 182,
               decoration: BoxDecoration(
                 color: kColorPrimary,
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 55),
               child: Column(
                 children: [
                   Image.asset(
@@ -294,7 +291,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               isVissiblePassword
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Theme.of(context).primaryColorDark,
+                              color: kColorPrimary,
                             ),
                             onPressed: () {
                               // Update the state i.e. toogle the state of passwordVisible variable

@@ -249,6 +249,38 @@ class FirebaseServices {
     }
   }
 
+  Future<Map> fetchTotalPemasukanPengeluaran({required String id}) async {
+    int totalPemasukan = 0;
+    int totalPengeluaran = 0;
+    int totalSaldo = 0;
+
+    Map data = {};
+    try {
+      await retrievePemasukan(id: id).then((value) {
+        for (var element in value) {
+          totalPemasukan += element.jumlahPemasukan;
+        }
+      });
+      await retrievePengeluaran(id: id).then((hasil) {
+        for (var element in hasil) {
+          totalPengeluaran += element.jumlahPengeluaran;
+        }
+      });
+      totalSaldo = (totalPemasukan - totalPengeluaran);
+
+      data = {
+        'total_pemasukan': totalPemasukan,
+        'total_pengeluaran': totalPengeluaran,
+        'total_saldo': totalSaldo
+      };
+      streamTotalPemasukanPengeluaran.sink.add(data);
+      return data;
+    } catch (e) {
+      print(e.toString());
+      throw Exception('gagal');
+    }
+  }
+
   static Future<void> updatePengeluaran({
     required String date,
     required String idPengeluaran,
@@ -286,26 +318,79 @@ class FirebaseServices {
         .doc(idPemasukan)
         .update(data)
         .whenComplete(() => print('Pengeluaran sukses di update'))
-        .catchError((e) {
-      print(e);
-    });
+        .catchError(
+      (e) {
+        print(e);
+      },
+    );
   }
 
-  // static Future<void> deleteItem({
-  //   required String docId,
-  // }) async {
-  //   DocumentReference documentReferencer =
-  //       mainCollection.doc(userUid).collection('items').doc(docId);
+  static Future<UserUmkm> fetchUSer({required String uid}) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance
+            .collection("user")
+            .where(
+              'id',
+              isEqualTo: uid,
+            )
+            .get();
 
-  //   await documentReferencer
-  //       .delete()
-  //       .whenComplete(() => print('Note item deleted from the database'))
-  //       .catchError((e) => print(e));
-  // }
+    return snapshot.docs.map((e) => UserUmkm.fromMap(e)).first;
+  }
+
+  static Future<void> updateUser({
+    required String idUser,
+    required String username,
+    required String umkmname,
+    required String email,
+    required String password,
+  }) async {
+    var data = <String, dynamic>{
+      "username": username,
+      "umkmname": umkmname,
+      "email": email,
+      "password": password,
+    };
+
+    mainCollection
+        .doc(idUser)
+        .update(data)
+        .whenComplete(() => print('User data sukses di update'))
+        .catchError(
+      (e) {
+        print(e);
+      },
+    );
+  }
+
+  Future<void> deleteItemPengeluaran({
+    required String docId,
+  }) async {
+    final documentReferencer = _pengeluaranCollection.doc(docId);
+
+    await documentReferencer
+        .delete()
+        .whenComplete(() => print('Note item deleted from the database'))
+        .catchError((e) => print(e));
+  }
+
+  Future<void> deleteItemPemasukan({
+    required String docId,
+  }) async {
+    final documentReferencer = _pemasukanCollection.doc(docId);
+
+    await documentReferencer
+        .delete()
+        .whenComplete(() => print('Note item deleted from the database'))
+        .catchError((e) => print(e));
+  }
+
+  StreamController<UserUmkm> streamUserData = StreamController();
 
   StreamController<List<PengeluaranModel>> streamPengeluaran =
       StreamController();
 
   StreamController<List<PemasukanModel>> streamPemasukan = StreamController();
   StreamController<int> streamSaldo = StreamController();
+  StreamController<Map> streamTotalPemasukanPengeluaran = StreamController();
 }

@@ -28,12 +28,6 @@ class _TotalPemasukanPengeluaranCardState
   late int totalPemasukan;
 
   @override
-  void dispose() {
-    super.dispose();
-    firebaseServices.streamSaldo.close();
-  }
-
-  @override
   void initState() {
     super.initState();
     Timer.periodic(const Duration(seconds: 3), (timer) {
@@ -72,13 +66,15 @@ class _TotalPemasukanPengeluaranCardState
                     for (var element in snapshot.data!) {
                       totalPemasukan += element.jumlahPemasukan;
                     }
-                    return Text(CurrencyFormat.convertToIdr(totalPemasukan, 0),
-                        style: GlobalFunctions.textTheme(context: context)
-                            .headline3!
-                            .copyWith(
-                                color: Colors.green,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400));
+                    return Text(
+                      CurrencyFormat.convertToIdr(totalPemasukan, 0),
+                      style: GlobalFunctions.textTheme(context: context)
+                          .headline3!
+                          .copyWith(
+                              color: Colors.green,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400),
+                    );
                   }
                   return SizedBox(
                     child: Center(
@@ -86,7 +82,7 @@ class _TotalPemasukanPengeluaranCardState
                           style: GlobalFunctions.textTheme(context: context)
                               .headline3!
                               .copyWith(
-                                  color: Colors.red,
+                                  color: Colors.green,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400)),
                     ),
@@ -126,13 +122,14 @@ class _TotalPemasukanPengeluaranCardState
                     }
 
                     return Text(
-                        CurrencyFormat.convertToIdr(totalPengeluaran, 0),
-                        style: GlobalFunctions.textTheme(context: context)
-                            .headline3!
-                            .copyWith(
-                                color: Colors.red,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400));
+                      CurrencyFormat.convertToIdr(totalPengeluaran, 0),
+                      style: GlobalFunctions.textTheme(context: context)
+                          .headline3!
+                          .copyWith(
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400),
+                    );
                   }
                   return SizedBox(
                     child: Center(

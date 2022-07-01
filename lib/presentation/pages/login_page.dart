@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController(text: '');
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool isVissiblePassword = false;
+  bool isVissiblePassword = true;
 
   @override
   void dispose() {
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                               isVissiblePassword
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Theme.of(context).primaryColorDark,
+                              color: kColorPrimary,
                             ),
                             onPressed: () {
                               // Update the state i.e. toogle the state of passwordVisible variable
@@ -287,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const Spacer(),
                             const Text(
-                              'Login with Google',
+                              'Sign In with Google',
                             ),
                           ],
                         ),

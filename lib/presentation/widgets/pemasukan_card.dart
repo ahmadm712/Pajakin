@@ -20,11 +20,6 @@ class PemasukanCard extends StatefulWidget {
 
 class _PemasukanCardState extends State<PemasukanCard> {
   FirebaseServices firebaseServices = FirebaseServices();
-  @override
-  void dispose() {
-    super.dispose();
-    firebaseServices.streamPemasukan.close();
-  }
 
   @override
   void initState() {
@@ -101,50 +96,72 @@ class _PemasukanCardState extends State<PemasukanCard> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         final pemasukan = snapshot.data![index];
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, Routes.PEMASUKAN_PAGE,
-                                arguments: {
-                                  'status': "edit",
-                                  'pemasukan': pemasukan
-                                });
+                        return Dismissible(
+                          key: UniqueKey(),
+                          onDismissed: (direction) async {
+                            if (direction == DismissDirection.startToEnd) {
+                              await firebaseServices
+                                  .deleteItemPemasukan(docId: pemasukan.id)
+                                  .whenComplete(() =>
+                                      GlobalFunctions.scaffoldMessage(
+                                          context: context,
+                                          message: 'Hapus Pemasukan Succes',
+                                          color: Colors.red));
+                            } else {
+                              await firebaseServices
+                                  .deleteItemPengeluaran(docId: pemasukan.id)
+                                  .whenComplete(() =>
+                                      GlobalFunctions.scaffoldMessage(
+                                          context: context,
+                                          message: 'Hapus Pemasukan Succes',
+                                          color: Colors.red));
+                            }
                           },
-                          child: Container(
-                            height: 20,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4)),
-                            margin: const EdgeInsets.only(bottom: 10),
-                            child: Row(
-                              children: [
-                                Text(pemasukan.tanggalPemasukan,
-                                    style: GlobalFunctions.textTheme(
-                                            context: context)
-                                        .headline3!
-                                        .copyWith(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400)),
-                                const SizedBox(width: 11),
-                                Text(pemasukan.keterangan,
-                                    style: GlobalFunctions.textTheme(
-                                            context: context)
-                                        .headline3!
-                                        .copyWith(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400)),
-                                const Spacer(),
-                                Text(
-                                    CurrencyFormat.convertToIdr(
-                                        pemasukan.jumlahPemasukan, 0),
-                                    style: GlobalFunctions.textTheme(
-                                            context: context)
-                                        .headline3!
-                                        .copyWith(
-                                            color: Colors.green,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400))
-                              ],
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Routes.PEMASUKAN_PAGE, arguments: {
+                                'status': "edit",
+                                'pemasukan': pemasukan
+                              });
+                            },
+                            child: Container(
+                              height: 20,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4)),
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                children: [
+                                  Text(pemasukan.tanggalPemasukan,
+                                      style: GlobalFunctions.textTheme(
+                                              context: context)
+                                          .headline3!
+                                          .copyWith(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400)),
+                                  const SizedBox(width: 11),
+                                  Text(pemasukan.keterangan,
+                                      style: GlobalFunctions.textTheme(
+                                              context: context)
+                                          .headline3!
+                                          .copyWith(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400)),
+                                  const Spacer(),
+                                  Text(
+                                      CurrencyFormat.convertToIdr(
+                                          pemasukan.jumlahPemasukan, 0),
+                                      style: GlobalFunctions.textTheme(
+                                              context: context)
+                                          .headline3!
+                                          .copyWith(
+                                              color: Colors.green,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400))
+                                ],
+                              ),
                             ),
                           ),
                         );

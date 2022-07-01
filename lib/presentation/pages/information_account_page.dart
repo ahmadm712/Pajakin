@@ -197,53 +197,42 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                                 fontWeight: FontWeight.w700,
                               ),
                         ),
-                        Container(
-                          height: 40,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          child: GestureDetector(
-                            onTap: () => _updateDialog(
-                                status: 'edit-username',
-                                user: snapshot.data,
-                                context: context,
-                                controller: _usernameTextFieldController,
-                                hintField: snapshot.data!.username,
-                                title: 'Masukan Username Baru'),
-                            child: Container(
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  ),
+                        GestureDetector(
+                          onTap: () => _updateDialog(
+                              status: 'edit-username',
+                              user: snapshot.data,
+                              context: context,
+                              controller: _usernameTextFieldController,
+                              hintField: snapshot.data!.username,
+                              title: 'Masukan Username Baru'),
+                          child: Container(
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1,
                                 ),
                               ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    snapshot.data!.username,
-                                    style: GlobalFunctions.textTheme(
-                                            context: context)
-                                        .headline3!
-                                        .copyWith(
-                                          fontFamily: 'Outfit',
-                                          color: const Color(0xFF14181B),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                  ),
-                                ],
-                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  snapshot.data!.username,
+                                  style: GlobalFunctions.textTheme(
+                                          context: context)
+                                      .headline3!
+                                      .copyWith(
+                                        fontFamily: 'Outfit',
+                                        color: const Color(0xFF14181B),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                ),
+                              ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

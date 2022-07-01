@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController(text: '');
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool isVissiblePassword = false;
+  bool isVissiblePassword = true;
 
   @override
   void dispose() {
@@ -287,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const Spacer(),
                             const Text(
-                              'Login with Google',
+                              'Sign In with Google',
                             ),
                           ],
                         ),

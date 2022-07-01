@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:pajakin/data/models/user_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/presentation/widgets/button_menu.dart';
-import 'package:pajakin/presentation/widgets/radial_bar_chart.dart';
 import 'package:pajakin/presentation/widgets/total_home_card.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/notification_helper.dart';
 import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

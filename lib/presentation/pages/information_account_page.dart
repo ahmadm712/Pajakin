@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:pajakin/data/models/user_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/utils/constans.dart';
@@ -128,7 +130,9 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
   @override
   void initState() {
     super.initState();
-    firebaseServices.streamUserData.close();
+    Timer.periodic(const Duration(seconds: 3), (timer) {
+      FirebaseServices().fetchUSer(uid: auth.currentUser!.uid);
+    });
   }
 
   @override
@@ -151,8 +155,8 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        child: FutureBuilder<UserUmkm>(
-          future: FirebaseServices.fetchUSer(uid: auth.currentUser!.uid),
+        child: StreamBuilder<UserUmkm>(
+          stream: firebaseServices.streamUserData.stream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
@@ -217,18 +221,41 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                             ),
                             child: Row(
                               children: [
-                                Text(
-                                  snapshot.data!.username,
-                                  style: GlobalFunctions.textTheme(
-                                          context: context)
-                                      .headline3!
-                                      .copyWith(
-                                        fontFamily: 'Outfit',
-                                        color: const Color(0xFF14181B),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                ),
+                                /*StreamBuilder<UserUmkm>(
+                                  stream:
+                                      firebaseServices.streamUserData.stream,
+                                  builder: (context, snapshot) {
+                                    print(snapshot.data);
+                                    if (!snapshot.hasData) {
+                                      return const Text('memproses...');
+                                    } else if (snapshot.hasData) {
+                                      return Text(
+                                        snapshot.data!.username,
+                                        style: GlobalFunctions.textTheme(
+                                                context: context)
+                                            .headline3!
+                                            .copyWith(
+                                              fontFamily: 'Outfit',
+                                              color: const Color(0xFF14181B),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                      );
+                                    }
+                                    return Text(
+                                      snapshot.data!.username,
+                                      style: GlobalFunctions.textTheme(
+                                              context: context)
+                                          .headline3!
+                                          .copyWith(
+                                            fontFamily: 'Outfit',
+                                            color: const Color(0xFF14181B),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                    );
+                                  },
+                                ),*/
                               ],
                             ),
                           ),

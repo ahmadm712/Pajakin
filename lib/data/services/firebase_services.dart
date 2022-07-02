@@ -325,7 +325,7 @@ class FirebaseServices {
     );
   }
 
-  static Future<UserUmkm> fetchUSer({required String uid}) async {
+  Future<UserUmkm> fetchUSer({required String uid}) async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await FirebaseFirestore.instance
             .collection("user")
@@ -335,7 +335,9 @@ class FirebaseServices {
             )
             .get();
 
-    return snapshot.docs.map((e) => UserUmkm.fromMap(e)).first;
+    final data = snapshot.docs.map((e) => UserUmkm.fromMap(e)).first;
+    streamUserData.sink.add(data);
+    return data;
   }
 
   static Future<void> updateUser({

@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: FutureBuilder<UserUmkm>(
-          future: FirebaseServices.fetchUSer(uid: auth.currentUser!.uid),
+          future: FirebaseServices().fetchUSer(uid: auth.currentUser!.uid),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     width: size.width,
-                    height: MediaQuery.of(context).size.height*0.27,
+                    height: MediaQuery.of(context).size.height * 0.27,
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),

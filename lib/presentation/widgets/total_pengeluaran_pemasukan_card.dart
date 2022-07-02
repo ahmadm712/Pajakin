@@ -10,7 +10,7 @@ import 'package:pajakin/utils/global_function.dart';
 import 'package:pajakin/utils/styles.dart';
 
 class TotalPemasukanPengeluaranCard extends StatefulWidget {
-  TotalPemasukanPengeluaranCard({
+  const TotalPemasukanPengeluaranCard({
     Key? key,
   }) : super(key: key);
 

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1077013542826",
+    "project_id": "pajakin-29981",
+    "storage_bucket": "pajakin-29981.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077013542826:android:e9e0371c4d033e320dddd3",
+        "android_client_info": {
+          "package_name": "com.pajakin.umkm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077013542826-50aq7cp3m5cg7oo7fbtuvmmb3hdf8lt7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pajakin.umkm",
+            "certificate_hash": "4a36f5dad92d88888283f61dde5055d9e9aa93f8"
+          }
+        },
+        {
+          "client_id": "1077013542826-jnq7vs1joep75nhr59gvadeah6hlvoj8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pajakin.umkm",
+            "certificate_hash": "6cf0e94aa47c12fbd93b5864c91be90aef4d1f6c"
+          }
+        },
+        {
+          "client_id": "1077013542826-onvid5q26dsjmimmpkq2tliql2lue15f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR4wbUbiKpZKl8gWFQMX_k_L2XWKfVQ8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077013542826-onvid5q26dsjmimmpkq2tliql2lue15f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

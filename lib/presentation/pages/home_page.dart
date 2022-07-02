@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/data/models/user_model.dart';
@@ -24,6 +26,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     notificationService.configureSelectNotificationSubject(Routes.PAJAK_PAGE);
+    Timer.periodic(const Duration(seconds: 3), (timer) {
+      firebaseServices.fetchUSer(uid: auth.currentUser!.uid);
+    });
   }
 
   @override
@@ -34,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   User user = auth.currentUser!;
+  FirebaseServices firebaseServices = FirebaseServices();
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +48,12 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: kColorPrimary,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: FutureBuilder<UserUmkm>(
-          future: FirebaseServices().fetchUSer(uid: auth.currentUser!.uid),
+        child: StreamBuilder<UserUmkm>(
+          stream: firebaseServices.streamUserData.stream,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData) {
               return Column(
                 children: [
                   const SizedBox(

@@ -131,7 +131,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
   void initState() {
     super.initState();
     Timer.periodic(const Duration(seconds: 3), (timer) {
-      FirebaseServices().fetchUSer(uid: auth.currentUser!.uid);
+      firebaseServices.fetchUSer(uid: auth.currentUser!.uid);
     });
   }
 
@@ -158,7 +158,12 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
         child: StreamBuilder<UserUmkm>(
           stream: firebaseServices.streamUserData.stream,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            print('${snapshot.data} ini');
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasData) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -221,41 +226,18 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                             ),
                             child: Row(
                               children: [
-                                /*StreamBuilder<UserUmkm>(
-                                  stream:
-                                      firebaseServices.streamUserData.stream,
-                                  builder: (context, snapshot) {
-                                    print(snapshot.data);
-                                    if (!snapshot.hasData) {
-                                      return const Text('memproses...');
-                                    } else if (snapshot.hasData) {
-                                      return Text(
-                                        snapshot.data!.username,
-                                        style: GlobalFunctions.textTheme(
-                                                context: context)
-                                            .headline3!
-                                            .copyWith(
-                                              fontFamily: 'Outfit',
-                                              color: const Color(0xFF14181B),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                      );
-                                    }
-                                    return Text(
-                                      snapshot.data!.username,
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                            fontFamily: 'Outfit',
-                                            color: const Color(0xFF14181B),
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                    );
-                                  },
-                                ),*/
+                                Text(
+                                  snapshot.data!.username,
+                                  style: GlobalFunctions.textTheme(
+                                          context: context)
+                                      .headline3!
+                                      .copyWith(
+                                        fontFamily: 'Outfit',
+                                        color: const Color(0xFF14181B),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                )
                               ],
                             ),
                           ),

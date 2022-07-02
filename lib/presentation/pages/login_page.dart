@@ -276,7 +276,12 @@ class _LoginPageState extends State<LoginPage> {
                                         context, Routes.HOME_PAGE));
                               }
                             },
-                          );
+                          ).catchError((e) {
+                            GlobalFunctions.scaffoldMessage(
+                                context: context,
+                                message: e.toString(),
+                                color: Colors.red);
+                          });
                         },
                         child: Row(
                           children: [

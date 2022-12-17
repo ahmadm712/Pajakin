@@ -73,10 +73,11 @@ class _PemasukanCardState extends State<PemasukanCard> {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return Center(
-                      child: CircularProgressIndicator(
-                    color: kColorPrimary,
-                    strokeWidth: 0.8,
-                  ));
+                    child: CircularProgressIndicator(
+                      color: kColorPrimary,
+                      strokeWidth: 0.8,
+                    ),
+                  );
 
                 default:
                   if (snapshot.hasError) {
@@ -102,64 +103,75 @@ class _PemasukanCardState extends State<PemasukanCard> {
                             if (direction == DismissDirection.startToEnd) {
                               await firebaseServices
                                   .deleteItemPemasukan(docId: pemasukan.id)
-                                  .whenComplete(() =>
-                                      GlobalFunctions.scaffoldMessage(
-                                          context: context,
-                                          message: 'Hapus Pemasukan Succes',
-                                          color: Colors.red));
+                                  .whenComplete(
+                                    () => GlobalFunctions.scaffoldMessage(
+                                        context: context,
+                                        message: 'Hapus Pemasukan Succes',
+                                        color: Colors.red),
+                                  );
                             } else {
                               await firebaseServices
-                                  .deleteItemPengeluaran(docId: pemasukan.id)
-                                  .whenComplete(() =>
-                                      GlobalFunctions.scaffoldMessage(
-                                          context: context,
-                                          message: 'Hapus Pemasukan Succes',
-                                          color: Colors.red));
+                                  .deleteItemPemasukan(docId: pemasukan.id)
+                                  .whenComplete(
+                                    () => GlobalFunctions.scaffoldMessage(
+                                        context: context,
+                                        message: 'Hapus Pemasukan Succes',
+                                        color: Colors.red),
+                                  );
                             }
                           },
                           child: InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Routes.PEMASUKAN_PAGE, arguments: {
-                                'status': "edit",
-                                'pemasukan': pemasukan
-                              });
+                                context,
+                                Routes.PEMASUKAN_PAGE,
+                                arguments: {
+                                  'status': "edit",
+                                  'pemasukan': pemasukan
+                                },
+                              );
                             },
                             child: Container(
                               height: 20,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4)),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                               margin: const EdgeInsets.only(bottom: 10),
                               child: Row(
                                 children: [
-                                  Text(pemasukan.tanggalPemasukan,
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400)),
+                                  Text(
+                                    pemasukan.tanggalPemasukan,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
+                                        .headline3!
+                                        .copyWith(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400),
+                                  ),
                                   const SizedBox(width: 11),
-                                  Text(pemasukan.keterangan,
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400)),
+                                  Text(
+                                    pemasukan.keterangan,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
+                                        .headline3!
+                                        .copyWith(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400),
+                                  ),
                                   const Spacer(),
                                   Text(
-                                      CurrencyFormat.convertToIdr(
-                                          pemasukan.jumlahPemasukan, 0),
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                              color: Colors.green,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400))
+                                    CurrencyFormat.convertToIdr(
+                                        pemasukan.jumlahPemasukan, 0),
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
+                                        .headline3!
+                                        .copyWith(
+                                            color: Colors.green,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400),
+                                  )
                                 ],
                               ),
                             ),

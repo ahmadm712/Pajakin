@@ -365,7 +365,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                                   mainCollection
                                       .doc(auth.currentUser!.uid)
-                                      .set(user.toMap())
+                                      .set(
+                                        user.toMap(),
+                                      )
                                       .whenComplete(() {
                                     clearField();
                                     GlobalFunctions.scaffoldMessage(
@@ -408,7 +410,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                     color: Colors.red);
                               }
                             } catch (e) {
-                              print(e.toString());
+                              print(
+                                e.toString(),
+                              );
                             }
                           }
                         },

@@ -37,17 +37,20 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
     super.initState();
     if (widget.data['pengeluaran'] != null) {
       pengeluaran = widget.data['pengeluaran'];
-      setState(() {
-        date = pengeluaran.tanggalPemasukan;
-        keteranganController =
-            TextEditingController(text: pengeluaran.keterangan);
+      setState(
+        () {
+          date = pengeluaran.tanggalPemasukan;
+          keteranganController =
+              TextEditingController(text: pengeluaran.keterangan);
 
-        controllerPengeluaran = MoneyMaskedTextController(
+          controllerPengeluaran = MoneyMaskedTextController(
             leftSymbol: 'Rp ',
             decimalSeparator: '.',
             thousandSeparator: ',',
-            initialValue: pengeluaran.jumlahPengeluaran.toDouble());
-      });
+            initialValue: pengeluaran.jumlahPengeluaran.toDouble(),
+          );
+        },
+      );
     } else {
       keteranganController = TextEditingController(text: '');
 
@@ -324,66 +327,69 @@ class _PengeluaranPageState extends State<PengeluaranPage> {
                       height: 200,
                     ),
                     Center(
-                        child: SizedBox(
-                      width: 154,
-                      height: 45,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (GlobalFunctions.validate(
-                              context: context, formkey: formKey)) {
-                            if (widget.data['status'] == 'tambah') {
-                              FirebaseServices.addPengeluaran(
-                                      id: auth.currentUser!.uid,
-                                      date: date,
-                                      description: keteranganController.text,
-                                      jumlahPengeluaran: controllerPengeluaran
-                                          .numberValue
-                                          .toInt())
-                                  .then((value) {
-                                GlobalFunctions.scaffoldMessage(
+                      child: SizedBox(
+                        width: 154,
+                        height: 45,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (GlobalFunctions.validate(
+                                context: context, formkey: formKey)) {
+                              if (widget.data['status'] == 'tambah') {
+                                FirebaseServices.addPengeluaran(
+                                        id: auth.currentUser!.uid,
+                                        date: date,
+                                        description: keteranganController.text,
+                                        jumlahPengeluaran: controllerPengeluaran
+                                            .numberValue
+                                            .toInt())
+                                    .then((value) {
+                                  GlobalFunctions.scaffoldMessage(
+                                      context: context,
+                                      message: 'Pengeluaran Succes Ditambahkan',
+                                      color: Colors.green);
+                                  Navigator.pop(context);
+                                }).catchError((e) {
+                                  GlobalFunctions.scaffoldMessage(
+                                      context: context,
+                                      message: e,
+                                      color: Colors.red);
+                                });
+                              } else {
+                                // updatePengeluaran
+                                FirebaseServices.updatePengeluaran(
+                                        idPengeluaran: pengeluaran.id,
+                                        date: date,
+                                        description: keteranganController.text,
+                                        jumlahPengeluaran: controllerPengeluaran
+                                            .numberValue
+                                            .toInt())
+                                    .then((value) {
+                                  GlobalFunctions.scaffoldMessage(
                                     context: context,
-                                    message: 'Pengeluaran Succes Ditambahkan',
-                                    color: Colors.green);
-                                Navigator.pop(context);
-                              }).catchError((e) {
-                                GlobalFunctions.scaffoldMessage(
-                                    context: context,
-                                    message: e,
-                                    color: Colors.red);
-                              });
-                            } else {
-                              // updatePengeluaran
-                              FirebaseServices.updatePengeluaran(
-                                      idPengeluaran: pengeluaran.id,
-                                      date: date,
-                                      description: keteranganController.text,
-                                      jumlahPengeluaran: controllerPengeluaran
-                                          .numberValue
-                                          .toInt())
-                                  .then((value) {
-                                GlobalFunctions.scaffoldMessage(
-                                  context: context,
-                                  message: 'Pengeluaran Succes Di Update',
-                                  color: kColorPrimary,
-                                );
-                                Navigator.pop(context);
-                              }).catchError((e) {
-                                GlobalFunctions.scaffoldMessage(
-                                    context: context,
-                                    message: e,
-                                    color: Colors.red);
-                              });
+                                    message: 'Pengeluaran Succes Di Update',
+                                    color: kColorPrimary,
+                                  );
+                                  Navigator.pop(context);
+                                }).catchError((e) {
+                                  GlobalFunctions.scaffoldMessage(
+                                      context: context,
+                                      message: e,
+                                      color: Colors.red);
+                                });
+                              }
                             }
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
+                          },
+                          style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: Text(widget.data['status'] == 'tambah'
-                            ? 'Tambahkan'
-                            : 'Simpan'),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(widget.data['status'] == 'tambah'
+                              ? 'Tambahkan'
+                              : 'Simpan'),
+                        ),
                       ),
-                    ))
+                    )
                   ],
                 ),
               ),

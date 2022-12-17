@@ -45,10 +45,11 @@ class _PemasukanPageState extends State<PemasukanPage> {
             TextEditingController(text: pemasukan.keterangan);
 
         controllerPemasukan = MoneyMaskedTextController(
-            leftSymbol: 'Rp ',
-            decimalSeparator: '.',
-            thousandSeparator: ',',
-            initialValue: pemasukan.jumlahPemasukan.toDouble());
+          leftSymbol: 'Rp ',
+          decimalSeparator: '.',
+          thousandSeparator: ',',
+          initialValue: pemasukan.jumlahPemasukan.toDouble(),
+        );
       });
     } else {
       keteranganController = TextEditingController(text: '');
@@ -326,65 +327,70 @@ class _PemasukanPageState extends State<PemasukanPage> {
                       height: 200,
                     ),
                     Center(
-                        child: SizedBox(
-                      width: 154,
-                      height: 45,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (GlobalFunctions.validate(
-                              context: context, formkey: formKey)) {
-                            if (widget.data['status'] == 'tambah') {
-                              FirebaseServices.addPemasukan(
-                                      id: auth.currentUser!.uid,
-                                      date: date,
-                                      description: keteranganController.text,
-                                      jumlahPemasukan: controllerPemasukan
-                                          .numberValue
-                                          .toInt())
-                                  .then((value) {
-                                GlobalFunctions.scaffoldMessage(
+                      child: SizedBox(
+                        width: 154,
+                        height: 45,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (GlobalFunctions.validate(
+                                context: context, formkey: formKey)) {
+                              if (widget.data['status'] == 'tambah') {
+                                FirebaseServices.addPemasukan(
+                                        id: auth.currentUser!.uid,
+                                        date: date,
+                                        description: keteranganController.text,
+                                        jumlahPemasukan: controllerPemasukan
+                                            .numberValue
+                                            .toInt())
+                                    .then((value) {
+                                  GlobalFunctions.scaffoldMessage(
+                                      context: context,
+                                      message: 'Pemasukan Succes Ditambahkan',
+                                      color: Colors.green);
+                                  Navigator.pop(context);
+                                }).catchError((e) {
+                                  GlobalFunctions.scaffoldMessage(
+                                      context: context,
+                                      message: e,
+                                      color: Colors.red);
+                                });
+                              } else {
+                                FirebaseServices.updatePemasukan(
+                                        idPemasukan: pemasukan.id,
+                                        date: date,
+                                        description: keteranganController.text,
+                                        jumlahPemasukan: controllerPemasukan
+                                            .numberValue
+                                            .toInt())
+                                    .then((value) {
+                                  GlobalFunctions.scaffoldMessage(
                                     context: context,
-                                    message: 'Pemasukan Succes Ditambahkan',
-                                    color: Colors.green);
-                                Navigator.pop(context);
-                              }).catchError((e) {
-                                GlobalFunctions.scaffoldMessage(
-                                    context: context,
-                                    message: e,
-                                    color: Colors.red);
-                              });
-                            } else {
-                              FirebaseServices.updatePemasukan(
-                                      idPemasukan: pemasukan.id,
-                                      date: date,
-                                      description: keteranganController.text,
-                                      jumlahPemasukan: controllerPemasukan
-                                          .numberValue
-                                          .toInt())
-                                  .then((value) {
-                                GlobalFunctions.scaffoldMessage(
-                                  context: context,
-                                  message: 'pemasukan Succes Di Update',
-                                  color: kColorPrimary,
+                                    message: 'pemasukan Succes Di Update',
+                                    color: kColorPrimary,
+                                  );
+                                  Navigator.pop(context);
+                                }).catchError(
+                                  (e) {
+                                    GlobalFunctions.scaffoldMessage(
+                                        context: context,
+                                        message: e,
+                                        color: Colors.red);
+                                  },
                                 );
-                                Navigator.pop(context);
-                              }).catchError((e) {
-                                GlobalFunctions.scaffoldMessage(
-                                    context: context,
-                                    message: e,
-                                    color: Colors.red);
-                              });
+                              }
                             }
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
+                          },
+                          style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: Text(widget.data['status'] == 'tambah'
-                            ? 'Tambahkan'
-                            : 'Simpan'),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(widget.data['status'] == 'tambah'
+                              ? 'Tambahkan'
+                              : 'Simpan'),
+                        ),
                       ),
-                    ))
+                    )
                   ],
                 ),
               ),

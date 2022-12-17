@@ -44,111 +44,115 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<NewsProvider>(
-            create: (_) => NewsProvider(apiService: ApiService()),
+      providers: [
+        ChangeNotifierProvider<NewsProvider>(
+          create: (_) => NewsProvider(
+            apiService: ApiService(),
           ),
-          ChangeNotifierProvider<SchedulingProvider>(
-              create: (_) => SchedulingProvider())
-        ],
-        child: StreamBuilder<User?>(
-            stream: auth.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const MaterialApp(
-                  home: Scaffold(
-                    body: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                );
-              }
-
-              return MaterialApp(
-                title: 'Pajakin',
-                theme: ThemeData(
-                  colorScheme:
-                      ColorScheme.fromSwatch().copyWith(primary: kColorPrimary),
+        ),
+        ChangeNotifierProvider<SchedulingProvider>(
+          create: (_) => SchedulingProvider(),
+        )
+      ],
+      child: StreamBuilder<User?>(
+        stream: auth.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
                 ),
-                debugShowCheckedModeBanner: false,
-                home: snapshot.data == null
-                    ? const SplashScreen()
-                    : const HomePage(),
-                onGenerateRoute: (RouteSettings setting) {
-                  switch (setting.name) {
-                    case Routes.HOME_PAGE:
-                      return MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      );
+              ),
+            );
+          }
 
-                    case Routes.REGISTER_PAGE:
-                      return MaterialPageRoute(
-                        builder: (context) => const RegisterPage(),
-                      );
+          return MaterialApp(
+            title: 'Pajakin',
+            theme: ThemeData(
+              colorScheme:
+                  ColorScheme.fromSwatch().copyWith(primary: kColorPrimary),
+            ),
+            debugShowCheckedModeBanner: false,
+            home:
+                snapshot.data == null ? const SplashScreen() : const HomePage(),
+            onGenerateRoute: (RouteSettings setting) {
+              switch (setting.name) {
+                case Routes.HOME_PAGE:
+                  return MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  );
 
-                    case Routes.LOGIN_PAGE:
-                      return MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      );
+                case Routes.REGISTER_PAGE:
+                  return MaterialPageRoute(
+                    builder: (context) => const RegisterPage(),
+                  );
 
-                    case Routes.BERITA_PAGE:
-                      return MaterialPageRoute(
-                        builder: (context) => const ArticleListPage(),
-                      );
+                case Routes.LOGIN_PAGE:
+                  return MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  );
 
-                    case Routes.WEB_VIEW_PAGE:
-                      final url = setting.arguments as String;
-                      return MaterialPageRoute(
-                        builder: (context) => ArticleWebView(url: url),
-                      );
+                case Routes.BERITA_PAGE:
+                  return MaterialPageRoute(
+                    builder: (context) => const ArticleListPage(),
+                  );
 
-                    case Routes.PAJAK_PAGE:
-                      return MaterialPageRoute(
-                        builder: (context) => const PajakPage(),
-                      );
+                case Routes.WEB_VIEW_PAGE:
+                  final url = setting.arguments as String;
+                  return MaterialPageRoute(
+                    builder: (context) => ArticleWebView(url: url),
+                  );
 
-                    case Routes.SETTINGS_PAGE:
-                      return MaterialPageRoute(
-                        builder: (context) => const SettingsPage(),
-                      );
+                case Routes.PAJAK_PAGE:
+                  return MaterialPageRoute(
+                    builder: (context) => const PajakPage(),
+                  );
 
-                    case Routes.INFORMATION_ACCOUNT_PAGE:
-                      return MaterialPageRoute(
-                        builder: (context) => const InformationAccountPage(),
-                      );
+                case Routes.SETTINGS_PAGE:
+                  return MaterialPageRoute(
+                    builder: (context) => const SettingsPage(),
+                  );
 
-                    case Routes.KAS_PAGE:
-                      return MaterialPageRoute(
-                        builder: (context) => const BukuKasPage(),
-                      );
+                case Routes.INFORMATION_ACCOUNT_PAGE:
+                  return MaterialPageRoute(
+                    builder: (context) => const InformationAccountPage(),
+                  );
 
-                    case Routes.PEMASUKAN_PAGE:
-                      final data = setting.arguments as Map<String, dynamic>;
-                      return MaterialPageRoute(
-                        builder: (context) => PemasukanPage(
-                          data: data,
-                        ),
-                      );
+                case Routes.KAS_PAGE:
+                  return MaterialPageRoute(
+                    builder: (context) => const BukuKasPage(),
+                  );
 
-                    case Routes.PENGELUARAN_PAGE:
-                      final data = setting.arguments as Map<String, dynamic>;
-                      return MaterialPageRoute(
-                        builder: (context) => PengeluaranPage(
-                          data: data,
-                        ),
-                      );
+                case Routes.PEMASUKAN_PAGE:
+                  final data = setting.arguments as Map<String, dynamic>;
+                  return MaterialPageRoute(
+                    builder: (context) => PemasukanPage(
+                      data: data,
+                    ),
+                  );
 
-                    default:
-                      return MaterialPageRoute(
-                        builder: (context) => const Scaffold(
-                          body: Center(
-                            child: Text('Page Not Found :('),
-                          ),
-                        ),
-                      );
-                  }
-                },
-              );
-            }));
+                case Routes.PENGELUARAN_PAGE:
+                  final data = setting.arguments as Map<String, dynamic>;
+                  return MaterialPageRoute(
+                    builder: (context) => PengeluaranPage(
+                      data: data,
+                    ),
+                  );
+
+                default:
+                  return MaterialPageRoute(
+                    builder: (context) => const Scaffold(
+                      body: Center(
+                        child: Text('Page Not Found :('),
+                      ),
+                    ),
+                  );
+              }
+            },
+          );
+        },
+      ),
+    );
   }
 }

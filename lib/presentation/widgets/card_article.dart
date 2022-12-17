@@ -10,30 +10,33 @@ class CardArticle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, Routes.WEB_VIEW_PAGE,
-              arguments: article.url);
-        },
-        child: ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 35.0, vertical: 8.0),
-          leading: Hero(
-            tag: article.urlToImage!,
-            child: Image.network(
-              article.urlToImage!,
-              width: 100,
-            ),
+      onTap: () {
+        Navigator.pushNamed(context, Routes.WEB_VIEW_PAGE,
+            arguments: article.url);
+      },
+      child: ListTile(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 35.0, vertical: 8.0),
+        leading: Hero(
+          tag: article.urlToImage!,
+          child: Image.network(
+            article.urlToImage!,
+            width: 100,
           ),
-          title: Text(
-            article.title,
-            style: GlobalFunctions.textTheme(context: context)
-                .headline6!
-                .copyWith(color: Colors.white, fontSize: 16),
-          ),
-          subtitle: Text(article.author ?? "",
-              style: GlobalFunctions.textTheme(context: context)
-                  .subtitle1!
-                  .copyWith(color: Colors.white, fontSize: 14)),
-        ));
+        ),
+        title: Text(
+          article.title,
+          style: GlobalFunctions.textTheme(context: context)
+              .headline6!
+              .copyWith(color: Colors.white, fontSize: 16),
+        ),
+        subtitle: Text(
+          article.author ?? "",
+          style: GlobalFunctions.textTheme(context: context)
+              .subtitle1!
+              .copyWith(color: Colors.white, fontSize: 14),
+        ),
+      ),
+    );
   }
 }

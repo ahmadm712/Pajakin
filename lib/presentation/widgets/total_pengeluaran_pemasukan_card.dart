@@ -45,22 +45,25 @@ class _TotalPemasukanPengeluaranCardState
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total Pemasukan',
-                  style: GlobalFunctions.textTheme(context: context)
-                      .headline3!
-                      .copyWith(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400)),
+              Text(
+                'Total Pemasukan',
+                style: GlobalFunctions.textTheme(context: context)
+                    .headline3!
+                    .copyWith(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400),
+              ),
               StreamBuilder<List<PemasukanModel>>(
                 stream: firebaseServices.streamPemasukan.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
-                        child: CircularProgressIndicator(
-                      color: kColorPrimary,
-                      strokeWidth: 0.8,
-                    ));
+                      child: CircularProgressIndicator(
+                        color: kColorPrimary,
+                        strokeWidth: 0.8,
+                      ),
+                    );
                   } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                     totalPemasukan = 0;
                     for (var element in snapshot.data!) {
@@ -78,13 +81,15 @@ class _TotalPemasukanPengeluaranCardState
                   }
                   return SizedBox(
                     child: Center(
-                      child: Text(CurrencyFormat.convertToIdr(0, 0),
-                          style: GlobalFunctions.textTheme(context: context)
-                              .headline3!
-                              .copyWith(
-                                  color: Colors.green,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400)),
+                      child: Text(
+                        CurrencyFormat.convertToIdr(0, 0),
+                        style: GlobalFunctions.textTheme(context: context)
+                            .headline3!
+                            .copyWith(
+                                color: Colors.green,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                      ),
                     ),
                   );
                 },
@@ -133,13 +138,15 @@ class _TotalPemasukanPengeluaranCardState
                   }
                   return SizedBox(
                     child: Center(
-                      child: Text(CurrencyFormat.convertToIdr(0, 0),
-                          style: GlobalFunctions.textTheme(context: context)
-                              .headline3!
-                              .copyWith(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400)),
+                      child: Text(
+                        CurrencyFormat.convertToIdr(0, 0),
+                        style: GlobalFunctions.textTheme(context: context)
+                            .headline3!
+                            .copyWith(
+                                color: Colors.red,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                      ),
                     ),
                   );
                 },
@@ -152,22 +159,25 @@ class _TotalPemasukanPengeluaranCardState
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Total Saldo',
-                  style: GlobalFunctions.textTheme(context: context)
-                      .headline3!
-                      .copyWith(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400)),
+              Text(
+                'Total Saldo',
+                style: GlobalFunctions.textTheme(context: context)
+                    .headline3!
+                    .copyWith(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400),
+              ),
               StreamBuilder<int>(
                 stream: firebaseServices.streamSaldo.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
-                        child: CircularProgressIndicator(
-                      color: kColorPrimary,
-                      strokeWidth: 0.8,
-                    ));
+                      child: CircularProgressIndicator(
+                        color: kColorPrimary,
+                        strokeWidth: 0.8,
+                      ),
+                    );
                   } else if (snapshot.hasData) {
                     return Text(
                       CurrencyFormat.convertToIdr(snapshot.data, 0),
@@ -181,13 +191,15 @@ class _TotalPemasukanPengeluaranCardState
                   }
                   return SizedBox(
                     child: Center(
-                      child: Text(CurrencyFormat.convertToIdr(0, 0),
-                          style: GlobalFunctions.textTheme(context: context)
-                              .headline3!
-                              .copyWith(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400)),
+                      child: Text(
+                        CurrencyFormat.convertToIdr(0, 0),
+                        style: GlobalFunctions.textTheme(context: context)
+                            .headline3!
+                            .copyWith(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                      ),
                     ),
                   );
                 },

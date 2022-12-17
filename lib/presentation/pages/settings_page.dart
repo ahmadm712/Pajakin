@@ -7,8 +7,6 @@ import 'package:pajakin/utils/routes.dart';
 import 'package:pajakin/utils/styles.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/services/firebase_services.dart';
-
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -166,9 +164,11 @@ class _SettingsPageState extends State<SettingsPage> {
                             return Switch.adaptive(
                               value: scheduling.isScheduled,
                               onChanged: (value) async {
-                                setState(() {
-                                  scheduling.scheduledTax(value);
-                                });
+                                setState(
+                                  () {
+                                    scheduling.scheduledTax(value);
+                                  },
+                                );
                               },
                               activeColor: kColorPrimary,
                               activeTrackColor: Colors.black54,

@@ -140,9 +140,11 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             onPressed: () {
                               // Update the state i.e. toogle the state of passwordVisible variable
-                              setState(() {
-                                isVissiblePassword = !isVissiblePassword;
-                              });
+                              setState(
+                                () {
+                                  isVissiblePassword = !isVissiblePassword;
+                                },
+                              );
                             },
                           ),
                           isDense: true,
@@ -186,9 +188,11 @@ class _LoginPageState extends State<LoginPage> {
                       height: 45,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: kColorPrimary,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
+                          primary: kColorPrimary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
                             try {
@@ -199,7 +203,8 @@ class _LoginPageState extends State<LoginPage> {
                                 if (value != null) {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                        builder: (context) => const HomePage()),
+                                      builder: (context) => const HomePage(),
+                                    ),
                                   );
                                 }
                               });
@@ -260,9 +265,11 @@ class _LoginPageState extends State<LoginPage> {
                       height: 45,
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                            primary: kColorPrimary,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
+                          primary: kColorPrimary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                         onPressed: () async {
                           await FirebaseServices().signInWithGoogleNew().then(
                             (value) async {
@@ -272,8 +279,10 @@ class _LoginPageState extends State<LoginPage> {
                               } else {
                                 FirebaseServices()
                                     .registergoogleSignIn(user: value.user!)
-                                    .then((value) => Navigator.pushNamed(
-                                        context, Routes.HOME_PAGE));
+                                    .then(
+                                      (value) => Navigator.pushNamed(
+                                          context, Routes.HOME_PAGE),
+                                    );
                               }
                             },
                           ).catchError((e) {

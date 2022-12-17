@@ -107,18 +107,19 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
                             umkmname: user.email,
                             email: user.email,
                             password: controller.text)
-                        .then((value) {
-                      GlobalFunctions.scaffoldMessage(
-                          context: context,
-                          message: 'Data Berhasil diperbarui',
-                          color: Colors.green);
-                      Navigator.pop(context);
-                      print('Update Success');
-                    });
+                        .then(
+                      (value) {
+                        GlobalFunctions.scaffoldMessage(
+                            context: context,
+                            message: 'Data Berhasil diperbarui',
+                            color: Colors.green);
+                        Navigator.pop(context);
+                        print('Update Success');
+                      },
+                    );
                     break;
                   default:
                 }
-                ;
               },
             )
           ],

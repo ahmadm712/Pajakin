@@ -14,7 +14,9 @@ class ArticleListPage extends StatelessWidget {
     return Consumer<NewsProvider>(
       builder: (context, state, _) {
         if (state.state == StateResult.loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else if (state.state == StateResult.hasData) {
           return ListView.builder(
             shrinkWrap: true,
@@ -25,11 +27,17 @@ class ArticleListPage extends StatelessWidget {
             },
           );
         } else if (state.state == StateResult.noData) {
-          return Center(child: Text(state.message));
+          return Center(
+            child: Text(state.message),
+          );
         } else if (state.state == StateResult.error) {
-          return Center(child: Text(state.message));
+          return Center(
+            child: Text(state.message),
+          );
         } else {
-          return const Center(child: Text(''));
+          return const Center(
+            child: Text(''),
+          );
         }
       },
     );
@@ -38,24 +46,26 @@ class ArticleListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: kColorPrimary,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Image.asset(
-              '${assetIcons}icon-back(1).png',
-              scale: 1.6,
-              height: 25,
-              width: 25,
-            ),
+      backgroundColor: kColorPrimary,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Image.asset(
+            '${assetIcons}icon-back(1).png',
+            scale: 1.6,
+            height: 25,
+            width: 25,
           ),
         ),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Padding(
             padding: const EdgeInsets.only(
               left: 20.0,
@@ -70,7 +80,11 @@ class ArticleListPage extends StatelessWidget {
                   .copyWith(color: Colors.white, fontSize: 20),
             ),
           ),
-          Flexible(child: _buildList())
-        ]));
+          Flexible(
+            child: _buildList(),
+          )
+        ],
+      ),
+    );
   }
 }

@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pajakin/presentation/pages/login_page.dart';
-import 'package:pajakin/presentation/pages/pages.dart';
 import 'package:pajakin/utils/constans.dart';
-import 'package:pajakin/utils/styles.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

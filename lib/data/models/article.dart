@@ -12,20 +12,28 @@ class ArticlesResult {
   factory ArticlesResult.fromJson(Map<String, dynamic> json) => ArticlesResult(
         status: json["status"],
         totalResults: json["totalResults"],
-        articles: List<Article>.from((json["articles"] as List)
-            .map((x) => Article.fromJson(x))
-            .where((article) =>
-                article.author != null &&
-                article.description != null &&
-                article.urlToImage != null &&
-                article.publishedAt != null &&
-                article.content != null)),
+        articles: List<Article>.from(
+          (json["articles"] as List)
+              .map(
+                (x) => Article.fromJson(x),
+              )
+              .where((article) =>
+                  article.author != null &&
+                  article.description != null &&
+                  article.urlToImage != null &&
+                  article.publishedAt != null &&
+                  article.content != null),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "totalResults": totalResults,
-        "articles": List<dynamic>.from(articles.map((x) => x.toJson())),
+        "articles": List<dynamic>.from(
+          articles.map(
+            (x) => x.toJson(),
+          ),
+        ),
       };
 }
 

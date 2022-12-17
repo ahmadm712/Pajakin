@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pajakin/data/models/kas_model.dart';
-import 'package:pajakin/data/services/firebase_services.dart';
 import 'package:pajakin/presentation/widgets/widgets.dart';
 import 'package:pajakin/utils/constans.dart';
 import 'package:pajakin/utils/global_function.dart';
@@ -50,7 +48,14 @@ class _BukuKasPageState extends State<BukuKasPage> {
               height: 22,
             ),
             // Total
-            TotalPemasukanPengeluaranCard(),
+            const TotalPemasukanPengeluaranCard(),
+            const Divider(
+              thickness: 1,
+              color: Color(
+                0xffE0E0E0,
+              ),
+            ),
+            const PemasukanCard(),
             const Divider(
               thickness: 1,
               color: Color(
@@ -58,13 +63,6 @@ class _BukuKasPageState extends State<BukuKasPage> {
               ),
             ),
             const PengeluaranCard(),
-            const Divider(
-              thickness: 1,
-              color: Color(
-                0xffE0E0E0,
-              ),
-            ),
-            const PemasukanCard()
           ],
         ),
       ),

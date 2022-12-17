@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "1077013542826-an2jtba9e7bum6u0q7md3qfjlb9c7a7j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pajakin.umkm",
+            "certificate_hash": "53609633ded6ce2385fbee07bdafd6c724604f24"
+          }
+        },
+        {
           "client_id": "1077013542826-jnq7vs1joep75nhr59gvadeah6hlvoj8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

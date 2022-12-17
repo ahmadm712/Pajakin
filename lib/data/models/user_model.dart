@@ -36,10 +36,13 @@ class UserUmkm {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  String toJson() => json.encode(
+        toMap(),
+      );
 
-  factory UserUmkm.fromJson(String source) =>
-      UserUmkm.fromMap(json.decode(source));
+  factory UserUmkm.fromJson(String source) => UserUmkm.fromMap(
+        json.decode(source),
+      );
 
   @override
   String toString() {

@@ -27,10 +27,11 @@ class PengeluaranModel {
   factory PengeluaranModel.fromDocumentSnapshot(
       DocumentSnapshot<Map<String, dynamic>> doc) {
     return PengeluaranModel(
-        id: doc.id,
-        tanggalPemasukan: doc.data()!['tanggal_pengeluaran'],
-        keterangan: doc.data()!['keterangan'],
-        jumlahPengeluaran: doc.data()!['jumlah_pengeluaran']);
+      id: doc.id,
+      tanggalPemasukan: doc.data()!['tanggal_pengeluaran'],
+      keterangan: doc.data()!['keterangan'],
+      jumlahPengeluaran: doc.data()!['jumlah_pengeluaran'],
+    );
   }
 
   factory PengeluaranModel.fromMap(Map<String, dynamic> map) {
@@ -44,6 +45,7 @@ class PengeluaranModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PengeluaranModel.fromJson(String source) =>
-      PengeluaranModel.fromMap(json.decode(source));
+  factory PengeluaranModel.fromJson(String source) => PengeluaranModel.fromMap(
+        json.decode(source),
+      );
 }

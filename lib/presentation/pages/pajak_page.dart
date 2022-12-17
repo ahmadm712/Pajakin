@@ -146,85 +146,90 @@ class _PajakPageState extends State<PajakPage> {
                 ),
               ],
             ),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                  padding:
-                      const EdgeInsets.only(left: 25.0, bottom: 20.0, top: 25.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 25.0, bottom: 20.0, top: 25.0),
                   child: Text(
                     'Cek Hasilnya Disini!',
                     style: GlobalFunctions.textTheme(context: context)
                         .headline6!
                         .copyWith(color: Colors.white, fontSize: 25),
-                  )),
-              SizedBox(
-                width: double.infinity,
-                height: 100,
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(25, 0, 0, 10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Omzet Sebulan',
-                        style: GlobalFunctions.textTheme(context: context)
-                            .headline3!
-                            .copyWith(color: Colors.white, fontSize: 20),
-                      ),
-                      Container(
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 100,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(25, 0, 0, 10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Omzet Sebulan',
+                          style: GlobalFunctions.textTheme(context: context)
+                              .headline3!
+                              .copyWith(color: Colors.white, fontSize: 20),
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEEEEEE),
+                              borderRadius: BorderRadius.circular(10),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                color: const Color(0xFF005478),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 15),
+                              child: Text(
+                                CurrencyFormat.convertToIdr(omzetPerbulan, 2),
+                                textAlign: TextAlign.center,
+                                style:
+                                    GlobalFunctions.textTheme(context: context)
+                                        .headline3!
+                                        .copyWith(
+                                            color: Colors.black, fontSize: 18),
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 100,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Pajak UMKM',
+                          style: GlobalFunctions.textTheme(context: context)
+                              .headline3!
+                              .copyWith(color: Colors.white, fontSize: 20),
+                        ),
+                        Container(
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFEEEEEE),
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
                             shape: BoxShape.rectangle,
                             border: Border.all(
-                              color: const Color(0xFF005478),
+                              color: kColorPrimary,
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                            child: Text(
-                              CurrencyFormat.convertToIdr(omzetPerbulan, 2),
-                              textAlign: TextAlign.center,
-                              style: GlobalFunctions.textTheme(context: context)
-                                  .headline3!
-                                  .copyWith(color: Colors.black, fontSize: 18),
-                            ),
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 100,
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pajak UMKM',
-                        style: GlobalFunctions.textTheme(context: context)
-                            .headline3!
-                            .copyWith(color: Colors.white, fontSize: 20),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: kColorPrimary,
-                          ),
-                        ),
-                        child: Padding(
                             padding: const EdgeInsets.only(top: 15),
                             child: Text(
                               CurrencyFormat.convertToIdr(pajakUMKM, 2),
@@ -232,13 +237,15 @@ class _PajakPageState extends State<PajakPage> {
                               style: GlobalFunctions.textTheme(context: context)
                                   .headline3!
                                   .copyWith(color: Colors.black, fontSize: 18),
-                            )),
-                      )
-                    ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ])
+              ],
+            )
           ],
         ),
       ),

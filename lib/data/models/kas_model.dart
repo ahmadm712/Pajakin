@@ -33,6 +33,7 @@ class KasModel {
 
   String toJson() => json.encode(toMap());
 
-  factory KasModel.fromJson(String source) =>
-      KasModel.fromMap(json.decode(source));
+  factory KasModel.fromJson(String source) => KasModel.fromMap(
+        json.decode(source),
+      );
 }

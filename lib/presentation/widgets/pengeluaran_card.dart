@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pajakin/data/models/pengeluaran_model.dart';
 import 'package:pajakin/data/services/firebase_services.dart';
@@ -111,64 +110,75 @@ class _PengeluaranCardState extends State<PengeluaranCard> {
                             if (direction == DismissDirection.startToEnd) {
                               await firebaseServices
                                   .deleteItemPengeluaran(docId: pengeluaran.id)
-                                  .whenComplete(() =>
-                                      GlobalFunctions.scaffoldMessage(
-                                          context: context,
-                                          message: 'Hapus Pengeluaran Succes',
-                                          color: Colors.red));
+                                  .whenComplete(
+                                    () => GlobalFunctions.scaffoldMessage(
+                                        context: context,
+                                        message: 'Hapus Pengeluaran Succes',
+                                        color: Colors.red),
+                                  );
                             } else {
                               await firebaseServices
                                   .deleteItemPengeluaran(docId: pengeluaran.id)
-                                  .whenComplete(() =>
-                                      GlobalFunctions.scaffoldMessage(
-                                          context: context,
-                                          message: 'Hapus Pengeluaran Succes',
-                                          color: Colors.red));
+                                  .whenComplete(
+                                    () => GlobalFunctions.scaffoldMessage(
+                                        context: context,
+                                        message: 'Hapus Pengeluaran Succes',
+                                        color: Colors.red),
+                                  );
                             }
                           },
                           child: InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Routes.PENGELUARAN_PAGE, arguments: {
-                                'status': "edit",
-                                'pengeluaran': pengeluaran
-                              });
+                                context,
+                                Routes.PENGELUARAN_PAGE,
+                                arguments: {
+                                  'status': "edit",
+                                  'pengeluaran': pengeluaran
+                                },
+                              );
                             },
                             child: Container(
                               height: 20,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4)),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                               margin: const EdgeInsets.only(bottom: 10),
                               child: Row(
                                 children: [
-                                  Text(pengeluaran.tanggalPemasukan,
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400)),
+                                  Text(
+                                    pengeluaran.tanggalPemasukan,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
+                                        .headline3!
+                                        .copyWith(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400),
+                                  ),
                                   const SizedBox(width: 11),
-                                  Text(pengeluaran.keterangan,
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400)),
+                                  Text(
+                                    pengeluaran.keterangan,
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
+                                        .headline3!
+                                        .copyWith(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400),
+                                  ),
                                   const Spacer(),
                                   Text(
-                                      CurrencyFormat.convertToIdr(
-                                          pengeluaran.jumlahPengeluaran, 0),
-                                      style: GlobalFunctions.textTheme(
-                                              context: context)
-                                          .headline3!
-                                          .copyWith(
-                                              color: Colors.red,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400))
+                                    CurrencyFormat.convertToIdr(
+                                        pengeluaran.jumlahPengeluaran, 0),
+                                    style: GlobalFunctions.textTheme(
+                                            context: context)
+                                        .headline3!
+                                        .copyWith(
+                                            color: Colors.red,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400),
+                                  )
                                 ],
                               ),
                             ),

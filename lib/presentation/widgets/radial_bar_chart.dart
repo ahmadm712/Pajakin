@@ -30,20 +30,22 @@ class RadialBarChart extends StatelessWidget {
               : 0,
           kColorPrimary),
     ];
-    return SfCircularChart(series: <CircularSeries>[
-      PieSeries<ChartData, String>(
-          dataSource: chartData,
-          dataLabelSettings: const DataLabelSettings(isVisible: true),
-          sortingOrder: SortingOrder.descending,
-          strokeColor: kColorPrimary,
-          pointColorMapper: (ChartData data, _) => data.color,
-          emptyPointSettings: EmptyPointSettings(
-              mode: EmptyPointMode.average,
-              borderColor: Colors.black,
-              borderWidth: 2),
-          xValueMapper: (ChartData data, _) => data.x,
-          yValueMapper: (ChartData data, _) => data.y)
-    ]);
+    return SfCircularChart(
+      series: <CircularSeries>[
+        PieSeries<ChartData, String>(
+            dataSource: chartData,
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
+            sortingOrder: SortingOrder.descending,
+            strokeColor: kColorPrimary,
+            pointColorMapper: (ChartData data, _) => data.color,
+            emptyPointSettings: EmptyPointSettings(
+                mode: EmptyPointMode.average,
+                borderColor: Colors.black,
+                borderWidth: 2),
+            xValueMapper: (ChartData data, _) => data.x,
+            yValueMapper: (ChartData data, _) => data.y),
+      ],
+    );
   }
 }
 

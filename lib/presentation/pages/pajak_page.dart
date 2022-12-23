@@ -130,11 +130,22 @@ class _PajakPageState extends State<PajakPage> {
                       ),
                     ),
                     onPressed: () {
-                      setState(() {
-                        omzetPerhari = controllerOmzet.numberValue;
-                        omzetPerbulan = omzetPerhari * 30;
-                        pajakUMKM = omzetPerbulan * 0.5 / 100;
-                      });
+                      setState(
+                        () {
+                          omzetPerhari = controllerOmzet.numberValue;
+                          omzetPerbulan = omzetPerhari * 30;
+                          pajakUMKM = omzetPerbulan;
+                          if (omzetPerbulan >= 500000000) {
+                            pajakUMKM = omzetPerbulan * 0.3;
+                          } else if (omzetPerbulan >= 250000000) {
+                            pajakUMKM = omzetPerbulan * 0.25;
+                          } else if (omzetPerbulan > 50000000) {
+                            pajakUMKM = omzetPerbulan * 0.15;
+                          } else if (omzetPerbulan <= 50000000) {
+                            pajakUMKM = omzetPerbulan * 0.05;
+                          }
+                        },
+                      );
                     },
                     child: Text(
                       'Hitung Pajak',

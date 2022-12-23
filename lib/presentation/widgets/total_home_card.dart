@@ -194,9 +194,6 @@ class _TotalHomeCardState extends State<TotalHomeCard> {
             ),
           ],
         ),
-        const SizedBox(
-          width: 50,
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -214,7 +211,6 @@ class _TotalHomeCardState extends State<TotalHomeCard> {
                         data: snapshot.data!,
                       );
                     }
-
                     return Container();
                   },
                 ),
